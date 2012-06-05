@@ -39,13 +39,19 @@
 
                 <br />
 
+
                 <rich:panel header="Filter">
                     <h:form>
-                        <h:outputLabel for="inputFrom" value ="From:" style="margin-right: 10px;" />
-                        <rich:calendar id="inputFrom" value="#{machineBean.from}" timeZone="#{machineBean.timeZone}" />
-                        <h:outputLabel for="inputTo" value="To:" style="margin-right: 10px; margin-left: 50px;" />
-                        <rich:calendar id="inputTo" value="#{machineBean.to}" timeZone="#{machineBean.timeZone}" />
-                        <h:commandButton value="Update" style="margin-left: 50px;"/>
+                        <rich:graphValidator value="#{machineBean}" id="graphValidator">
+                            <h:outputLabel for="inputFrom" value ="From:" style="margin-right: 10px;" />
+                            <rich:calendar id="inputFrom" value="#{machineBean.from}" timeZone="#{machineBean.timeZone}">
+                                <a4j:ajax execute="@form" render="@all" />
+                            </rich:calendar>
+                            <h:outputLabel for="inputTo" value="To:" style="margin-right: 10px; margin-left: 50px;" />
+                            <rich:calendar id="inputTo" value="#{machineBean.to}" timeZone="#{machineBean.timeZone}">
+                                <a4j:ajax execute="@form" render="@all" />
+                            </rich:calendar>
+                        </rich:graphValidator>
                     </h:form>
                 </rich:panel>
 

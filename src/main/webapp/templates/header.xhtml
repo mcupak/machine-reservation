@@ -19,14 +19,14 @@
                         <c:choose>
                             <c:when test="#{identity.loggedIn}">
                                 <h:outputText value="#{identity.user.id}" style="margin-right: 20px;"/>
-                                <a4j:commandLink action="#{identity.logout}" value="Log out" />
+                                <a4j:commandLink action="#{identity.logout}" value="Log out" render="@all" />
                             </c:when>
                             <c:otherwise>
                                 <h:outputLabel value="Username" for="username"/>
                                 <h:inputText id="username" value="#{credentials.username}"/>
                                 <h:outputLabel value="Password" for="password"/>
                                 <h:inputSecret id="password" value="#{credentials.password}"/>
-                                <h:commandButton action="#{identity.login}" value="Log in" />
+                                <a4j:commandButton action="#{identity.login}" value="Log in" render="@all" />
                             </c:otherwise>
                         </c:choose>
                     </h:form>
