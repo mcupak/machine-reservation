@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <h:body>
+        <composite:interface>
+            <composite:attribute name="reservations" type="java.util.List" />
+            <composite:attribute name="from" type="java.util.Date" />
+            <composite:attribute name="to" type="java.util.Date" />
+            <composite:attribute name="id" type="java.lang.String" />
+        </composite:interface>
+
+        <composite:implementation>
+            <h:form id="#{cc.attrs.id}">
+            <c:set var="days" value="#{reservationsComponentBean.getDays(cc.attrs.from, cc.attrs.to)}" />
+            <c:set var="organizedReservations" value="#{reservationsComponentBean.getOrganizedReservations(days, cc.attrs.reservations)}" />
+            <rich:dataTable value="#{days}" var="day" style="width:100%">
+                <f:facet name="header">
+                    <rich:columnGroup>
+                        <rich:column colspan="2">
+                            <h:outputText value="Reservations" />
+                        </rich:column>
+                    </rich:columnGroup>
+                </f:facet>
+                <rich:column style="width: 30%">
+                    <h:outputText value="#{day}">
+                        <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" />
+                    </h:outputText>
+                </rich:column>
+                <rich:column>
+                    <c:set var="hasReservations" value="#{organizedReservations.containsKey(day)}" />
+                    <rich:dataTable value="#{organizedReservations.get(day)}" var="reservation" style="width: 100%" rendered="#{hasReservations}">
+                        <f:facet name="header">
+                            <rich:columnGroup>
+                                <rich:column style="width: 33%">
+                                    <h:outputText value="From" />
+                                </rich:column>
+                                <rich:column style="width: 33%">
+                                    <h:outputText value="To" />
+                                </rich:column>
+                                <rich:column style="width: 33%">
+                                    <h:outputText value="User" />
+                                </rich:column>
+                            </rich:columnGroup>
+                        </f:facet>
+                        <rich:column style="width: 33%">
+                            <h:outputText value="#{reservation.start}">
+                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
+                            </h:outputText>
+                        </rich:column>
+                        <rich:column style="width: 33%">
+                            <h:outputText value="#{reservation.end}">
+                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
+                            </h:outputText>
+                        </rich:column>
+                        <rich:column style="width: 33%">
+                            <a href="mailto:#{reservation.user.email}">
+                                <h:outputText value="#{reservation.user.email}" />
+                            </a>
+                        </rich:column>
+                    </rich:dataTable>
+                </rich:column>
+            </rich:dataTable>
+            </h:form>
+        </composite:implementation>
+    </h:body>
+</html>

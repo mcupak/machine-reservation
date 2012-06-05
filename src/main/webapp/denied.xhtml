@@ -4,14 +4,15 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich"
-      xmlns:mr="http://java.sun.com/jsf/composite/mr">
+      xmlns:rich="http://richfaces.org/rich">
 
     <body>
         <ui:composition template="/templates/template.xhtml">
+
+            <ui:define name="title">RichFaces Sample</ui:define>
+
             <ui:define name="body">
-                <br />
-                <mr:machines value="${machinesBean.machines}" />
+                Permission denied
             </ui:define>
         </ui:composition>
     </body>

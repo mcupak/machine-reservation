@@ -1,11 +1,14 @@
 package cz.muni.fi.pv243.mr.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -14,7 +17,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "reservations")
-public class Reservation {
+public class Reservation implements Serializable {
 
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -26,6 +29,17 @@ public class Reservation {
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date start;
+    @ManyToOne
+    private User user;
+
+    // FIXME: remove
+    public Reservation(Date end, Long id, Collection<Machine> machines, Date start, User user) {
+        this.end = end;
+        this.id = id;
+        this.machines = machines;
+        this.start = start;
+        this.user = user;
+    }
 
     public Date getEnd() {
         return end;
@@ -43,6 +57,10 @@ public class Reservation {
         return start;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setEnd(Date end) {
         this.end = end;
     }
@@ -53,6 +71,10 @@ public class Reservation {
 
     public void setStart(Date start) {
         this.start = start;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

@@ -24,6 +24,14 @@ public class Label implements Serializable {
     @Column(nullable=false, length=100, unique=true)
     private String name;
 
+    // FIXME: remove
+    public Label(String description, Long id, Collection<Machine> machines, String name) {
+        this.description = description;
+        this.id = id;
+        this.machines = machines;
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -31,10 +39,10 @@ public class Label implements Serializable {
     public Long getId() {
         return id;
     }
-//
-//    public Collection<Machine> getMachines() {
-//        return machines;
-//    }
+
+    public Collection<Machine> getMachines() {
+        return machines;
+    }
 
     public String getName() {
         return name;

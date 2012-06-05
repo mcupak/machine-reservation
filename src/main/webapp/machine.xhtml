@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:s="http://jboss.org/seam/faces"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:mr="http://java.sun.com/jsf/composite/mr">
+
+    <body>
+        <ui:composition template="/templates/template.xhtml">
+
+            <ui:define name="head">
+                <f:metadata>
+                    <f:viewParam name="id" value="#{storedId}" />
+                    <s:viewAction action="#{machineBean.loadMachine(storedId)}" />
+                    <s:viewAction action="#{machineBean.loadReservations(machineBean.machine, machineBean.from, machineBean.to)}" />
+                </f:metadata>
+            </ui:define>
+
+            <ui:define name="pageTitle">Machine Reservation System - <h:outputText value="#{machineBean.machine.name}" /></ui:define>
+
+            <ui:define name="body">
+                <h1><h:outputText value="#{machineBean.machine.name}" /></h1>
+                <rich:panel header="Description">
+                    <h:outputText value="#{machineBean.machine.description}" />
+                </rich:panel>
+
+                <br/>
+
+                <rich:panel header="Labels">
+                    <a4j:repeat value="#{machineBean.machine.labels}" var="label">
+                        <h:link outcome="label.xhtml" value="#{label.name}" style="margin-right: 10px;" id="labelDescription">
+                            <f:param name="id" value="#{label.id}" />
+                        </h:link>
+                    </a4j:repeat>
+                </rich:panel>
+
+                <br />
+
+                <rich:panel header="Filter">
+                    <h:form>
+                        <h:outputLabel for="inputFrom" value ="From:" style="margin-right: 10px;" />
+                        <rich:calendar id="inputFrom" value="#{machineBean.from}" timeZone="#{machineBean.timeZone}" />
+                        <h:outputLabel for="inputTo" value="To:" style="margin-right: 10px; margin-left: 50px;" />
+                        <rich:calendar id="inputTo" value="#{machineBean.to}" timeZone="#{machineBean.timeZone}" />
+                        <h:commandButton value="Update" style="margin-left: 50px;"/>
+                    </h:form>
+                </rich:panel>
+
+                <br />
+
+                <mr:reservations from="#{machineBean.from}" to="#{machineBean.to}" reservations="#{machineBean.reservations}" id="machineReservations" />
+
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
