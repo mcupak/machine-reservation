@@ -32,6 +32,9 @@ public class Reservation implements Serializable {
     @ManyToOne
     private User user;
 
+    public Reservation() {
+    }
+
     // FIXME: remove
     public Reservation(Date end, Long id, Collection<Machine> machines, Date start, User user) {
         this.end = end;

@@ -24,6 +24,9 @@ public class Machine implements Serializable {
     @Column(nullable=false, length=100, unique=true)
     private String name;
 
+    public Machine() {
+    }
+
     // FIXME: remove
     public Machine(String description, Long id, Collection<Label> labels, String name) {
         this.description = description;

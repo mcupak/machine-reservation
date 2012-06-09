@@ -24,6 +24,9 @@ public class Label implements Serializable {
     @Column(nullable=false, length=100, unique=true)
     private String name;
 
+    public Label() {
+    }
+
     // FIXME: remove
     public Label(String description, Long id, Collection<Machine> machines, String name) {
         this.description = description;

@@ -17,6 +17,9 @@ public class User implements Serializable {
     @Id
     private Long id;
 
+    public User() {
+    }
+
     public User(String email, Long id) {
         this.email = email;
         this.id = id;
