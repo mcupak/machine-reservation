@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:s="http://jboss.org/seam/faces"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:mr="http://java.sun.com/jsf/composite/mr">
+
+    <body>
+        <ui:composition template="/templates/template.xhtml">
+            <ui:define name="pageTitle">Machine Reservation System - New Reservation</ui:define>
+
+            <ui:define name="body">
+                <h1>New Reservation</h1>
+                <h:panelGrid columns="3" style="vertical-align: top;" columnClasses="top-aligned-col">
+                    <h:form>
+                        <rich:panel header="Labels">
+                            <h:selectManyCheckbox value="${reserveBean.selectedLabels}" converter="labelConverter">
+                                <f:selectItems value="#{reserveBean.labels}" var="label" itemLabel="${label.name}" itemValue="#{label}" />
+                            </h:selectManyCheckbox>
+                        </rich:panel>
+
+                        <br />
+
+                        <rich:panel header="Time">
+                            <rich:graphValidator value="#{reserveBean}" id="graphValidator">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel for="inputFrom" value ="From:"/>
+                                    <rich:calendar id="inputFrom" value="#{reserveBean.from}" timeZone="#{reserveBean.timeZone}" />
+                                    <h:outputLabel for="inputTo" value="To:" />
+                                    <rich:calendar id="inputTo" value="#{reserveBean.to}" timeZone="#{reserveBean.timeZone}" />
+                                </h:panelGrid>
+                            </rich:graphValidator>
+                            <br />
+                            <a4j:commandButton value="Update" action="#{reserveBean.filter()}" render="@all" />
+                        </rich:panel>
+                    </h:form>
+
+                    <rich:panel header="Machines">
+                        <h:form>
+                            <rich:messages for="inputMachines" />
+                            <rich:pickList validator="machinesInReserveationValidator" value="#{reserveBean.selectedMachines}" id="inputMachines" converter="machineConverter" listHeight="500">
+                                <f:selectItems value="#{reserveBean.machines}" var="machine" itemLabel="#{machine.name}" itemValue="#{machine}" />
+                            </rich:pickList>
+
+                            <br />
+                            <a4j:commandButton value="Reserve" execute="@form" action="#{reserveBean.reserve()}"/>
+                        </h:form>
+                    </rich:panel>
+                </h:panelGrid>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+
+</html>

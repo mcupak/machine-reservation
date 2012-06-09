@@ -23,22 +23,20 @@
 
             <ui:define name="body">
                 <h1><h:outputText value="#{machineBean.machine.name}" /></h1>
-                <rich:panel header="Description">
-                    <h:outputText value="#{machineBean.machine.description}" />
-                </rich:panel>
-
-                <br/>
-
-                <rich:panel header="Labels">
-                    <a4j:repeat value="#{machineBean.machine.labels}" var="label">
-                        <h:link outcome="label.xhtml" value="#{label.name}" style="margin-right: 10px;" id="labelDescription">
-                            <f:param name="id" value="#{label.id}" />
-                        </h:link>
-                    </a4j:repeat>
-                </rich:panel>
+                <h:panelGrid columns="2" width="100%">
+                    <rich:panel header="Description">
+                        <h:outputText value="#{machineBean.machine.description}" />
+                    </rich:panel>
+                    <rich:panel header="Labels">
+                        <a4j:repeat value="#{machineBean.machine.labels}" var="label">
+                            <h:link outcome="label.xhtml" value="#{label.name}" style="margin-right: 10px;" id="labelDescription">
+                                <f:param name="id" value="#{label.id}" />
+                            </h:link>
+                        </a4j:repeat>
+                    </rich:panel>
+                </h:panelGrid>
 
                 <br />
-
 
                 <rich:panel header="Filter">
                     <h:form>

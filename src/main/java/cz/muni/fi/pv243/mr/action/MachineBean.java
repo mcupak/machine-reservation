@@ -8,9 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.AssertTrue;
@@ -32,7 +30,7 @@ public class MachineBean implements Serializable {
     private ReservationsManager reservationsManager;
     private List<Reservation> reservations;
 
-    @AssertTrue(message="dskjflksfd")
+    @AssertTrue
     public boolean checkWhetherFromIsBeforeTo() {
         return from.before(to);
     }
