@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:s="http://jboss.org/seam/faces"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:mr="http://java.sun.com/jsf/composite/mr">
+
+    <body>
+        <ui:composition template="/templates/template.xhtml">
+            <ui:define name="pageTitle">Machine Reservation System - User's Reservations</ui:define>
+            <ui:define name="body">
+                <h1>User's Reservations</h1>
+
+                <rich:dataTable value="#{userReservationsBean.reservations}" var="reservation" style="width: 100%">
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column>
+                                <h:outputText value="From" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="To" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="Machines" />
+                            </rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column>
+                        <h:outputText value="#{reservation.start}">
+                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
+                        </h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <h:outputText value="#{reservation.end}">
+                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
+                        </h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <a4j:repeat value="#{reservation.machines}" var="machine">
+                            <h:link value="#{machine.name}" outcome="/machine" style="margin-right: 10px;">
+                                <f:param name="id" value="#{machine.id}" />
+                            </h:link>
+                        </a4j:repeat>
+                    </rich:column>
+                </rich:dataTable>
+            </ui:define>
+        </ui:composition>
+    </body>
+
+</html>

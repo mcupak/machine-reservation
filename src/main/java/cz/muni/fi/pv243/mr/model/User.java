@@ -16,13 +16,16 @@ public class User implements Serializable {
     String email;
     @Id
     private Long id;
+    @Column
+    private UserRole userRole;
 
     public User() {
     }
 
-    public User(String email, Long id) {
+    public User(String email, Long id, UserRole userRole) {
         this.email = email;
         this.id = id;
+        this.userRole = userRole;
     }
 
     public String getEmail() {
@@ -33,12 +36,20 @@ public class User implements Serializable {
         return id;
     }
 
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
 }

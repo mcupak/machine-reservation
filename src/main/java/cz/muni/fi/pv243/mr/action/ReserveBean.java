@@ -48,7 +48,6 @@ public class ReserveBean implements Serializable {
 
     public void filter() {
         machines = machinesManager.getMachines(selectedLabels, from, to);
-        System.out.println("Filter done: " + machines);
     }
 
     public void reserve() {

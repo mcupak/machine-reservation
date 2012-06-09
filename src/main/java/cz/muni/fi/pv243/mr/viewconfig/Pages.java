@@ -21,11 +21,11 @@ public interface Pages {
         @UrlMapping(pattern="/label/#{id}/")
         LABEL,
 
-        @ViewPattern("/reserve.xhtml")
+        @ViewPattern("/user/*")
         @CanReserve
-        @LoginView("/index.xhtml")
+        @LoginView("/denied.xhtml")
         @AccessDeniedView("/denied.xhtml")
-        RESERVE,
+        USER_ACTIONS,
 
         @ViewPattern("/machine.xhtml")
         @UrlMapping(pattern="/machine/#{id}/")

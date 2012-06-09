@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.DummyModel;
 import cz.muni.fi.pv243.mr.model.User;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
- * @author rhatlapa
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:rhatlapa@redhat.com">Radim Hatlapatka</a>
  */
 @Stateless
 public class UsersManager {
@@ -25,7 +20,21 @@ public class UsersManager {
         if (id == null) {
             throw new IllegalArgumentException("In order to find the user, his ID is required");
         }
-        return entityManager.find(User.class, id);
+        // TODO
+//        return entityManager.find(User.class, id);
+        return DummyModel.getUsers().get((int) id.longValue());
+    }
+
+    public User getUser(String email, String password) {
+        // TODO
+        System.out.println("authenticating: " + email + ":" + password);
+        if ("admin@admin".equals(email) && "admin".equals(password)) {
+            return DummyModel.getUsers().get(0);
+        } else if ("guest@guest".equals(email) && "guest".equals(password)) {
+            return DummyModel.getUsers().get(1);
+        } else {
+            return null;
+        }
     }
 
     public void addUser(User user) {
@@ -41,10 +50,9 @@ public class UsersManager {
             return true;
         }
     }
-    
+
     public void editUser(User user) {
         entityManager.merge(user);
-    } 
-    
-    
+    }
+
 }

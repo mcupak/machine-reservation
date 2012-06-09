@@ -3,6 +3,8 @@ package cz.muni.fi.pv243.mr.ejb;
 import cz.muni.fi.pv243.mr.model.DummyModel;
 import cz.muni.fi.pv243.mr.model.Machine;
 import cz.muni.fi.pv243.mr.model.Reservation;
+import cz.muni.fi.pv243.mr.model.User;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -24,6 +26,18 @@ public class ReservationsManager {
     public List<Reservation> getReservations(Machine machine, Date from, Date to) {
         // TODO
         return DummyModel.getReservations().get(machine);
+    }
+
+    public List<Reservation> getCurrentReservations(User user) {
+        List<Reservation> reservations = new ArrayList<Reservation>();
+        for (List<Reservation> rs: DummyModel.getReservations().values()) {
+            for (Reservation reservation: rs) {
+                if (reservation.getUser().equals(user)) {
+                    reservations.add(reservation);
+                }
+            }
+        }
+        return reservations;
     }
 
     public TimeZone getTimeZone() {

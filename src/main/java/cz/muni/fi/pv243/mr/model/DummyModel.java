@@ -17,6 +17,7 @@ public class DummyModel {
     private static List<Label> labels;
     private static List<Machine> machines;
     private static Map<Machine, List<Reservation>> reservations;
+    private static List<User> users;
 
     public static List<Machine> getMachines() {
         init();
@@ -31,6 +32,11 @@ public class DummyModel {
     public static Map<Machine, List<Reservation>> getReservations() {
         init();
         return reservations;
+    }
+
+    public static List<User> getUsers() {
+        init();
+        return users;
     }
 
     private static void init() {
@@ -49,6 +55,10 @@ public class DummyModel {
         labels.get(1).getMachines().add(machines.get(1));
         labels.get(2).getMachines().add(machines.get(0));
         labels.get(2).getMachines().add(machines.get(1));
+        users = new ArrayList<User>();
+        users.add(new User("admin@admin", 1l, UserRole.ADMIN));
+        users.add(new User("guest@guest", 2l, UserRole.COMMON));
+        users.add(new User("franta@frantov.cz", 3l, UserRole.COMMON));
         long reservationId = 0l;
         reservations = new HashMap<Machine, List<Reservation>>();
         for (Machine machine: machines) {
@@ -58,7 +68,7 @@ public class DummyModel {
                 final long hour = 1000 * 60 * 60;
                 final long day = hour * 24;
                 Date start = new Date(now.getTime() + reservationId * hour + i * 5 * hour);
-                Reservation reservation = new Reservation(new Date(start.getTime() + day), reservationId, Arrays.asList(machine), start, new User("franta@frantov.cz", 0l));
+                Reservation reservation = new Reservation(new Date(start.getTime() + day), reservationId, Arrays.asList(machine), start, users.get(1));
                 machineReservations.add(reservation);
                 reservationId++;
             }

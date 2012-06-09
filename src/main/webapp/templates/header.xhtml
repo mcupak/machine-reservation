@@ -11,23 +11,30 @@
     <ui:composition>
         <a4j:outputPanel ajaxRendered="true" layout="block">
             <rich:toolbar id="bar" height="50">
-                <rich:toolbarGroup itemSeparator="#{toolBarBean.groupItemSeparator}">
-                    <h:link outcome="index" value="Machines" />
-                    <h:link outcome="reserve" value="Reserve" />
+                <!-- Guest Links -->
+                <rich:toolbarGroup>
+                    <h:link outcome="/index" value="Machines" />
+                </rich:toolbarGroup>
+                <!-- Can Reserve Links -->
+                <rich:toolbarGroup rendered="#{loggedUserActionsBean.canReserve()}">
+                    <h:link outcome="/user/reserve" value="Reserve" />
+                </rich:toolbarGroup>
+                <!-- Admin Links -->
+                <rich:toolbarGroup rendered="#{loggedUserActionsBean.isAdmin()}">
                 </rich:toolbarGroup>
                 <rich:toolbarGroup location="right">
                     <h:form>
                         <c:choose>
                             <c:when test="#{identity.loggedIn}">
-                                <h:outputText value="#{identity.user.id}" style="margin-right: 20px;"/>
+                                <h:link value="My Reservations" outcome="/user/reservations.xhtml" style="margin-right: 20px;" />
                                 <a4j:commandLink action="#{identity.logout}" value="Log out" render="@all" />
                             </c:when>
                             <c:otherwise>
-                                <h:outputLabel value="Username" for="username"/>
+                                <h:outputLabel value="E-mail" for="username"/>
                                 <h:inputText id="username" value="#{credentials.username}"/>
                                 <h:outputLabel value="Password" for="password"/>
                                 <h:inputSecret id="password" value="#{credentials.password}"/>
-                                <a4j:commandButton action="#{identity.login}" value="Log in" render="@all" />
+                                <h:commandButton action="#{identity.login}" value="Log in" />
                             </c:otherwise>
                         </c:choose>
                     </h:form>
