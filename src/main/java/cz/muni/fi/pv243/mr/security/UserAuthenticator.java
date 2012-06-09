@@ -22,6 +22,7 @@ public class UserAuthenticator extends BaseAuthenticator {
         final User user = usersManager.getUser(credentials.getUsername(), ((PasswordCredential) credentials.getCredential()).getValue());
         if (user == null) {
             setStatus(AuthenticationStatus.FAILURE);
+            return;
         }
         setUser(new org.picketlink.idm.api.User() {
             public String getId() {
