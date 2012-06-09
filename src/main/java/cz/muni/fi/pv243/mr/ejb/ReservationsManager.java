@@ -23,6 +23,22 @@ public class ReservationsManager {
 
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
 
+    // TODO: permissions
+    public boolean deleteReservation(Long id) {
+        Reservation reservation = getReservation(id);
+        if (reservation == null) {
+            return false;
+        } else {
+            entityManager.remove(reservation);
+            return true;
+        }
+    }
+
+    public Reservation getReservation(Long id) {
+        // TODO
+        return null;
+    }
+
     public List<Reservation> getReservations(Machine machine, Date from, Date to) {
         // TODO
         return DummyModel.getReservations().get(machine);
@@ -32,7 +48,7 @@ public class ReservationsManager {
         List<Reservation> reservations = new ArrayList<Reservation>();
         for (List<Reservation> rs: DummyModel.getReservations().values()) {
             for (Reservation reservation: rs) {
-                if (reservation.getUser().equals(user)) {
+                if (reservation.getUser().getId().equals(user.getId())) {
                     reservations.add(reservation);
                 }
             }

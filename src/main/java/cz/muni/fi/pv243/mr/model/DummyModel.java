@@ -56,9 +56,9 @@ public class DummyModel {
         labels.get(2).getMachines().add(machines.get(0));
         labels.get(2).getMachines().add(machines.get(1));
         users = new ArrayList<User>();
-        users.add(new User("admin@admin", 1l, UserRole.ADMIN));
-        users.add(new User("guest@guest", 2l, UserRole.COMMON));
-        users.add(new User("franta@frantov.cz", 3l, UserRole.COMMON));
+        users.add(new User("admin@admin", 0l, UserRole.ADMIN));
+        users.add(new User("guest@guest", 1l, UserRole.COMMON));
+        users.add(new User("franta@frantov.cz", 2l, UserRole.COMMON));
         long reservationId = 0l;
         reservations = new HashMap<Machine, List<Reservation>>();
         for (Machine machine: machines) {

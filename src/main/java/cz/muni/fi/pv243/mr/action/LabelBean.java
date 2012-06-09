@@ -1,10 +1,13 @@
 package cz.muni.fi.pv243.mr.action;
 
 import cz.muni.fi.pv243.mr.ejb.LabelsManager;
+import cz.muni.fi.pv243.mr.logging.ReservationsLogger;
 import cz.muni.fi.pv243.mr.model.Label;
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**

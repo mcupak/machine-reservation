@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,9 +21,8 @@ import javax.inject.Named;
 @Named
 public class UserReservationsBean implements Serializable {
 
-//    @Inject
-//    @Logged
-    // TODO
+    @Inject
+    @Logged
     private User user;
     @Inject
     private ReservationsManager reservationsManager;
@@ -31,7 +32,7 @@ public class UserReservationsBean implements Serializable {
 
     @PostConstruct
     public void load() {
-        reservations = reservationsManager.getCurrentReservations(usersManager.getUser(1l));
+        reservations = reservationsManager.getCurrentReservations(user);
     }
 
     public List<Reservation> getReservations() {
@@ -44,6 +45,16 @@ public class UserReservationsBean implements Serializable {
 
     public User getUser() {
         return user;
+    }
+
+    public void delete(long reservationId) {
+        boolean success = reservationsManager.deleteReservation(reservationId);
+        if (success) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been deeleted.", "reservation has been deeleted"));
+            load();
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The reservaton can't be deleted.", "the reservaton can't be deleted"));
+        }
     }
 
 }

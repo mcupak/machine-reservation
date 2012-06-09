@@ -13,7 +13,6 @@
             <ui:define name="pageTitle">Machine Reservation System - User's Reservations</ui:define>
             <ui:define name="body">
                 <h1>User's Reservations</h1>
-
                 <rich:dataTable value="#{userReservationsBean.reservations}" var="reservation" style="width: 100%">
                     <f:facet name="header">
                         <rich:columnGroup>
@@ -25,6 +24,9 @@
                             </rich:column>
                             <rich:column>
                                 <h:outputText value="Machines" />
+                            </rich:column>
+                            <rich:column colspan="2">
+                                <h:outputText value="Actions" />
                             </rich:column>
                         </rich:columnGroup>
                     </f:facet>
@@ -44,6 +46,16 @@
                                 <f:param name="id" value="#{machine.id}" />
                             </h:link>
                         </a4j:repeat>
+                    </rich:column>
+                    <rich:column style="text-align: center">
+                        <h:form>
+                            <a4j:commandButton action="#{userReservationsBean.delete(reservation.id)}" value="Delete" render="@all" />
+                        </h:form>
+                    </rich:column>
+                    <rich:column style="text-align: center">
+                        <h:form>
+                            <a4j:commandButton value="Edit" render="@all" />
+                        </h:form>
                     </rich:column>
                 </rich:dataTable>
             </ui:define>

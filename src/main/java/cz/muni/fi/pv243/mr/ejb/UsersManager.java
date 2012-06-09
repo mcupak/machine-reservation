@@ -27,7 +27,6 @@ public class UsersManager {
 
     public User getUser(String email, String password) {
         // TODO
-        System.out.println("authenticating: " + email + ":" + password);
         if ("admin@admin".equals(email) && "admin".equals(password)) {
             return DummyModel.getUsers().get(0);
         } else if ("guest@guest".equals(email) && "guest".equals(password)) {

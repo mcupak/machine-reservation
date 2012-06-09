@@ -5,6 +5,7 @@ import cz.muni.fi.pv243.mr.model.User;
 import javax.inject.Inject;
 import org.jboss.seam.security.BaseAuthenticator;
 import org.jboss.seam.security.Credentials;
+import org.jboss.solder.messages.Message;
 import org.picketlink.idm.impl.api.PasswordCredential;
 
 /**
