@@ -19,7 +19,7 @@ import javax.persistence.PersistenceContext;
 public class ReservationsManager {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
 
@@ -29,14 +29,13 @@ public class ReservationsManager {
         if (reservation == null) {
             return false;
         } else {
-            entityManager.remove(reservation);
+            em.remove(reservation);
             return true;
         }
     }
 
     public Reservation getReservation(Long id) {
-        // TODO
-        return null;
+        return em.find(Reservation.class, id);
     }
 
     public List<Reservation> getReservations(Machine machine, Date from, Date to) {

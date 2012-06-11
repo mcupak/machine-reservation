@@ -1,5 +1,9 @@
 package cz.muni.fi.pv243.mr.model;
 
+import cz.muni.fi.pv243.mr.ejb.LabelsManager;
+import cz.muni.fi.pv243.mr.ejb.MachinesManager;
+import cz.muni.fi.pv243.mr.ejb.ReservationsManager;
+import cz.muni.fi.pv243.mr.ejb.UsersManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -18,6 +23,15 @@ public class DummyModel {
     private static List<Machine> machines;
     private static Map<Machine, List<Reservation>> reservations;
     private static List<User> users;
+    
+    @Resource
+    private static MachinesManager machineManager;
+    @Resource
+    private static LabelsManager labelsManager;
+    @Resource
+    private static ReservationsManager reservationsManager;
+    @Resource
+    private static UsersManager usersManager;
 
     public static List<Machine> getMachines() {
         init();
@@ -74,5 +88,19 @@ public class DummyModel {
             }
             reservations.put(machine, machineReservations);
         }
+        fillWithInitTestData();
+    }
+    
+    public static void fillWithInitTestData() {
+        init();
+        for (Label label : labels) {
+            labelsManager.addLabel(label);
+        }
+        for (Machine m : machines) {
+            machineManager.addMachine(m);
+        }
+        for (User u : users) {
+            usersManager.addUser(u);
+        }        
     }
 }
