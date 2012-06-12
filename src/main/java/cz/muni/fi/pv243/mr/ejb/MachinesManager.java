@@ -34,11 +34,6 @@ public class MachinesManager {
      * @return List of machine in the system
      */
     public List<Machine> getMachines() {
-        // put here just for testing purposes
-        if (getMachine(1L) == null) {
-            List<Label> labels = new ArrayList<Label>();
-            addMachine(new Machine("Some machine", 1L, labels, "Test machine"));
-        }
 
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Machine.class));

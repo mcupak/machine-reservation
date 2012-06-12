@@ -8,6 +8,8 @@
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <class>cz.muni.fi.pv243.mr.model.Label</class>
         <class>cz.muni.fi.pv243.mr.model.Machine</class>
+        <class>cz.muni.fi.pv243.mr.model.User</class>
+        <class>cz.muni.fi.pv243.mr.model.Reservation</class>
         <properties>
             <property name="hibernate.archive.autodetection" value="class, hbm"/>
             <property name="hibernate.show_sql" value="true"/>
