@@ -18,7 +18,7 @@ public class Reservation implements Serializable {
     @Id
     private Long id;
     @ManyToOne
-    private Collection<Machine> machines;
+    private Machine machine;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date start;
@@ -28,11 +28,10 @@ public class Reservation implements Serializable {
     public Reservation() {
     }
 
-    // FIXME: remove
-    public Reservation(Date end, Long id, Collection<Machine> machines, Date start, User user) {
+    public Reservation(Date end, Long id, Machine machine, Date start, User user) {
         this.end = end;
         this.id = id;
-        this.machines = machines;
+        this.machine = machine;
         this.start = start;
         this.user = user;
     }
@@ -45,8 +44,8 @@ public class Reservation implements Serializable {
         return id;
     }
 
-    public Collection<Machine> getMachines() {
-        return machines;
+    public Machine getMachine() {
+        return machine;
     }
 
     public Date getStart() {
@@ -72,5 +71,29 @@ public class Reservation implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Reservation other = (Reservation) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+    
+    
 
 }

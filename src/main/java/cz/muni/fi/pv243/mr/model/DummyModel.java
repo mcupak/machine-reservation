@@ -84,7 +84,7 @@ public class DummyModel {
                 final long day = hour * 24;
                 Date start = new Date(now.getTime() + reservationId * hour + i * 5 * hour);
                 Reservation reservation = new Reservation(new Date(start.getTime() + day), reservationId, Arrays.
-                        asList(machine), start, users.get(1));
+                        asList(machine).get(0), start, users.get(1));
                 machineReservations.add(reservation);
                 reservationId++;
             }
