@@ -1,10 +1,15 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.DummyModel;
+import cz.muni.fi.pv243.mr.model.Label;
 import cz.muni.fi.pv243.mr.model.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -14,30 +19,28 @@ import javax.persistence.PersistenceContext;
 public class UsersManager {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     public User getUser(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("In order to find the user, his ID is required");
-        }
-        // TODO
-//        return entityManager.find(User.class, id);
-        return DummyModel.getUsers().get((int) id.longValue());
+        return em.find(User.class, id);
     }
 
     public User getUser(String email, String password) {
-        // TODO
-        if ("admin@admin".equals(email) && "admin".equals(password)) {
-            return DummyModel.getUsers().get(0);
-        } else if ("guest@guest".equals(email) && "guest".equals(password)) {
-            return DummyModel.getUsers().get(1);
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery(User.class);
+        Root<User> userRoot = cq.from(User.class);
+        cq = cq.where(cb.equal(userRoot.get("name"), email));        
+        TypedQuery<User> q = em.createQuery(cq);
+        User user = q.getSingleResult();
+        if ((user != null) && (user.getPassword().equals(password))) {
+            return user;
         } else {
             return null;
         }
     }
 
     public void addUser(User user) {
-        entityManager.persist(user);
+        em.persist(user);
     }
 
     public boolean deleteUser(Long id) {
@@ -45,13 +48,13 @@ public class UsersManager {
         if (user == null) {
             return false;
         } else {
-            entityManager.remove(user);
+            em.remove(user);
             return true;
         }
     }
 
     public void editUser(User user) {
-        entityManager.merge(user);
+        em.merge(user);
     }
 
 }

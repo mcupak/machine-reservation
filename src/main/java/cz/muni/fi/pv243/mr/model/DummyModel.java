@@ -11,7 +11,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.enterprise.context.ApplicationScoped;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -23,15 +24,15 @@ public class DummyModel {
     private static List<Machine> machines;
     private static Map<Machine, List<Reservation>> reservations;
     private static List<User> users;
-    
-    @Resource
-    private static MachinesManager machineManager;
-    @Resource
-    private static LabelsManager labelsManager;
-    @Resource
-    private static ReservationsManager reservationsManager;
-    @Resource
-    private static UsersManager usersManager;
+    private static DummyModel dummyModel = null;
+    @EJB
+    private MachinesManager machineManager;
+    @EJB
+    private LabelsManager labelsManager;
+    @EJB
+    private ReservationsManager reservationsManager;
+    @EJB
+    private UsersManager usersManager;
 
     public static List<Machine> getMachines() {
         init();
@@ -70,37 +71,43 @@ public class DummyModel {
         labels.get(2).getMachines().add(machines.get(0));
         labels.get(2).getMachines().add(machines.get(1));
         users = new ArrayList<User>();
-        users.add(new User("admin@admin", 0l, UserRole.ADMIN));
-        users.add(new User("guest@guest", 1l, UserRole.COMMON));
-        users.add(new User("franta@frantov.cz", 2l, UserRole.COMMON));
+        users.add(new User("admin@admin", 0l, UserRole.ADMIN, "admin"));
+        users.add(new User("guest@guest", 1l, UserRole.COMMON, "guest"));
+        users.add(new User("franta@frantov.cz", 2l, UserRole.COMMON, "franta"));
         long reservationId = 0l;
         reservations = new HashMap<Machine, List<Reservation>>();
-        for (Machine machine: machines) {
+        for (Machine machine : machines) {
             Date now = new Date();
             List<Reservation> machineReservations = new ArrayList<Reservation>();
-            for (int i=0; i<10; i++) {
+            for (int i = 0; i < 10; i++) {
                 final long hour = 1000 * 60 * 60;
                 final long day = hour * 24;
                 Date start = new Date(now.getTime() + reservationId * hour + i * 5 * hour);
-                Reservation reservation = new Reservation(new Date(start.getTime() + day), reservationId, Arrays.asList(machine), start, users.get(1));
+                Reservation reservation = new Reservation(new Date(start.getTime() + day), reservationId, Arrays.
+                        asList(machine), start, users.get(1));
                 machineReservations.add(reservation);
                 reservationId++;
             }
             reservations.put(machine, machineReservations);
         }
-        fillWithInitTestData();
     }
-    
+
     public static void fillWithInitTestData() {
-        init();
-        for (Label label : labels) {
-            labelsManager.addLabel(label);
+        if (dummyModel == null) {
+            dummyModel = new DummyModel();
         }
+        init();
+
+        System.err.println("Adding labels test data");
+        for (Label label : labels) {
+            dummyModel.labelsManager.addLabel(label);
+        }
+        System.err.println("Labels test data added");
         for (Machine m : machines) {
-            machineManager.addMachine(m);
+            dummyModel.machineManager.addMachine(m);
         }
         for (User u : users) {
-            usersManager.addUser(u);
-        }        
+            dummyModel.usersManager.addUser(u);
+        }
     }
 }

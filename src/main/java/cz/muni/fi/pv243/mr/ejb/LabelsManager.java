@@ -6,10 +6,16 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:rhatlapa@redhat.com">Radim Hatlapatka</a>
  */
 @Stateless
 public class LabelsManager {
@@ -19,7 +25,15 @@ public class LabelsManager {
 
     public Label getLabel(long id) {
         return em.find(Label.class, id);
-        //return DummyModel.getLabels().get((int) id);
+    }
+
+    public Label getLabel(String name) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery(Label.class);
+        Root<Label> labelRoot = cq.from(Label.class);
+        cq = cq.where(cb.equal(labelRoot.get("name"), name));        
+        TypedQuery<Label> q = em.createQuery(cq);
+        return q.getSingleResult();
     }
 
     public List<Label> getLabels() {
@@ -27,17 +41,16 @@ public class LabelsManager {
         cq.select(cq.from(Label.class));
         return em.createQuery(cq).getResultList();
     }
-    
+
     public void addLabel(Label label) {
         em.persist(label);
     }
-    
+
     public void editLabel(Label label) {
         em.merge(label);
     }
-    
+
     public void removeLabel(Label label) {
         em.remove(getLabel(label.getId()));
     }
-
 }

@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:rhatlapa@redhat.com">Radim Hatlapatka</a>
  */
 @Stateless
 public class ReservationsManager {

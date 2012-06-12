@@ -1,9 +1,6 @@
 package cz.muni.fi.pv243.mr.ejb;
 
-import cz.muni.fi.pv243.mr.model.DummyModel;
-import cz.muni.fi.pv243.mr.model.Label;
-import cz.muni.fi.pv243.mr.model.Machine;
-import cz.muni.fi.pv243.mr.model.Reservation;
+import cz.muni.fi.pv243.mr.model.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -13,10 +10,14 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:rhatlapa@redhat.com">Radim Hatlapatka</a>
  */
 @Stateless
 public class MachinesManager {
@@ -28,16 +29,27 @@ public class MachinesManager {
         return em.find(Machine.class, id);
     }
 
+    /**
+     *
+     * @return List of machine in the system
+     */
     public List<Machine> getMachines() {
+        // put here just for testing purposes
+        if (getMachine(1L) == null) {
+            List<Label> labels = new ArrayList<Label>();
+            addMachine(new Machine("Some machine", 1L, labels, "Test machine"));
+        }
+
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Machine.class));
         return em.createQuery(cq).getResultList();
-        // TODO
-        //return DummyModel.getMachines();
     }
 
     public List<Machine> getMachines(Collection<Label> labels, Date from, Date to) {
-        // TODO
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery(Machine.class);
+        Root<Machine> machineRoot = cq.from(Machine.class);
+        TypedQuery<Machine> q = em.createQuery(cq);
 
         List<Machine> result = findMachinesWithLabels(getMachines(), labels);
         for (Machine machine : getMachines()) {
@@ -92,11 +104,11 @@ public class MachinesManager {
         if (machine == null) {
             throw new IllegalArgumentException("No machine given for editing");
         }
-        if (em.find(Machine.class, machine.getId())!=null) {
+        if (em.find(Machine.class, machine.getId()) != null) {
             em.merge(machine);
         }
     }
-    
+
     public void removeMachine(Machine machine) {
         if (machine == null) {
             throw new IllegalArgumentException("No machine given for removing");

@@ -18,14 +18,17 @@ public class User implements Serializable {
     private Long id;
     @Column
     private UserRole userRole;
+    @Column
+    private String password;
 
     public User() {
     }
 
-    public User(String email, Long id, UserRole userRole) {
+    public User(String email, Long id, UserRole userRole, String password) {
         this.email = email;
         this.id = id;
         this.userRole = userRole;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -51,5 +54,13 @@ public class User implements Serializable {
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }   
 
 }
