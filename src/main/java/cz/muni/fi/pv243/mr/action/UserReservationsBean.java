@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,7 +17,7 @@ import javax.inject.Named;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-@SessionScoped
+@ViewScoped
 @Named
 public class UserReservationsBean implements Serializable {
 
@@ -49,7 +49,8 @@ public class UserReservationsBean implements Serializable {
     }
 
     public void delete(long reservationId) {
-        boolean success = reservationsManager.deleteReservation(reservationId);
+        // FIXME: workaround
+        boolean success = reservationsManager.cancelReservation(usersManager.getUser(user.getId()), reservationsManager.getReservation(reservationId));
         if (success) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been deeleted.", "reservation has been deeleted"));
             load();

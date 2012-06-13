@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
-import org.hibernate.annotations.Cascade;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -18,7 +17,7 @@ public class Reservation implements Serializable {
     private Date end;
     @Id
     private Long id;
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Machine> machines;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)

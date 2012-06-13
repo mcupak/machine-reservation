@@ -8,22 +8,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Model;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  * @author <a href="mailto:rhatlapa@redhat.com">Radim Hatlapatka</a>
  */
 @Stateless
+@Named
 public class MachinesManager {
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @Inject
     private EntityManager em;
 
     public Machine getMachine(long id) {
@@ -31,61 +32,38 @@ public class MachinesManager {
     }
 
     /**
-     *
      * @return List of machine in the system
      */
+    @Produces
+    @Model
     public List<Machine> getMachines() {
-
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Machine.class));
         return em.createQuery(cq).getResultList();
     }
 
+
+
     public List<Machine> getMachines(Collection<Label> labels, Date from, Date to) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(Machine.class);
-        Root<Machine> machineRoot = cq.from(Machine.class);
-        TypedQuery<Machine> q = em.createQuery(cq);
-
-        List<Machine> result = findMachinesWithLabels(getMachines(), labels);
-        for (Machine machine : getMachines()) {
-            if (isAvailable(machine, from, to)) {
-                result.add(machine);
-            }
-        }
-        return result;
-    }
-
-    private List<Machine> findMachinesWithLabels(List<Machine> machines, Collection<Label> labels) {
+        // TODO: tahle metoda je OPRAVDU!!! potreba dodelat
         if (labels == null) {
-            return machines;
+            return getMachines();
         }
-        List<Machine> result = new ArrayList<Machine>();
-        for (Machine machine : machines) {
-            boolean found = true;
-            Set<Label> machineLabels = new HashSet<Label>(machine.getLabels());
-            for (Label label : labels) {
-                if (!machineLabels.contains(label)) {
-                    found = false;
-                    break;
-                }
+        // FIXME: it should be done all in one query
+        Set<Machine> byLabels = null;
+        for (Label label: labels) {
+            if (byLabels == null) {
+                byLabels = new HashSet<Machine>(label.getMachines());
+                continue;
             }
-            if (found) {
-                result.add(machine);
-            }
+            byLabels.retainAll(label.getMachines());
         }
-        return result;
-    }
-
-    private boolean isAvailable(Machine machine, Date from, Date to) {
-        for (Reservation reservation : DummyModel.getReservations().get(machine)) {
-            if (reservation.getEnd().equals(to) || reservation.getStart().equals(from) || (reservation.
-                    getStart().before(from) && reservation.getEnd().after(from)) || (reservation.
-                    getStart().before(to) && reservation.getEnd().after(to))) {
-                return false;
-            }
+        if (byLabels.isEmpty()) {
+            return new ArrayList<Machine>();
         }
-        return true;
+        TypedQuery<Machine> query = em.createQuery("SELECT m FROM Machine m RIGHT JOIN Reservation.machines RIGHT JOIN Reservation WHERE m IN :machines", Machine.class);
+        query.setParameter("machines", byLabels);
+        return query.getResultList();
     }
 
     public void addMachine(Machine machine) {

@@ -17,7 +17,7 @@
                 </rich:toolbarGroup>
                 <!-- Can Reserve Links -->
                 <rich:toolbarGroup rendered="#{loggedUserActionsBean.canReserve()}">
-                    <h:link outcome="/user/reserve" value="Reserve" />
+                    <h:link outcome="/user/reservation" value="Reserve" />
                 </rich:toolbarGroup>
                 <!-- Admin Links -->
                 <rich:toolbarGroup rendered="#{loggedUserActionsBean.isAdmin()}">
@@ -41,6 +41,6 @@
                 </rich:toolbarGroup>
             </rich:toolbar>
         </a4j:outputPanel>
-        <rich:notifyMessages ajaxRendered="true" globalOnly="true" style="margin-top: 70px;" />
+        <rich:notifyMessages ajaxRendered="true" globalOnly="true" style="margin-top: 70px;" stayTime="2000" />
     </ui:composition>
 </html>

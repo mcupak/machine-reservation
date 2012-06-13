@@ -1,12 +1,12 @@
 package cz.muni.fi.pv243.mr.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -20,7 +20,7 @@ public class Label implements Serializable {
     @Id
     private Long id;
     @ManyToMany
-    private Collection<Machine> machines; 
+    private Collection<Machine> machines;
     @Column(nullable=false, length=100, unique=true)
     private String name;
 
@@ -39,9 +39,12 @@ public class Label implements Serializable {
     }
 
     public Collection<Machine> getMachines() {
+        if (machines == null) {
+            machines = new ArrayList<Machine>();
+        }
         return machines;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -56,6 +59,10 @@ public class Label implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setMachines(Collection<Machine> machines) {
+        this.machines = machines;
     }
 
     public void setName(String name) {

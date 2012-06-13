@@ -1,18 +1,13 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.*;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -21,31 +16,18 @@ import javax.persistence.criteria.Root;
 @Stateless
 public class ReservationsManager {
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @Inject
     private EntityManager em;
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
-
-    // TODO: permissions
-    public boolean deleteReservation(Long id) {
-        Reservation reservation = getReservation(id);
-        if (reservation == null) {
-            return false;
-        } else {
-            em.remove(reservation);
-            return true;
-        }
-    }
 
     public Reservation getReservation(Long id) {
         return em.find(Reservation.class, id);
     }
 
-    public void reserve(User user, Collection<Machine> machines, Date from, Date to) {
-        // TODO
-    }
-
-    public void addReservation(Reservation reservation) {
+    public boolean addReservation(Reservation reservation) {
+        // check whether is's possible to reserve the machines in the given interval
         em.persist(reservation);
+        return true;
     }
 
     public void removeReservation(Reservation reservation) {
@@ -53,10 +35,13 @@ public class ReservationsManager {
         em.remove(resToRemove);
     }
 
-    public void cancelReservation(User user, Reservation reservation) {
+    public boolean cancelReservation(User user, Reservation reservation) {
         Reservation resToRemove = getReservation(reservation.getId());
-        if (resToRemove.getUser().equals(user)) {
+        if (resToRemove != null && resToRemove.getUser().equals(user)) {
             em.remove(resToRemove);
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -73,12 +58,17 @@ public class ReservationsManager {
     }
 
     public List<Reservation> getCurrentReservations(User user) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(Reservation.class);
-        Root<Reservation> reservationRoot = cq.from(Reservation.class);
-        cq = cq.where(cb.equal(reservationRoot.get("user"), user));
-        TypedQuery<Reservation> q = em.createQuery(cq);
+        TypedQuery<Reservation> q = em.createQuery(
+                "SELECT r FROM Reservation r "
+                + "WHERE r.user = :user "
+                + "AND (r.start >= now() OR r.end >= now())",
+                Reservation.class);
+        q.setParameter("user", user);
         return q.getResultList();
+    }
+
+    public void editReservation(Reservation reservation) {
+        em.merge(reservation);
     }
 
     public TimeZone getTimeZone() {

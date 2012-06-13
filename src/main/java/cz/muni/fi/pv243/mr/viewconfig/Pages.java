@@ -29,7 +29,12 @@ public interface Pages {
 
         @ViewPattern("/machine.xhtml")
         @UrlMapping(pattern="/machine/#{id}/")
-        MACHINE
+        MACHINE,
+
+        @ViewPattern("/user/reservation.xhtml")
+        @UrlMapping(pattern="/reservation/#{id}")
+        RESERVATION
+
     }
 
 }

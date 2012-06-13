@@ -49,12 +49,15 @@
                     </rich:column>
                     <rich:column style="text-align: center">
                         <h:form>
-                            <h:commandButton action="#{userReservationsBean.delete(reservation.id)}" value="Delete"/>
+                            <h:commandButton action="#{userReservationsBean.delete(reservation.id)}" value="Cancel"/>
                         </h:form>
                     </rich:column>
                     <rich:column style="text-align: center">
                         <h:form>
-                            <a4j:commandButton value="Edit" render="@all" />
+                            <h:link outcome="/user/reservation">
+                                <h:outputText value="Edit" />
+                                <f:param name="id" value="#{reservation.id}" />
+                            </h:link>
                         </h:form>
                     </rich:column>
                 </rich:dataTable>

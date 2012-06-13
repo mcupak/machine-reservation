@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -22,7 +21,7 @@ import javax.inject.Named;
 @Named
 public class ReservationsComponentBean implements Serializable {
 
-    @EJB
+    @Inject
     private ReservationsManager reservationsManager;
 
     public Map<Date, List<Reservation>> getOrganizedReservations(List<Date> days, List<Reservation> reservations) {

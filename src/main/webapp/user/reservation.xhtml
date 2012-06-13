@@ -12,41 +12,50 @@
         <ui:composition template="/templates/template.xhtml">
             <ui:define name="pageTitle">Machine Reservation System - New Reservation</ui:define>
 
+            <ui:define name="head">
+                <f:metadata>
+                    <f:viewParam name="id" value="#{storedId}" />
+                    <s:viewAction action="#{reservationBean.loadReservation(storedId)}" />
+                </f:metadata>
+            </ui:define>
+
             <ui:define name="body">
-                <h1>New Reservation</h1>
+                <h1>
+                    <h:outputText value="#{reservationBean.title}"/>
+                </h1>
                 <h:panelGrid columns="3" style="vertical-align: top;" columnClasses="top-aligned-col">
                     <h:form>
                         <rich:panel header="Labels">
-                            <h:selectManyCheckbox value="${reserveBean.selectedLabels}" converter="labelConverter">
-                                <f:selectItems value="#{reserveBean.labels}" var="label" itemLabel="${label.name}" itemValue="#{label}" />
+                            <h:selectManyCheckbox value="${reservationBean.selectedLabels}" converter="labelConverter">
+                                <f:selectItems value="#{reservationBean.labels}" var="label" itemLabel="${label.name}" itemValue="#{label}" />
                             </h:selectManyCheckbox>
                         </rich:panel>
 
                         <br />
 
                         <rich:panel header="Time">
-                            <rich:graphValidator value="#{reserveBean}" id="graphValidator">
+                            <rich:graphValidator value="#{reservationBean}" id="graphValidator">
                                 <h:panelGrid columns="2">
                                     <h:outputLabel for="inputFrom" value ="From:"/>
-                                    <rich:calendar id="inputFrom" value="#{reserveBean.from}" timeZone="#{reserveBean.timeZone}" />
+                                    <rich:calendar id="inputFrom" value="#{reservationBean.reservation.start}" timeZone="#{reservationBean.timeZone}" />
                                     <h:outputLabel for="inputTo" value="To:" />
-                                    <rich:calendar id="inputTo" value="#{reserveBean.to}" timeZone="#{reserveBean.timeZone}" />
+                                    <rich:calendar id="inputTo" value="#{reservationBean.reservation.end}" timeZone="#{reservationBean.timeZone}" />
                                 </h:panelGrid>
                             </rich:graphValidator>
                             <br />
-                            <a4j:commandButton value="Update" action="#{reserveBean.filter()}" render="@all" />
+                            <a4j:commandButton value="Update" action="#{reservationBean.filter()}" render="@all" />
                         </rich:panel>
                     </h:form>
 
                     <rich:panel header="Machines">
                         <h:form>
                             <rich:messages for="inputMachines" />
-                            <rich:pickList validator="machinesInReserveationValidator" value="#{reserveBean.selectedMachines}" id="inputMachines" converter="machineConverter" listHeight="500">
-                                <f:selectItems value="#{reserveBean.machines}" var="machine" itemLabel="#{machine.name}" itemValue="#{machine}" />
+                            <rich:pickList validator="machinesInReserveationValidator" value="#{reservationBean.reservation.machines}" id="inputMachines" converter="machineConverter" listHeight="500">
+                                <f:selectItems value="#{reservationBean.machines}" var="machine" itemLabel="#{machine.name}" itemValue="#{machine}" />
                             </rich:pickList>
 
                             <br />
-                            <a4j:commandButton value="Reserve" execute="@form" action="#{reserveBean.reserve()}"/>
+                            <h:commandButton value="Save" action="#{reservationBean.persist()}"/>
                         </h:form>
                     </rich:panel>
                 </h:panelGrid>
