@@ -31,11 +31,11 @@ public class DataInitializer {
     public void initialize() {
         // initializing labels
         List<Label> labels = Arrays.asList(
-                new Label("Lorem ipsum", 0l, new ArrayList<Machine>(), "linux"),
-                new Label("Lorem ipsum", 1l, new ArrayList<Machine>(), "windows"),
-                new Label("Lorem ipsum", 2l, new ArrayList<Machine>(), "x86"));
+                new Label("Lorem ipsum", 0l, "linux"),
+                new Label("Lorem ipsum", 1l, "windows"),
+                new Label("Lorem ipsum", 2l, "x86"));
         for (Label l : labels) {
-            em.persist(labels);
+            em.persist(l);
         }
         
         // initializing machines
@@ -71,9 +71,9 @@ public class DataInitializer {
                 reservationId++;
             }
         }
-//        for (Reservation r : reservations) {
-//            em.persist(r);
-//        }
+        for (Reservation r : reservations) {
+            em.persist(r);
+        }
     }
     
 

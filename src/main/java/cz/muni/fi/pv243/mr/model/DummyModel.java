@@ -60,16 +60,16 @@ public class DummyModel {
         }
         initialized = true;
         labels = Arrays.asList(
-                new Label("Lorem ipsum", 0l, new ArrayList<Machine>(), "linux"),
-                new Label("Lorem ipsum", 1l, new ArrayList<Machine>(), "windows"),
-                new Label("Lorem ipsum", 2l, new ArrayList<Machine>(), "x86"));
+                new Label("Lorem ipsum", 0l, "linux"),
+                new Label("Lorem ipsum", 1l,  "windows"),
+                new Label("Lorem ipsum", 2l,  "x86"));
         machines = Arrays.asList(
                 new Machine("Lorem ipsum", 0l, Arrays.asList(labels.get(0), labels.get(2)), "anna"),
                 new Machine("Lorem ipsum", 1l, Arrays.asList(labels.get(1), labels.get(2)), "aisa"));
-        labels.get(0).getMachines().add(machines.get(0));
-        labels.get(1).getMachines().add(machines.get(1));
-        labels.get(2).getMachines().add(machines.get(0));
-        labels.get(2).getMachines().add(machines.get(1));
+//        labels.get(0).getMachines().add(machines.get(0));
+//        labels.get(1).getMachines().add(machines.get(1));
+//        labels.get(2).getMachines().add(machines.get(0));
+//        labels.get(2).getMachines().add(machines.get(1));
         users = new ArrayList<User>();
         users.add(new User("admin@admin", 0l, UserRole.ADMIN, "admin"));
         users.add(new User("guest@guest", 1l, UserRole.COMMON, "guest"));

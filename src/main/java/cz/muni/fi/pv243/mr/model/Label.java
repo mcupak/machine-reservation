@@ -12,15 +12,15 @@ import javax.persistence.Table;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @Entity
-@Table(name="labels")
+//@Table(name="labels")
 public class Label implements Serializable {
 
     @Column
     private String description;
     @Id
     private Long id;
-    @ManyToMany
-    private Collection<Machine> machines;
+//    @ManyToMany
+//    private Collection<Machine> machines; 
     @Column(nullable=false, length=100, unique=true)
     private String name;
 
@@ -28,10 +28,9 @@ public class Label implements Serializable {
     }
 
     // FIXME: remove
-    public Label(String description, Long id, Collection<Machine> machines, String name) {
+    public Label(String description, Long id, String name) {
         this.description = description;
         this.id = id;
-        this.machines = machines;
         this.name = name;
     }
 
@@ -41,10 +40,6 @@ public class Label implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public Collection<Machine> getMachines() {
-        return machines;
     }
 
     public String getName() {

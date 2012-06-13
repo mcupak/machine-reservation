@@ -61,7 +61,7 @@ public class ReservationsManager {
 
     public List<Reservation> getReservations(Machine machine, Date from, Date to) {
         TypedQuery<Reservation> q = em.createQuery(
-                "SELECT r FROM reservations r "
+                "SELECT r FROM Reservation r "
                 + "WHERE r.machine = :machine "
                 + "AND (r.start > :from OR r.start = :from) AND (r.end < :to OR r.end = :to)",
                 Reservation.class);

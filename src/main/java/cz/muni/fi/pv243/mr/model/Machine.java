@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @Entity
-@Table(name="machines")
+//@Table(name="machines")
 public class Machine implements Serializable {
 
     @Column

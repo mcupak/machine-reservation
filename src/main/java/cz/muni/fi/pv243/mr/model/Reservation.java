@@ -9,7 +9,7 @@ import javax.persistence.*;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @Entity
-@Table(name = "reservations")
+//@Table(name = "reservations")
 public class Reservation implements Serializable {
 
     @Column
@@ -17,12 +17,12 @@ public class Reservation implements Serializable {
     private Date end;
     @Id
     private Long id;
-    @ManyToOne
+    @OneToOne
     private Machine machine;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date start;
-    @ManyToOne
+    @OneToOne
     private User user;
 
     public Reservation() {

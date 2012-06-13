@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @Entity
-@Table(name="users")
+//@Table(name="users")
 public class User implements Serializable {
     @Column
     String email;
