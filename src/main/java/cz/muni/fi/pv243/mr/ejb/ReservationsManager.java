@@ -24,8 +24,13 @@ public class ReservationsManager {
         return em.find(Reservation.class, id);
     }
 
+    /**
+     * Adds reservation to system, if there is free slot for all the machines required for the reservation
+     * @param reservation
+     * @return 
+     */
     public boolean addReservation(Reservation reservation) {
-        // checking if it is possible to reserve the whole set of machines required
+        // checking if it is possible to reserve the whole set of machines
         for (Machine m : reservation.getMachines()) {
             if (getReservations(m, reservation.getStart(), reservation.getEnd()) != null) {
                 return false;
