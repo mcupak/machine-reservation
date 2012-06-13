@@ -1,17 +1,15 @@
 package cz.muni.fi.pv243.mr.ejb;
 
-import cz.muni.fi.pv243.mr.model.DummyModel;
 import cz.muni.fi.pv243.mr.model.Label;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -20,7 +18,7 @@ import javax.persistence.metamodel.Metamodel;
 @Stateless
 public class LabelsManager {
 
-    @PersistenceContext
+    @PersistenceContext(type= PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     public Label getLabel(long id) {
@@ -31,7 +29,7 @@ public class LabelsManager {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(Label.class);
         Root<Label> labelRoot = cq.from(Label.class);
-        cq = cq.where(cb.equal(labelRoot.get("name"), name));        
+        cq = cq.where(cb.equal(labelRoot.get("name"), name));
         TypedQuery<Label> q = em.createQuery(cq);
         return q.getSingleResult();
     }

@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,7 +23,7 @@ import javax.persistence.criteria.Root;
 @Stateless
 public class MachinesManager {
 
-    @PersistenceContext
+    @PersistenceContext(type= PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     public Machine getMachine(long id) {

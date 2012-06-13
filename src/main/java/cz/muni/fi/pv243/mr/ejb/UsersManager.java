@@ -1,7 +1,5 @@
 package cz.muni.fi.pv243.mr.ejb;
 
-import cz.muni.fi.pv243.mr.model.DummyModel;
-import cz.muni.fi.pv243.mr.model.Label;
 import cz.muni.fi.pv243.mr.model.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,7 +27,7 @@ public class UsersManager {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(User.class);
         Root<User> userRoot = cq.from(User.class);
-        cq = cq.where(cb.equal(userRoot.get("name"), email));        
+        cq = cq.where(cb.equal(userRoot.get("email"), email));
         TypedQuery<User> q = em.createQuery(cq);
         User user = q.getSingleResult();
         if ((user != null) && (user.getPassword().equals(password))) {
