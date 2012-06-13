@@ -24,9 +24,9 @@ public class ReservationsManager {
         return em.find(Reservation.class, id);
     }
 
-    public boolean addReservation(Reservation reservation) {  
+    public boolean addReservation(Reservation reservation) {
         // checking if it is possible to reserve the whole set of machines required
-        for (Machine m: reservation.getMachines()) {
+        for (Machine m : reservation.getMachines()) {
             if (getReservations(m, reservation.getStart(), reservation.getEnd()) != null) {
                 return false;
             }
@@ -73,7 +73,9 @@ public class ReservationsManager {
     }
 
     public void editReservation(Reservation reservation) {
-        em.merge(reservation);
+        if (getReservation(reservation.getId()) != null) {
+            em.merge(reservation);
+        }
     }
 
     public TimeZone getTimeZone() {

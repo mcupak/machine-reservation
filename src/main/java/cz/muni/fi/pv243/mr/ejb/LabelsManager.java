@@ -1,8 +1,10 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.Label;
+import cz.muni.fi.pv243.mr.model.Machine;
 import cz.muni.fi.pv243.mr.model.Reservation;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Model;
@@ -40,8 +42,16 @@ public class LabelsManager {
     }
 
     public List<Label> getLabels(Reservation reservation) {
-        // TODO: Tado metoda je OPRAVDU!!! potreba dodelat
-        return new ArrayList<Label>();
+        List<Label> labels = new ArrayList<Label>();
+        Iterator<Machine> it = reservation.getMachines().iterator();
+        if (it.hasNext()) {            
+            labels.addAll(it.next().getLabels());
+            while (it.hasNext()) {
+                Machine m = it.next();
+                labels.retainAll(m.getLabels());                
+            }
+        }        
+        return labels;
     }
 
     @Produces

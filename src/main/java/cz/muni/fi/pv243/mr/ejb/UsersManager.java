@@ -1,7 +1,10 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.User;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Model;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -21,6 +24,14 @@ public class UsersManager {
 
     public User getUser(Long id) {
         return em.find(User.class, id);
+    }
+
+    @Produces
+    @Model
+    public List<User> getUsers() {
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(User.class));
+        return em.createQuery(cq).getResultList();
     }
 
     public User getUser(String email, String password) {
