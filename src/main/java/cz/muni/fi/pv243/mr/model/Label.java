@@ -19,8 +19,8 @@ public class Label implements Serializable {
     private String description;
     @Id
     private Long id;
-//    @ManyToMany
-//    private Collection<Machine> machines; 
+    @ManyToMany
+    private Collection<Machine> machines; 
     @Column(nullable=false, length=100, unique=true)
     private String name;
 
@@ -38,6 +38,10 @@ public class Label implements Serializable {
         return description;
     }
 
+    public Collection<Machine> getMachines() {
+        return machines;
+    }
+    
     public Long getId() {
         return id;
     }
