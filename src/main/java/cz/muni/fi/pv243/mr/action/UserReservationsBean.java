@@ -32,7 +32,8 @@ public class UserReservationsBean implements Serializable {
 
     @PostConstruct
     public void load() {
-        reservations = reservationsManager.getCurrentReservations(user);
+        // FIXME: workaround
+        reservations = reservationsManager.getCurrentReservations(usersManager.getUser(user.getId()));
     }
 
     public List<Reservation> getReservations() {
