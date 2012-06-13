@@ -37,7 +37,7 @@ public class DataInitializer {
         for (Label l : labels) {
             em.persist(l);
         }
-        
+
         // initializing machines
         List<Machine> machines = Arrays.asList(
                 new Machine("Lorem ipsum", 0l, Arrays.asList(labels.get(0), labels.get(2)), "anna"),
@@ -45,18 +45,18 @@ public class DataInitializer {
         for (Machine m : machines) {
             em.persist(m);
         }
-        
+
         // initializing users
         List<User> users = Arrays.asList(
                 new User("admin@admin", 0l, UserRole.ADMIN, "admin"),
                 new User("guest@guest", 1l, UserRole.COMMON, "guest"),
                 new User("franta@frantov.cz", 2l, UserRole.COMMON, "franta")
                 );
-        
+
         for (User u : users) {
             em.persist(u);
         }
-        
+
         long reservationId = 0l;
         List<Reservation> reservations = new ArrayList<Reservation>();
         for (Machine machine : machines) {
@@ -66,7 +66,7 @@ public class DataInitializer {
                 final long day = hour * 24;
                 Date start = new Date(now.getTime() + reservationId * hour + i * 5 * hour);
                 Reservation reservation = new Reservation(new Date(start.getTime() + day), reservationId, Arrays.
-                        asList(machine).get(0), start, users.get(1));
+                        asList(machine), start, users.get(1));
                 reservations.add(reservation);
                 reservationId++;
             }
@@ -75,7 +75,7 @@ public class DataInitializer {
             em.persist(r);
         }
     }
-    
+
 
 
 

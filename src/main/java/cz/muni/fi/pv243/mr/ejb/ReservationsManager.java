@@ -1,7 +1,7 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.*;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -39,7 +39,7 @@ public class ReservationsManager {
         return em.find(Reservation.class, id);
     }
 
-    public void reserve(User user, Machine machine, Date from, Date to) {
+    public void reserve(User user, Collection<Machine> machines, Date from, Date to) {
         // TODO
     }
 
@@ -62,8 +62,8 @@ public class ReservationsManager {
     public List<Reservation> getReservations(Machine machine, Date from, Date to) {
         TypedQuery<Reservation> q = em.createQuery(
                 "SELECT r FROM Reservation r "
-                + "WHERE r.machine = :machine "
-                + "AND (r.start > :from OR r.start = :from) AND (r.end < :to OR r.end = :to)",
+                + "INNER JOIN r.machines m WHERE m = :machine "
+                + "AND r.start >= :from AND r.end <= :to",
                 Reservation.class);
         q.setParameter("machine", machine);
         q.setParameter("from", from);
@@ -78,15 +78,6 @@ public class ReservationsManager {
         cq = cq.where(cb.equal(reservationRoot.get("user"), user));
         TypedQuery<Reservation> q = em.createQuery(cq);
         return q.getResultList();
-//        List<Reservation> reservations = new ArrayList<Reservation>();
-//        for (List<Reservation> rs: DummyModel.getReservations().values()) {
-//            for (Reservation reservation: rs) {
-//                if (reservation.getUser().getId().equals(user.getId())) {
-//                    reservations.add(reservation);
-//                }
-//            }
-//        }
-//        return reservations;
     }
 
     public TimeZone getTimeZone() {
