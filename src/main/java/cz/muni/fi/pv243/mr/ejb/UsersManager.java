@@ -52,7 +52,8 @@ public class UsersManager {
     }
 
     public void editUser(User user) {
-        em.merge(user);
+        if (getUser(user.getId()) != null) {
+            em.merge(user);
+        }
     }
-
 }

@@ -57,7 +57,9 @@ public class LabelsManager {
     }
 
     public void editLabel(Label label) {
-        em.merge(label);
+        if (getLabel(label.getId()) != null) {
+            em.merge(label);
+        }
     }
 
     public void removeLabel(Label label) {

@@ -61,7 +61,11 @@ public class MachinesManager {
         if (byLabels.isEmpty()) {
             return new ArrayList<Machine>();
         }
-        TypedQuery<Machine> query = em.createQuery("SELECT m FROM Machine m RIGHT JOIN Reservation.machines RIGHT JOIN Reservation WHERE m IN :machines", Machine.class);
+        TypedQuery<Machine> query = em.createQuery("SELECT m FROM Machine m "
+                + "RIGHT JOIN Reservation.machines "
+                + "RIGHT JOIN Reservation "
+                + "WHERE m IN :machines", 
+                Machine.class);
         query.setParameter("machines", byLabels);
         return query.getResultList();
     }
@@ -71,7 +75,6 @@ public class MachinesManager {
             throw new IllegalArgumentException("No machine given for adding");
         }
         em.persist(machine);
-
     }
 
     public void editMachine(Machine machine) {

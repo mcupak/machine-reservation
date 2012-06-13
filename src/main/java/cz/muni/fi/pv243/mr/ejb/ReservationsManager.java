@@ -24,8 +24,13 @@ public class ReservationsManager {
         return em.find(Reservation.class, id);
     }
 
-    public boolean addReservation(Reservation reservation) {
-        // check whether is's possible to reserve the machines in the given interval
+    public boolean addReservation(Reservation reservation) {  
+        // checking if it is possible to reserve the whole set of machines required
+        for (Machine m: reservation.getMachines()) {
+            if (getReservations(m, reservation.getStart(), reservation.getEnd()) != null) {
+                return false;
+            }
+        }
         em.persist(reservation);
         return true;
     }
