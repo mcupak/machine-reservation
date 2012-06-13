@@ -8,6 +8,7 @@ import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,7 +21,7 @@ import javax.persistence.criteria.Root;
 @Stateless
 public class ReservationsManager {
 
-    @PersistenceContext
+    @PersistenceContext(type= PersistenceContextType.EXTENDED)
     private EntityManager em;
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
 
