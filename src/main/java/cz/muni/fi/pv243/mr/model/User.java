@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -12,7 +11,9 @@ import javax.persistence.Table;
 @Entity
 //@Table(name="users")
 public class User implements Serializable {
-    @Column
+
+	private static final long serialVersionUID = -1839803668123102392L;
+	@Column
     String email;
     @Id
     private Long id;

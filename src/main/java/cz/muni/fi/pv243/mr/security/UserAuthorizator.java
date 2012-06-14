@@ -10,7 +10,9 @@ import org.jboss.seam.security.annotations.Secures;
  */
 public class UserAuthorizator implements Serializable {
 
-    @Secures
+	private static final long serialVersionUID = 5118096668237559557L;
+
+	@Secures
     @Admin
     public boolean isAdmin(Identity identity) {
         if (!identity.isLoggedIn()) {

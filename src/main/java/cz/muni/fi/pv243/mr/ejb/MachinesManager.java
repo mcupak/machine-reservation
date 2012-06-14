@@ -1,12 +1,9 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
@@ -14,12 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

@@ -21,7 +21,8 @@ import javax.inject.Named;
 @Named
 public class ReservationsComponentBean implements Serializable {
 
-    @Inject
+	private static final long serialVersionUID = 3481341972471882514L;
+	@Inject
     private ReservationsManager reservationsManager;
 
     public Map<Date, List<Reservation>> getOrganizedReservations(List<Date> days, List<Reservation> reservations) {

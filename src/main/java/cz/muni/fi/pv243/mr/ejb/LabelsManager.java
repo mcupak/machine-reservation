@@ -34,7 +34,7 @@ public class LabelsManager {
 
     public Label getLabel(String name) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(Label.class);
+        CriteriaQuery<Label> cq = cb.createQuery(Label.class);
         Root<Label> labelRoot = cq.from(Label.class);
         cq = cq.where(cb.equal(labelRoot.get("name"), name));
         TypedQuery<Label> q = em.createQuery(cq);

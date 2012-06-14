@@ -14,7 +14,8 @@ import org.jboss.seam.security.Identity;
 @Named
 public class LoggedUserActionsBean implements Serializable {
 
-    @Inject
+	private static final long serialVersionUID = 4559334109992948286L;
+	@Inject
     private Identity identity;
     @Inject
     private UserAuthorizator authorizator;

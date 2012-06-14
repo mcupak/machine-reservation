@@ -12,7 +12,8 @@ import org.jboss.solder.unwraps.Unwraps;
  */
 public class LoggedUserProducer implements Serializable {
 
-    @Inject
+	private static final long serialVersionUID = 4603063114429231508L;
+	@Inject
     private Identity identity;
     @Inject
     private UsersManager usersManager;

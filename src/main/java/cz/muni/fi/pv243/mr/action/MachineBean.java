@@ -21,7 +21,8 @@ import javax.validation.constraints.NotNull;
 @Named
 public class MachineBean implements Serializable {
 
-    private Date from = new Date();
+	private static final long serialVersionUID = 4214653875228526068L;
+	private Date from = new Date();
     private Date to = new Date(from.getTime() + 1000l * 60l * 60l * 24l * 30l);
     private Machine machine;
     @Inject

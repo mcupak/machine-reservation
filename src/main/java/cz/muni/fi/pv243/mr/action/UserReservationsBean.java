@@ -21,7 +21,8 @@ import javax.inject.Named;
 @Named
 public class UserReservationsBean implements Serializable {
 
-    @Inject
+	private static final long serialVersionUID = 4539396561530352975L;
+	@Inject
     @Logged
     private User user;
     @Inject

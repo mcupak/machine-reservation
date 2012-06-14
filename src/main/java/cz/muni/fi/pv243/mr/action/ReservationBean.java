@@ -24,7 +24,8 @@ import javax.validation.constraints.AssertTrue;
 @Named
 public class ReservationBean implements Serializable {
 
-    @Inject
+	private static final long serialVersionUID = -6210138663980366244L;
+	@Inject
     @Logged
     private User user;
     @Inject

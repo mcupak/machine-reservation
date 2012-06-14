@@ -1,13 +1,10 @@
 package cz.muni.fi.pv243.mr.action;
 
 import cz.muni.fi.pv243.mr.ejb.LabelsManager;
-import cz.muni.fi.pv243.mr.logging.ReservationsLogger;
 import cz.muni.fi.pv243.mr.model.Label;
 import java.io.Serializable;
-import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -17,7 +14,8 @@ import javax.inject.Named;
 @Named
 public class LabelBean implements Serializable {
 
-    private Label label;
+	private static final long serialVersionUID = 6490857639238136899L;
+	private Label label;
     @EJB
     private LabelsManager labelsManager;
 
