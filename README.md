@@ -1,6 +1,5 @@
-This is a repository for the project of the PV243 course at Faculty of Informatics, Masaryk University.
-
-Chosen project
+Machine Reservation
 ==============
-* project name: `Machine Reservation System`
-* team members: `Cupák Miroslav, Hatlapatka Radim, Húska Juraj, Kišš Oliver, Papoušek Jan`
+Team: `Cupák Miroslav, Hatlapatka Radim, Kišš Oliver, Papoušek Jan`
+Description: `This is a project for a web reservation system for machines in a computer lab. The application offers complete reservation, machine, machine category and user management functionality.`
+Technology in use: `JBoss AS 7, JSF 2 + RF 4, CDI, JPA/Hibernate, RestEasy, EJB, Seam 3, OpenShift`
