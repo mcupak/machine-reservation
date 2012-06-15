@@ -31,17 +31,17 @@ public class DataInitializer {
     public void initialize() {
         // initializing labels
         List<Label> labels = Arrays.asList(
-                new Label("Lorem ipsum", 0l, "linux"),
-                new Label("Lorem ipsum", 1l, "windows"),
-                new Label("Lorem ipsum", 2l, "x86"));
+                new Label("Lorem ipsum", null, "linux"),
+                new Label("Lorem ipsum", null, "windows"),
+                new Label("Lorem ipsum", null, "x86"));
         for (Label l : labels) {
             em.persist(l);
         }
 
         // initializing machines
         List<Machine> machines = Arrays.asList(
-                new Machine("Lorem ipsum", 0l, Arrays.asList(labels.get(0), labels.get(2)), "anna"),
-                new Machine("Lorem ipsum", 1l, Arrays.asList(labels.get(1), labels.get(2)), "aisa"));
+                new Machine("Lorem ipsum", null, Arrays.asList(labels.get(0), labels.get(2)), "anna"),
+                new Machine("Lorem ipsum", null, Arrays.asList(labels.get(1), labels.get(2)), "aisa"));
         for (Machine m : machines) {
             em.persist(m);
         }
@@ -56,9 +56,9 @@ public class DataInitializer {
 
         // initializing users
         List<User> users = Arrays.asList(
-                new User("admin@admin.cz", 0l, UserRole.ADMIN, "admin"),
-                new User("guest@guest.cz", 1l, UserRole.COMMON, "guest"),
-                new User("franta@frantov.cz", 2l, UserRole.COMMON, "franta")
+                new User("admin@admin.cz", null, UserRole.ADMIN, "admin"),
+                new User("guest@guest.cz", null, UserRole.COMMON, "guest"),
+                new User("franta@frantov.cz", null, UserRole.COMMON, "franta")
                 );
 
         for (User u : users) {
@@ -74,7 +74,7 @@ public class DataInitializer {
         for (Machine machine : machines) {
             for (User user: users) {
                 reservations.add(new Reservation(
-                        new Date(now.getTime() + (counter + 1l) * day), (long) counter, Arrays.asList(machine), new Date(now.getTime() + counter * day), user));
+                        new Date(now.getTime() + (counter + 1l) * day), null, Arrays.asList(machine), new Date(now.getTime() + counter * day), user));
                 counter++;
             }
         }

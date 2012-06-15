@@ -1,9 +1,13 @@
 package cz.muni.fi.pv243.mr.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -14,21 +18,29 @@ public class Reservation implements Serializable {
 
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
+    @NotNull
     private Date end;
     @Id
+    @GeneratedValue
     private Long id;
-    @ManyToMany(fetch= FetchType.EAGER)
-    private Collection<Machine> machines;
+    @NotEmpty(message="The list of machines assigned to the reservation can't be empty.")
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Machine> machines;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
+    @NotNull
     private Date start;
     @ManyToOne
+    @NotNull
     private User user;
+    @Transient
+    @AssertTrue(message="Start date has to be before end date.")
+    private boolean datesChronological = true;
 
     public Reservation() {
     }
 
-    public Reservation(Date end, Long id, Collection<Machine> machines, Date start, User user) {
+    public Reservation(Date end, Long id, List<Machine> machines, Date start, User user) {
         this.end = end;
         this.id = id;
         this.machines = machines;
@@ -44,7 +56,10 @@ public class Reservation implements Serializable {
         return id;
     }
 
-    public Collection<Machine> getMachines() {
+    public List<Machine> getMachines() {
+        if (machines == null) {
+            machines = new ArrayList<Machine>();
+        }
         return machines;
     }
 
@@ -57,6 +72,11 @@ public class Reservation implements Serializable {
     }
 
     public void setEnd(Date end) {
+        if (end == null) {
+            datesChronological = true;
+        } else if (start != null) {
+            datesChronological = start.before(end);
+        }
         this.end = end;
     }
 
@@ -64,11 +84,16 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public void setMachines(Collection<Machine> machines) {
+    public void setMachines(List<Machine> machines) {
         this.machines = machines;
     }
 
     public void setStart(Date start) {
+        if (start == null) {
+            datesChronological = true;
+        } else if (end != null) {
+            datesChronological = start.before(end);
+        }
         this.start = start;
     }
 
@@ -98,6 +123,8 @@ public class Reservation implements Serializable {
         return hash;
     }
 
-
-
+    @AssertTrue
+    public boolean checkWhetherFromIsBeforeTo() {
+        return getStart().before(getEnd());
+    }
 }

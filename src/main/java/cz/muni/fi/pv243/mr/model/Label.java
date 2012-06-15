@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,7 @@ public class Label implements Serializable {
     private String description;
     
     @Id
+    @GeneratedValue
     private Long id;
     
     @ManyToMany

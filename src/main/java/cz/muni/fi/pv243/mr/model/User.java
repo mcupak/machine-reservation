@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.mr.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,6 +25,7 @@ public class User implements Serializable {
     private String email;
     
     @Id
+    @GeneratedValue
     private Long id;
     
     @Column
