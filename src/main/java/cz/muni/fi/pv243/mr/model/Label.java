@@ -7,6 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -17,11 +21,16 @@ public class Label implements Serializable {
 
     @Column
     private String description;
+    
     @Id
     private Long id;
+    
     @ManyToMany
     private Collection<Machine> machines;
-    @Column(nullable=false, length=100, unique=true)
+    
+    @Column(unique=true)
+    @NotBlank
+    @Size(min=1, max=30)    
     private String name;
 
     public Label() {

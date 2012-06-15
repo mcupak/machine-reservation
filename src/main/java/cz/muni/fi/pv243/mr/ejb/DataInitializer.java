@@ -56,8 +56,8 @@ public class DataInitializer {
 
         // initializing users
         List<User> users = Arrays.asList(
-                new User("admin@admin", 0l, UserRole.ADMIN, "admin"),
-                new User("guest@guest", 1l, UserRole.COMMON, "guest"),
+                new User("admin@admin.cz", 0l, UserRole.ADMIN, "admin"),
+                new User("guest@guest.cz", 1l, UserRole.COMMON, "guest"),
                 new User("franta@frantov.cz", 2l, UserRole.COMMON, "franta")
                 );
 
