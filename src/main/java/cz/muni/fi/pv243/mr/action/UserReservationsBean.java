@@ -2,6 +2,8 @@ package cz.muni.fi.pv243.mr.action;
 
 import cz.muni.fi.pv243.mr.ejb.ReservationsManager;
 import cz.muni.fi.pv243.mr.ejb.UsersManager;
+import cz.muni.fi.pv243.mr.logging.ReservationsLogger;
+import cz.muni.fi.pv243.mr.model.Machine;
 import cz.muni.fi.pv243.mr.model.Reservation;
 import cz.muni.fi.pv243.mr.model.User;
 import java.io.Serializable;
@@ -29,6 +31,8 @@ public class UserReservationsBean implements Serializable {
     private ReservationsManager reservationsManager;
     @Inject
     private UsersManager usersManager;
+    @Inject
+    private ReservationsLogger reservationsLogger;
     private List<Reservation> reservations;
 
     @PostConstruct
@@ -51,8 +55,12 @@ public class UserReservationsBean implements Serializable {
 
     public void delete(long reservationId) {
         // FIXME: workaround
-        boolean success = reservationsManager.cancelReservation(usersManager.getUser(user.getId()), reservationsManager.getReservation(reservationId));
+        Reservation reservation = reservationsManager.getReservation(reservationId);
+        boolean success = reservationsManager.cancelReservation(usersManager.getUser(user.getId()), reservation);
         if (success) {
+            for (Machine m: reservation.getMachines()) {
+                reservationsLogger.deleted(m.getName(), user.getEmail());
+            }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been deeleted.", "reservation has been deeleted"));
             load();
         } else {

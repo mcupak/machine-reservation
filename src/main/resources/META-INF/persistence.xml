@@ -12,7 +12,7 @@
         <class>cz.muni.fi.pv243.mr.model.Reservation</class>
         <properties>
             <property name="hibernate.archive.autodetection" value="class, hbm"/>
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />

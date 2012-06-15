@@ -4,6 +4,7 @@ import cz.muni.fi.pv243.mr.ejb.LabelsManager;
 import cz.muni.fi.pv243.mr.ejb.MachinesManager;
 import cz.muni.fi.pv243.mr.ejb.ReservationsManager;
 import cz.muni.fi.pv243.mr.ejb.UsersManager;
+import cz.muni.fi.pv243.mr.logging.ReservationsLogger;
 import cz.muni.fi.pv243.mr.model.Label;
 import cz.muni.fi.pv243.mr.model.Machine;
 import cz.muni.fi.pv243.mr.model.Reservation;
@@ -18,7 +19,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.Validation;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -37,7 +37,10 @@ public class ReservationBean implements Serializable {
     private MachinesManager machinesManager;
     @Inject
     private ReservationsManager reservationsManager;
-    @Inject UsersManager usersManager;
+    @Inject
+    private UsersManager usersManager;
+    @Inject
+    private ReservationsLogger reservationsLogger;
     private Reservation reservation;
     private List<Label> selectedLabels;
     private List<Machine> machines;
@@ -60,7 +63,11 @@ public class ReservationBean implements Serializable {
         if (id == null || id.isEmpty()) {
             return;
         }
-        reservation = reservationsManager.getReservation(Long.parseLong(id));
+        Reservation r = reservationsManager.getReservation(Long.parseLong(id));
+        if (r == null) {
+            return;
+        }
+        reservation = r;
         title = "Edit Reservation";
         selectedLabels = labelsManager.getLabels(reservation);
         machines.addAll(reservation.getMachines());
@@ -75,6 +82,11 @@ public class ReservationBean implements Serializable {
         boolean success = false;
         if (reservation.getId() == null) {
             success = reservationsManager.addReservation(reservation);
+            if (success) {
+                for (Machine m: reservation.getMachines()) {
+                    reservationsLogger.created(m.getName(), reservation.getUser().getEmail());
+                }
+            }
         } else {
             success = reservationsManager.editReservation(reservation);
         }
