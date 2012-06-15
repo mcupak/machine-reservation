@@ -8,19 +8,18 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:rich="http://richfaces.org/rich">
 
-<h:body>
-    <composite:interface>
-        <composite:attribute name="value" type="java.util.Collection" />
-    </composite:interface>
+    <h:body>
+        <composite:interface>
+            <composite:attribute name="value" type="java.util.Collection" />
+        </composite:interface>
 
-    <composite:implementation>
-        <h:form>
-            <a4j:outputPanel id="panel">
-                <rich:dataTable style="width: 100%" value="#{cc.attrs.value}" var="machine" id="machineTable">
+        <composite:implementation>
+            <h:form>
+                <rich:dataTable style="width: 100%" value="#{cc.attrs.value}" var="label" id="labelTable">
                     <f:facet name="header">
                         <rich:columnGroup>
                             <rich:column colspan="${loggedUserActionsBean.isAdmin() ? 4 : 3}">
-                                <h:outputText value="Machines" />
+                                <h:outputText value="Labels" />
                             </rich:column>
                             <rich:column breakRowBefore="true">
                                 <h:outputText value="Name" />
@@ -29,7 +28,7 @@
                                 <h:outputText value="Description" />
                             </rich:column>
                             <rich:column>
-                                <h:outputText value="Labels" />
+                                <h:outputText value="Machines" />
                             </rich:column>
                             <c:if test="${loggedUserActionsBean.isAdmin()}">
                                 <rich:column>
@@ -38,38 +37,37 @@
                             </c:if>
                         </rich:columnGroup>
                     </f:facet>
+                    <!--<rich:column>-->
+                        <!--<rich:collapsibleSubTableToggler for="labelSubTable" />-->
+                        <!--<h:link outcome="label.xhtml" value="#{label.name}">-->
+                            <!--<f:param name="id" value="#{label.id}" />-->
+                        <!--</h:link>-->
+                    <!--</rich:column>-->
                     <rich:column>
-                        <!--<rich:collapsibleSubTableToggler for="machineSubTable" />-->
-                        <h:link outcome="machine.xhtml" value="#{machine.name}">
-                            <f:param name="id" value="#{machine.id}" />
-                        </h:link>
+                        <h:outputText value="#{label.description}" />
                     </rich:column>
                     <rich:column>
-                        <h:outputText value="#{machine.description}" />
-                    </rich:column>
-                    <rich:column>
-                        <a4j:repeat value="#{machine.labels}" var="label">
-                            <h:link outcome="label.xhtml" value="#{label.name}" style="margin-right: 10px;" id="labelDescription">
-                                <f:param name="id" value="#{label.id}" />
+                        <a4j:repeat value="#{label.machines}" var="machine">
+                            <h:link outcome="label.xhtml" value="#{machine.name}" style="margin-right: 10px;" id="machineDescription">
+                                <f:param name="id" value="#{machine.id}" />
                             </h:link>
-                            <rich:tooltip id="labelTooltip" layout="block" target="labelDescription">
-                                <h:outputText value="#{label.description}" />
+                            <rich:tooltip id="machineTooltip" layout="block" target="machineDescription">
+                                <h:outputText value="#{machine.description}" />
                             </rich:tooltip>
                         </a4j:repeat>
                     </rich:column>
                     <c:if test="${loggedUserActionsBean.isAdmin()}">
                         <rich:column>
-                            <h:link outcome="/admin/machine.xhtml" value="Edit">
-                                <f:param name="id" value="#{machine.id}" />
+                            <h:link outcome="/admin/label.xhtml" value="Edit">
+                                <f:param name="id" value="#{label.id}" />
                             </h:link>
                             &nbsp;
-                            <a4j:commandLink value="Delete" action="#{machinesManager.removeMachine(machine)}" render="panel"/>
+                            <a4j:commandLink value="Delete" render="labelTable" action="#{labelsManager.removeLabel(label.id)}"/>
                         </rich:column>
                     </c:if>
                 </rich:dataTable>
-            </a4j:outputPanel>
-        </h:form>
-    </composite:implementation>
-</h:body>
+            </h:form>
+        </composite:implementation>
+    </h:body>
 
 </html>

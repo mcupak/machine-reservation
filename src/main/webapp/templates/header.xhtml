@@ -8,41 +8,44 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-<ui:composition>
-	<a4j:outputPanel ajaxRendered="true" layout="block">
-		<rich:toolbar id="bar" height="50">
-			<!-- Guest Links -->
-			<rich:toolbarGroup>
-				<h:link outcome="/index" value="Machines" />
-			</rich:toolbarGroup>
-			<!-- Can Reserve Links -->
-			<rich:toolbarGroup rendered="#{loggedUserActionsBean.canReserve()}">
-				<h:link outcome="/user/reservation" value="Reserve" />
-			</rich:toolbarGroup>
-			<!-- Admin Links -->
-			<rich:toolbarGroup rendered="#{loggedUserActionsBean.isAdmin()}">
-			</rich:toolbarGroup>
-			<rich:toolbarGroup location="right">
-				<h:form>
-					<c:choose>
-						<c:when test="#{identity.loggedIn}">
-							<h:link value="My Reservations"
-								outcome="/user/reservations.xhtml" style="margin-right: 20px;" />
-							<h:commandButton action="#{identity.logout}" value="Log out" />
-						</c:when>
-						<c:otherwise>
-							<h:outputLabel value="E-mail" for="username" />
-							<h:inputText id="username" value="#{credentials.username}" />
-							<h:outputLabel value="Password" for="password" />
-							<h:inputSecret id="password" value="#{credentials.password}" />
-							<h:commandButton action="#{identity.login}" value="Log in" />
-						</c:otherwise>
-					</c:choose>
-				</h:form>
-			</rich:toolbarGroup>
-		</rich:toolbar>
-	</a4j:outputPanel>
-	<rich:notifyMessages ajaxRendered="true" globalOnly="true"
-		style="margin-top: 70px;" stayTime="2000" />
-</ui:composition>
+
+    <ui:composition>
+        <a4j:outputPanel ajaxRendered="true" layout="block">
+            <rich:toolbar id="bar" height="50">
+                <!-- Guest Links -->
+                <rich:toolbarGroup rendered="#{!loggedUserActionsBean.isAdmin()}">
+                    <h:link outcome="/index" value="Machines" />
+                </rich:toolbarGroup>
+                <!-- Can Reserve Links -->
+                <rich:toolbarGroup rendered="#{loggedUserActionsBean.canReserve()}">
+                    <h:link outcome="/user/reservation" value="Reserve" />
+                </rich:toolbarGroup>
+                <!-- Admin Links -->
+                <rich:toolbarGroup rendered="#{loggedUserActionsBean.isAdmin()}">
+                    <h:link outcome="/admin/machines" value="Manage machines" />
+                    <h:link outcome="/admin/reservations" value="Manage reservations" />
+                    <h:link outcome="/admin/labels" value="Manage labels" />
+                    <h:link outcome="/admin/users" value="Manage users" />
+                </rich:toolbarGroup>
+                <rich:toolbarGroup location="right">
+                    <h:form>
+                        <c:choose>
+                            <c:when test="#{identity.loggedIn}">
+                                <h:link value="My Reservations" outcome="/user/reservations.xhtml" style="margin-right: 20px;" />
+                                <h:commandButton action="#{identity.logout}" value="Log out"/>
+                            </c:when>
+                            <c:otherwise>
+                                <h:outputLabel value="E-mail" for="username"/>
+                                <h:inputText id="username" value="#{credentials.username}"/>
+                                <h:outputLabel value="Password" for="password"/>
+                                <h:inputSecret id="password" value="#{credentials.password}"/>
+                                <h:commandButton action="#{identity.login}" value="Log in" />
+                            </c:otherwise>
+                        </c:choose>
+                    </h:form>
+                </rich:toolbarGroup>
+            </rich:toolbar>
+        </a4j:outputPanel>
+        <rich:notifyMessages ajaxRendered="true" globalOnly="true" style="margin-top: 70px;" stayTime="2000" />
+    </ui:composition>
 </html>

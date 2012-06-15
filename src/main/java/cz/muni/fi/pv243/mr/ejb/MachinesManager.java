@@ -24,6 +24,12 @@ public class MachinesManager {
     @Inject
     private EntityManager em;
 
+    @Inject
+    private LabelsManager labelsManager;
+
+    @Inject
+    private ReservationsManager reservationsManager;
+
     public Machine getMachine(long id) {
         return em.find(Machine.class, id);
     }
@@ -122,6 +128,13 @@ public class MachinesManager {
             throw new IllegalArgumentException("No machine given for removing");
         }
         Machine machineToRemove = em.find(Machine.class, machine.getId());
+        for (Label label : machineToRemove.getLabels()) {
+            label.getMachines().remove(machine);
+            labelsManager.editLabel(label);
+        }
+        for (Reservation reservation : reservationsManager.getReservations(machine)) {
+            reservationsManager.removeReservation(reservation);
+        }
         em.remove(machineToRemove);
     }
 }

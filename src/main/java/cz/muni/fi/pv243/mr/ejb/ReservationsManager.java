@@ -67,6 +67,14 @@ public class ReservationsManager {
         return q.getResultList();
     }
 
+    public List<Reservation> getReservations(Machine machine) {
+        TypedQuery<Reservation> q = em.createQuery(
+                "SELECT r FROM Reservation r INNER JOIN r.machines m WHERE m = :machine",
+                Reservation.class);
+        q.setParameter("machine", machine);
+        return q.getResultList();
+    }
+
     public List<Reservation> getCurrentReservations(User user) {
         TypedQuery<Reservation> q = em.createQuery(
                 "SELECT r FROM Reservation r "
