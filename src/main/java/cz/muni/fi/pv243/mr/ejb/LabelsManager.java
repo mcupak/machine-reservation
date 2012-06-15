@@ -42,15 +42,18 @@ public class LabelsManager {
     }
 
     public List<Label> getLabels(Reservation reservation) {
+        if (reservation == null) {
+            return new ArrayList<Label>();
+        }
         List<Label> labels = new ArrayList<Label>();
         Iterator<Machine> it = reservation.getMachines().iterator();
-        if (it.hasNext()) {            
+        if (it.hasNext()) {
             labels.addAll(it.next().getLabels());
             while (it.hasNext()) {
                 Machine m = it.next();
-                labels.retainAll(m.getLabels());                
+                labels.retainAll(m.getLabels());
             }
-        }        
+        }
         return labels;
     }
 
