@@ -13,8 +13,8 @@
         <a4j:outputPanel ajaxRendered="true" layout="block">
             <rich:toolbar id="bar" height="50">
                 <!-- Guest Links -->
-                <rich:toolbarGroup rendered="#{!loggedUserActionsBean.isAdmin()}">
-                    <h:link outcome="/index" value="Machines" />
+                <rich:toolbarGroup>
+                    <h:link outcome="/index" value="Home" />
                 </rich:toolbarGroup>
                 <!-- Can Reserve Links -->
                 <rich:toolbarGroup rendered="#{loggedUserActionsBean.canReserve()}">
