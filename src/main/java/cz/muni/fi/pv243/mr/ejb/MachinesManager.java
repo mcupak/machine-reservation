@@ -54,7 +54,7 @@ public class MachinesManager {
                 + "WHERE ma.id NOT IN "
                 + "(SELECT m.id FROM Reservation r "
                 + "INNER JOIN r.machines m "
-                + "WHERE r.start >= :from AND r.end <= :to)",
+                + "WHERE (r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to))",
                 Machine.class);
         query.setParameter("from", from);
         query.setParameter("to", to);

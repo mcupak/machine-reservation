@@ -27,7 +27,7 @@ public class ReservationsManager {
     /**
      * Adds reservation to system, if there is free slot for all the machines required for the reservation
      * @param reservation
-     * @return 
+     * @return
      */
     public boolean addReservation(Reservation reservation) {
         // checking if it is possible to reserve the whole set of machines
@@ -59,7 +59,7 @@ public class ReservationsManager {
         TypedQuery<Reservation> q = em.createQuery(
                 "SELECT r FROM Reservation r "
                 + "INNER JOIN r.machines m WHERE m = :machine "
-                + "AND r.start >= :from AND r.end <= :to",
+                + "AND (r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)",
                 Reservation.class);
         q.setParameter("machine", machine);
         q.setParameter("from", from);

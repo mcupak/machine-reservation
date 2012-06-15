@@ -67,16 +67,15 @@ public class DataInitializer {
 
         long reservationId = 0l;
         List<Reservation> reservations = new ArrayList<Reservation>();
+        final long hour = 1000 * 60 * 60;
+        final long day = hour * 24;
+        final Date now = new Date();
+        long counter = 0;
         for (Machine machine : machines) {
-            Date now = new Date();
-            for (int i = 0; i < 10; i++) {
-                final long hour = 1000 * 60 * 60;
-                final long day = hour * 24;
-                Date start = new Date(now.getTime() + reservationId * hour + i * 5 * hour);
-                Reservation reservation = new Reservation(new Date(start.getTime() + day), reservationId, Arrays.
-                        asList(machine), start, users.get(1));
-                reservations.add(reservation);
-                reservationId++;
+            for (User user: users) {
+                reservations.add(new Reservation(
+                        new Date(now.getTime() + (counter + 1l) * day), (long) counter, Arrays.asList(machine), new Date(now.getTime() + counter * day), user));
+                counter++;
             }
         }
         for (Reservation r : reservations) {
