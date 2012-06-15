@@ -5,9 +5,13 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
     <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
+<!--         <from-view-id>/index.xhtml</from-view-id> -->
         <navigation-case>
             <from-action>#{identity.login}</from-action>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{identity.logout}</from-action>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
