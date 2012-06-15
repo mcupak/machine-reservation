@@ -23,7 +23,6 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    @NotEmpty(message="The list of machines assigned to the reservation can't be empty.")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Machine> machines;
     @Column
@@ -46,6 +45,7 @@ public class Reservation implements Serializable {
         this.machines = machines;
         this.start = start;
         this.user = user;
+        datesChronological = start.before(end);
     }
 
     public Date getEnd() {

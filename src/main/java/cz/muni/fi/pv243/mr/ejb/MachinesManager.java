@@ -25,12 +25,6 @@ public class MachinesManager {
     @Inject
     private EntityManager em;
 
-    @Inject
-    private LabelsManager labelsManager;
-
-    @Inject
-    private ReservationsManager reservationsManager;
-
     public Machine getMachine(long id) {
         return em.find(Machine.class, id);
     }
@@ -121,10 +115,16 @@ public class MachinesManager {
         Machine machineToRemove = em.find(Machine.class, machine.getId());
         for (Label label : machineToRemove.getLabels()) {
             label.getMachines().remove(machine);
-            labelsManager.editLabel(label);
+            if (label.getId() != null) {
+                em.merge(label);
+            }
         }
-        for (Reservation reservation : reservationsManager.getReservations(machine)) {
-            reservationsManager.removeReservation(reservation);
+        TypedQuery<Reservation> q = em.createQuery(
+                "SELECT r FROM Reservation r INNER JOIN r.machines m WHERE m = :machine",
+                Reservation.class);
+        q.setParameter("machine", machine);
+        for (Reservation reservation : q.getResultList()) {
+            em.remove(reservation);
         }
         em.remove(machineToRemove);
     }

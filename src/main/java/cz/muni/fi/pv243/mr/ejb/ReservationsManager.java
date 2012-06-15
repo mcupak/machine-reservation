@@ -1,8 +1,11 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,6 +21,8 @@ public class ReservationsManager {
 
     @Inject
     private EntityManager em;
+    @Inject
+    private MachinesManager machinesManager;
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
 
     public Reservation getReservation(Long id) {
@@ -31,13 +36,12 @@ public class ReservationsManager {
      */
     public boolean addReservation(Reservation reservation) {
         // checking if it is possible to reserve the whole set of machines
-        for (Machine m : reservation.getMachines()) {
-            if (getReservations(m, reservation.getStart(), reservation.getEnd()) != null) {
-                return false;
-            }
+        Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachines(reservation.getStart(), reservation.getEnd()));
+        if (available.containsAll(reservation.getMachines())) {
+            em.persist(reservation);
+            return true;
         }
-        em.persist(reservation);
-        return true;
+        return false;
     }
 
     public void removeReservation(Reservation reservation) {
@@ -85,10 +89,19 @@ public class ReservationsManager {
         return q.getResultList();
     }
 
-    public void editReservation(Reservation reservation) {
-        if (getReservation(reservation.getId()) != null) {
-            em.merge(reservation);
+    public boolean editReservation(Reservation reservation) {
+        Reservation original = getReservation(reservation.getId());
+        if (original != null) {
+            Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachines(reservation.getStart(), reservation.getEnd()));
+            List<Machine> machines = new ArrayList<Machine>(reservation.getMachines());
+            machines.removeAll(original.getMachines());
+            if (available.containsAll(machines)) {
+                em.merge(reservation);
+                return true;
+            }
+            return false;
         }
+        return false;
     }
 
     public TimeZone getTimeZone() {
