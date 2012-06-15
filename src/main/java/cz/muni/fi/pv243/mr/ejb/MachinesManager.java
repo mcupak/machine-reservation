@@ -1,6 +1,7 @@
 package cz.muni.fi.pv243.mr.ejb;
 
 import cz.muni.fi.pv243.mr.model.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -45,19 +46,15 @@ public class MachinesManager {
         return em.createQuery(cq).getResultList();
     }
 
-    /**
-     * does not like the JOIN, I haven't figure out solution => doesn't work
-     * @param from
-     * @param to
-     * @return 
-     */
-    public List<Machine> getFreeMachines(Date from, Date to) {
-        TypedQuery<Machine> query = em.createQuery("SELECT m FROM Machine m "
-                + "WHERE m NOT IN "
-                + "(SELECT m FROM Reservation r "
-                + "INNER JOIN Reservation.machines INNER JOIN Machine "
-                + "WHERE r.start >= :from AND r.end <= :to"
-                + ")",
+    public List<Machine> getAvailableMachines(Date from, Date to) {
+        if (from == null || to == null || from.after(to)) {
+            return new ArrayList<Machine>();
+        }
+        TypedQuery<Machine> query = em.createQuery("SELECT ma FROM Machine ma "
+                + "WHERE ma.id NOT IN "
+                + "(SELECT m.id FROM Reservation r "
+                + "INNER JOIN r.machines m "
+                + "WHERE r.start >= :from AND r.end <= :to)",
                 Machine.class);
         query.setParameter("from", from);
         query.setParameter("to", to);
@@ -77,34 +74,28 @@ public class MachinesManager {
     }
 
     public List<Machine> getMachines(Collection<Label> labels, Date from, Date to) {
-        // TODO: tahle metoda je OPRAVDU!!! potreba dodelat
+        if (from == null || to == null || from.after(to)) {
+            return new ArrayList<Machine>();
+        }
         if (labels == null) {
             if (from == null || to == null) {
                 return getMachines();
             } else {
-//                return getFreeMachines(from, to);
-                return getMachines();
+                return getAvailableMachines(from, to);
             }
         }
-//        // FIXME: it should be done all in one query
-//        Set<Machine> byLabels = null;
-//        for (Label label: labels) {
-//            if (byLabels == null) {
-//                byLabels = new HashSet<Machine>(label.getMachines());
-//                continue;
-//            }
-//            byLabels.retainAll(label.getMachines());
-//        }
-//        if (byLabels == null || byLabels.isEmpty()) {
-//            return new ArrayList<Machine>();
-//        }
-        TypedQuery<Machine> query = em.createQuery("SELECT m FROM Machine m "
-                + "RIGHT JOIN Reservation.machines "
-                + "RIGHT JOIN Reservation "
-                + "WHERE m IN :machines",
-                Machine.class);
-        query.setParameter("machines", getMachines(labels));
-        return query.getResultList();
+        if (labels.isEmpty()) {
+            return getAvailableMachines(from, to);
+        }
+        // FIXME: it should be done in a query
+        List<Machine> machines = getAvailableMachines(from, to);
+        List<Machine> result = new ArrayList<Machine>();
+        for (Machine machine: machines) {
+            if (machine.getLabels().containsAll(labels)) {
+                result.add(machine);
+            }
+        }
+        return result;
     }
 
     public void addMachine(Machine machine) {
