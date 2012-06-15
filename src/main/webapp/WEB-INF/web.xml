@@ -52,6 +52,11 @@
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
+	
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/timeout.xhtml</location>
+	</error-page>
 
 	<login-config>
 		<auth-method>BASIC</auth-method>
