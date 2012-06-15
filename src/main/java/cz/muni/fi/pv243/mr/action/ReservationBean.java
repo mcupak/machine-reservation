@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.mr.action;
 import cz.muni.fi.pv243.mr.ejb.LabelsManager;
 import cz.muni.fi.pv243.mr.ejb.MachinesManager;
 import cz.muni.fi.pv243.mr.ejb.ReservationsManager;
+import cz.muni.fi.pv243.mr.ejb.UsersManager;
 import cz.muni.fi.pv243.mr.model.Label;
 import cz.muni.fi.pv243.mr.model.Machine;
 import cz.muni.fi.pv243.mr.model.Reservation;
@@ -12,10 +13,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.AssertTrue;
+import javax.validation.Validation;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -34,22 +37,21 @@ public class ReservationBean implements Serializable {
     private MachinesManager machinesManager;
     @Inject
     private ReservationsManager reservationsManager;
+    @Inject UsersManager usersManager;
     private Reservation reservation;
     private List<Label> selectedLabels;
     private List<Machine> machines;
     private List<Label> labels;
     private String title = "New Reservation";
-
-    @AssertTrue
-    public boolean checkWhetherFromIsBeforeTo() {
-        return reservation.getStart().before(reservation.getEnd());
-    }
+    private Date from;
+    private Date to;
 
     @PostConstruct
     public void load() {
         reservation = new Reservation();
-        reservation.setStart(new Date());
-        reservation.setEnd(new Date(reservation.getStart().getTime() + 1000l * 60l * 60l * 24l));
+        reservation.setUser(usersManager.getUser(user.getId()));
+        from = new Date();
+        to = new Date(from.getTime() + 1000l * 60l * 60l * 24l);
         filter();
         labels = labelsManager.getLabels();
     }
@@ -60,18 +62,31 @@ public class ReservationBean implements Serializable {
         }
         reservation = reservationsManager.getReservation(Long.parseLong(id));
         title = "Edit Reservation";
+        selectedLabels = labelsManager.getLabels(reservation);
+        machines.addAll(reservation.getMachines());
     }
 
     public void filter() {
-        machines = machinesManager.getMachines(selectedLabels, reservation.getStart(), reservation.getEnd());
+        machines = machinesManager.getMachines(selectedLabels, from, to);
+        reservation.getMachines().clear();
     }
 
     public void persist() {
+        boolean success = false;
         if (reservation.getId() == null) {
-            reservationsManager.addReservation(reservation);
+            success = reservationsManager.addReservation(reservation);
         } else {
-            reservationsManager.editReservation(reservation);
+            success = reservationsManager.editReservation(reservation);
         }
+        if (success) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been saved.", "reservation has been saved"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Reservation can't be saved.", "reservation can't be saved"));
+        }
+    }
+
+    public Date getFrom() {
+        return from;
     }
 
     public List<Label> getLabels() {
@@ -89,12 +104,22 @@ public class ReservationBean implements Serializable {
     public List<Label> getSelectedLabels() {
         return selectedLabels;
     }
+
     public TimeZone getTimeZone() {
         return reservationsManager.getTimeZone();
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public Date getTo() {
+        return to;
+    }
+
+    public void setFrom(Date from) {
+        this.reservation.setStart(from);
+        this.from = from;
     }
 
     public void setMachines(List<Machine> machines) {
@@ -107,6 +132,11 @@ public class ReservationBean implements Serializable {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+
+    public void setTo(Date to) {
+        this.to = to;
+        this.reservation.setEnd(to);
     }
 
 }

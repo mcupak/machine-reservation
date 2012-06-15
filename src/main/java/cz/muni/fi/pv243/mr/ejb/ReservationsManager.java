@@ -35,12 +35,16 @@ public class ReservationsManager {
      * @return
      */
     public boolean addReservation(Reservation reservation) {
+        System.out.println("Editing reservation");
         // checking if it is possible to reserve the whole set of machines
+        reservation.setMachines(new ArrayList<Machine>(new HashSet<Machine>(reservation.getMachines())));
         Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachines(reservation.getStart(), reservation.getEnd()));
         if (available.containsAll(reservation.getMachines())) {
+            System.out.println("Editing reservation - success");
             em.persist(reservation);
             return true;
         }
+        System.out.println("Editing reservation - fail");
         return false;
     }
 
@@ -92,6 +96,7 @@ public class ReservationsManager {
     public boolean editReservation(Reservation reservation) {
         Reservation original = getReservation(reservation.getId());
         if (original != null) {
+            reservation.setMachines(new ArrayList<Machine>(new HashSet<Machine>(reservation.getMachines())));
             Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachines(reservation.getStart(), reservation.getEnd()));
             List<Machine> machines = new ArrayList<Machine>(reservation.getMachines());
             machines.removeAll(original.getMachines());

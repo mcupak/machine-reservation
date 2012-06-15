@@ -18,19 +18,20 @@ public class Reservation implements Serializable {
 
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
-    @NotNull
+    @NotNull(message="The end date has to be filled.")
     private Date end;
     @Id
     @GeneratedValue
     private Long id;
+    @NotEmpty(message="The list of machines assigned to the reservation can't be empty.")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Machine> machines;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
-    @NotNull
+    @NotNull(message="The start date has to be filled.")
     private Date start;
     @ManyToOne
-    @NotNull
+    @NotNull(message="The user has to be filled.")
     private User user;
     @Transient
     @AssertTrue(message="Start date has to be before end date.")

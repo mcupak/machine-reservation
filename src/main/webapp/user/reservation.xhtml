@@ -34,28 +34,29 @@
                         <br />
 
                         <rich:panel header="Time">
-                            <rich:graphValidator value="#{reservationBean}" id="graphValidator">
-                                <h:panelGrid columns="2">
-                                    <h:outputLabel for="inputFrom" value ="From:"/>
-                                    <rich:calendar id="inputFrom" value="#{reservationBean.reservation.start}" timeZone="#{reservationBean.timeZone}" />
-                                    <h:outputLabel for="inputTo" value="To:" />
-                                    <rich:calendar id="inputTo" value="#{reservationBean.reservation.end}" timeZone="#{reservationBean.timeZone}" />
-                                </h:panelGrid>
-                            </rich:graphValidator>
+                            <h:panelGrid columns="4">
+                                <h:outputLabel for="inputFrom" value ="From:"/>
+                                <rich:calendar id="inputFrom" value="#{reservationBean.from}" timeZone="#{reservationBean.timeZone}" popup="false" datePattern="dd/MM/yy HH:mm" showApplyButton="true" />
+                                <h:outputLabel for="inputTo" value="To:" />
+                                <rich:calendar id="inputTo" value="#{reservationBean.to}" timeZone="#{reservationBean.timeZone}" popup="false" datePattern="dd/MM/yy HH:mm" showApplyButton="true" />
+                            </h:panelGrid>
                             <br />
-                            <a4j:commandButton value="Update" action="#{reservationBean.filter()}" render="@all" />
+                            <h:commandButton value="Update" action="#{reservationBean.filter()}"/>
                         </rich:panel>
                     </h:form>
 
                     <rich:panel header="Machines">
                         <h:form>
-                            <rich:messages for="inputMachines" />
-                            <rich:pickList validator="machinesInReserveationValidator" value="#{reservationBean.reservation.machines}" id="inputMachines" converter="machineConverter" listHeight="500">
-                                <f:selectItems value="#{reservationBean.machines}" var="machine" itemLabel="#{machine.name}" itemValue="#{machine}" />
-                            </rich:pickList>
+                            <rich:graphValidator value="#{reservationBean.reservation}" id="graphValidator">
+                                <rich:messages for="graphValidator" />
+                                <rich:messages for="inputMachines" />
+                                <rich:pickList value="#{reservationBean.reservation.machines}" id="inputMachines" converter="machineConverter" listHeight="500">
+                                    <f:selectItems value="#{reservationBean.machines}" var="machine" itemLabel="#{machine.name}" itemValue="#{machine}" />
+                                </rich:pickList>
 
-                            <br />
-                            <h:commandButton value="Save" action="#{reservationBean.persist()}"/>
+                                <br />
+                                <a4j:commandButton value="Save" action="#{reservationBean.persist()}"/>
+                            </rich:graphValidator>
                         </h:form>
                     </rich:panel>
                 </h:panelGrid>

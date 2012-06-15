@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.mr.viewconfig;
 
+import cz.muni.fi.pv243.mr.security.Admin;
 import cz.muni.fi.pv243.mr.security.CanReserve;
 import org.jboss.seam.faces.rewrite.UrlMapping;
 import org.jboss.seam.faces.security.AccessDeniedView;
@@ -20,6 +21,12 @@ public interface Pages {
         @ViewPattern("/label.xhtml")
         @UrlMapping(pattern="/label/#{id}/")
         LABEL,
+
+        @ViewPattern("/admin/*")
+        @Admin
+        @LoginView("/denied.xhtml")
+        @AccessDeniedView("/denied.xhtml")
+        ADMIN_ACTIONS,
 
         @ViewPattern("/user/*")
         @CanReserve
