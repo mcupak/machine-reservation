@@ -27,7 +27,7 @@ public class Machine implements Serializable {
     private String name;
     @Column
     private String description;
-    @ManyToMany//r(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "machines")//r(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Label> labels;
 
