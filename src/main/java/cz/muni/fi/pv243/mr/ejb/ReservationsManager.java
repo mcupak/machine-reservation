@@ -11,6 +11,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import org.jboss.seam.transaction.TransactionPropagation;
+import org.jboss.seam.transaction.Transactional;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -90,11 +92,12 @@ public class ReservationsManager {
         return q.getResultList();
     }
 
+//    @Transactional(TransactionPropagation.REQUIRED)
     public boolean editReservation(Reservation reservation) {
         Reservation original = getReservation(reservation.getId());
         if (original != null) {
             reservation.setMachines(new ArrayList<Machine>(new HashSet<Machine>(reservation.getMachines())));
-            Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachines(reservation.getStart(), reservation.getEnd()));
+            Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachinesIgnoringSpecifiedReservation(original, reservation.getStart(), reservation.getEnd()));
             List<Machine> machines = new ArrayList<Machine>(reservation.getMachines());
             machines.removeAll(original.getMachines());
             if (available.containsAll(machines)) {
