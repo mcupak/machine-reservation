@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import org.jboss.seam.transaction.TransactionPropagation;
 import org.jboss.seam.transaction.Transactional;
+import org.jboss.solder.logging.Logger;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -22,10 +23,13 @@ import org.jboss.seam.transaction.Transactional;
 public class ReservationsManager {
 
     @Inject
-    private EntityManager em;
+    private EntityManager em;    
     @Inject
     private MachinesManager machinesManager;
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
+    
+    @Inject
+    private Logger log;
 
     public Reservation getReservation(Long id) {
         return em.find(Reservation.class, id);
@@ -97,7 +101,7 @@ public class ReservationsManager {
         Reservation original = getReservation(reservation.getId());
         if (original != null) {
             reservation.setMachines(new ArrayList<Machine>(new HashSet<Machine>(reservation.getMachines())));
-            Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachinesIgnoringSpecifiedReservation(original, reservation.getStart(), reservation.getEnd()));
+            Set<Machine> available = new HashSet<Machine>(machinesManager.getAvailableMachines(reservation.getStart(), reservation.getEnd(), original));
             List<Machine> machines = new ArrayList<Machine>(reservation.getMachines());
             machines.removeAll(original.getMachines());
             if (available.containsAll(machines)) {

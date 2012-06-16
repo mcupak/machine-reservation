@@ -44,7 +44,7 @@ public class MachinesManager {
         if (from == null || to == null || from.after(to)) {
             return new ArrayList<Machine>();
         }
-        TypedQuery<Machine> query = em.createQuery("SELECT ma FROM Machine ma "
+        TypedQuery<Machine> query = em.createQuery("SELECT DISTINCT ma FROM Machine ma "
                 + "WHERE ma.id NOT IN "
                 + "(SELECT m.id FROM Reservation r "
                 + "INNER JOIN r.machines m "
@@ -55,14 +55,14 @@ public class MachinesManager {
         return query.getResultList();
     }
     
-     public List<Machine> getAvailableMachinesIgnoringSpecifiedReservation(Reservation reservation, Date from, Date to) {
+     public List<Machine> getAvailableMachines(Date from, Date to, Reservation reservation) {
         if (from == null || to == null || from.after(to)) {
             return new ArrayList<Machine>();
         }
         if (reservation == null || reservation.getId() == null) {
             return getAvailableMachines(from, to);
         }
-        TypedQuery<Machine> query = em.createQuery("SELECT ma FROM Machine ma "
+        TypedQuery<Machine> query = em.createQuery("SELECT DISTINCT ma FROM Machine ma "
                 + "WHERE ma.id NOT IN "
                 + "(SELECT m.id FROM Reservation r "
                 + "INNER JOIN r.machines m "
@@ -86,22 +86,20 @@ public class MachinesManager {
         return query.getResultList();
     }
 
-    public List<Machine> getMachines(Collection<Label> labels, Date from, Date to) {
+    public List<Machine> getMachines(Collection<Label> labels, Date from, Date to, Reservation reservationWithMachinesIncludedToSearchingForFreeMachines) {
         if (from == null || to == null || from.after(to)) {
             return new ArrayList<Machine>();
         }
-        if (labels == null) {
+        if (labels == null || labels.isEmpty()) {
             if (from == null || to == null) {
                 return getMachines();
             } else {
-                return getAvailableMachines(from, to);
+                return getAvailableMachines(from, to, reservationWithMachinesIncludedToSearchingForFreeMachines);
             }
         }
-        if (labels.isEmpty()) {
-            return getAvailableMachines(from, to);
-        }
+        
         // FIXME: it should be done in a query
-        List<Machine> machines = getAvailableMachines(from, to);
+        List<Machine> machines = getAvailableMachines(from, to, reservationWithMachinesIncludedToSearchingForFreeMachines);
         List<Machine> result = new ArrayList<Machine>();
         for (Machine machine: machines) {
             if (machine.getLabels().containsAll(labels)) {

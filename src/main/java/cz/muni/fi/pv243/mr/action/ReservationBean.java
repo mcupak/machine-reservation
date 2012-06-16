@@ -76,7 +76,7 @@ public class ReservationBean implements Serializable {
     }
 
     public void filter() {
-        machines = machinesManager.getMachines(selectedLabels, from, to);
+        machines = machinesManager.getMachines(selectedLabels, from, to, reservation);
         reservation.getMachines().clear();
     }
 
