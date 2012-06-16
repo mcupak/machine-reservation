@@ -8,13 +8,14 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:rich="http://richfaces.org/rich">
 
-    <h:body>
-        <composite:interface>
-            <composite:attribute name="value" type="java.util.Collection" />
-        </composite:interface>
+<h:body>
+    <composite:interface>
+        <composite:attribute name="value" type="java.util.Collection" />
+    </composite:interface>
 
-        <composite:implementation>
-            <h:form>
+    <composite:implementation>
+        <h:form>
+            <a4j:outputPanel id="panel">
                 <rich:dataTable style="width: 100%" value="#{cc.attrs.value}" var="user" id="userTable">
                     <f:facet name="header">
                         <rich:columnGroup>
@@ -39,15 +40,16 @@
                         <h:outputText value="#{user.password}" />
                     </rich:column>
                     <rich:column>
-                        <h:link outcome="/admin/user.xhtml" value="Edit">
-                            <f:param name="id" value="#{user.id}" />
-                        </h:link>
+                        <!--<h:link outcome="/admin/user.xhtml" value="Edit">-->
+                            <!--<f:param name="id" value="#{user.id}" />-->
+                        <!--</h:link>-->
                         &nbsp;
-                        <a4j:commandLink value="Delete" action="#{usersManager.deleteUser(user.id)}" render="@all" immediate="false"/>
+                        <a4j:commandLink value="Delete" action="#{usersManager.deleteUser(user.id)}" oncomplete="window.location.href=window.location.href" render="panel"/>
                     </rich:column>
                 </rich:dataTable>
-            </h:form>
-        </composite:implementation>
-    </h:body>
+            </a4j:outputPanel>
+        </h:form>
+    </composite:implementation>
+</h:body>
 
 </html>

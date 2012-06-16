@@ -95,8 +95,6 @@ public class MachineBean implements Serializable {
             }
         }
         machinesManager.editMachine(machine);
-//        machine = null;
-//        labels = null;
         return "/admin/machines";
     }
 }

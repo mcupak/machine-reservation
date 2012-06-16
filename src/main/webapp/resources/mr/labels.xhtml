@@ -8,13 +8,14 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:rich="http://richfaces.org/rich">
 
-    <h:body>
-        <composite:interface>
-            <composite:attribute name="value" type="java.util.Collection" />
-        </composite:interface>
+<h:body>
+    <composite:interface>
+        <composite:attribute name="value" type="java.util.Collection" />
+    </composite:interface>
 
-        <composite:implementation>
-            <h:form>
+    <composite:implementation>
+        <h:form>
+            <a4j:outputPanel id="panel">
                 <rich:dataTable style="width: 100%" value="#{cc.attrs.value}" var="label" id="labelTable">
                     <f:facet name="header">
                         <rich:columnGroup>
@@ -62,12 +63,13 @@
                                 <f:param name="id" value="#{label.id}" />
                             </h:link>
                             &nbsp;
-                            <a4j:commandLink value="Delete" action="#{labelsManager.removeLabel(label)}" render="@all" immediate="false"/>
+                            <a4j:commandLink value="Delete" action="#{labelsManager.removeLabel(label)}" oncomplete="window.location.href=window.location.href" render="panel"/>
                         </rich:column>
                     </c:if>
                 </rich:dataTable>
-            </h:form>
-        </composite:implementation>
-    </h:body>
+            </a4j:outputPanel>
+        </h:form>
+    </composite:implementation>
+</h:body>
 
 </html>
