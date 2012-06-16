@@ -20,20 +20,17 @@ import org.hibernate.validator.constraints.NotBlank;
 //@Table(name="labels")
 public class Label implements Serializable {
 
-    @Column
-    private String description;
-    
     @Id
     @GeneratedValue
     private Long id;
-    
+    @Column(unique = true)
+    @NotBlank
+    @Size(min = 1, max = 30)
+    private String name;
+    @Column
+    private String description;
     @ManyToMany
     private Collection<Machine> machines;
-    
-    @Column(unique=true)
-    @NotBlank
-    @Size(min=1, max=30)    
-    private String name;
 
     public Label() {
     }
@@ -101,4 +98,11 @@ public class Label implements Serializable {
         hash = 61 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return "Label{" + "id=" + id + ", name=" + name + ", description=" + description + '}';
+    }
+    
+    
 }

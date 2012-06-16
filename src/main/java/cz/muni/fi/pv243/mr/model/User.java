@@ -19,14 +19,15 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = -1839803668123102392L;
     
+        
+    @Id
+    @GeneratedValue
+    private Long id;
+    
     @Column(unique=true) // in the system cannot be more users with the same email, which is used as username
     @Email
     @NotEmpty
     private String email;
-    
-    @Id
-    @GeneratedValue
-    private Long id;
     
     @Column
     @NotNull
@@ -100,4 +101,9 @@ public class User implements Serializable {
         hash = 11 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", email=" + email + ", userRole=" + userRole + '}';
+    }    
 }

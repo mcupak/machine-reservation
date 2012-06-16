@@ -16,25 +16,25 @@ import org.hibernate.validator.constraints.NotEmpty;
 //@Table(name = "reservations")
 public class Reservation implements Serializable {
 
-    @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @NotNull(message="The end date has to be filled.")
-    private Date end;
     @Id
     @GeneratedValue
     private Long id;
-    @NotEmpty(message="The list of machines assigned to the reservation can't be empty.")
+    @ManyToOne
+    @NotNull(message = "The user has to be filled.")
+    private User user;
+    @NotEmpty(message = "The list of machines assigned to the reservation can't be empty.")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Machine> machines;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
-    @NotNull(message="The start date has to be filled.")
+    @NotNull(message = "The start date has to be filled.")
     private Date start;
-    @ManyToOne
-    @NotNull(message="The user has to be filled.")
-    private User user;
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @NotNull(message = "The end date has to be filled.")
+    private Date end;
     @Transient
-    @AssertTrue(message="Start date has to be before end date.")
+    @AssertTrue(message = "Start date has to be before end date.")
     private boolean datesChronological = true;
 
     public Reservation() {
@@ -127,5 +127,10 @@ public class Reservation implements Serializable {
     @AssertTrue
     public boolean checkWhetherFromIsBeforeTo() {
         return getStart().before(getEnd());
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" + "id=" + id + ", user=" + user + ", machines=" + machines + ", start=" + start + ", end=" + end + '}';
     }
 }

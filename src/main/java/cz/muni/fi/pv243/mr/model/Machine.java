@@ -18,17 +18,17 @@ import javax.validation.constraints.Size;
 //@Table(name="machines")
 public class Machine implements Serializable {
 
-    @Column
-    private String description;
     @Id
     @GeneratedValue
     private Long id;
+    @Column(unique = true)
+    @NotNull
+    @Size(min = 1, max = 50)
+    private String name;
+    @Column
+    private String description;
     @ManyToMany
     private Collection<Label> labels;
-    @Column(unique=true)
-    @NotNull
-    @Size(min=1, max=50)
-    private String name;
 
     public Machine() {
     }
@@ -93,4 +93,11 @@ public class Machine implements Serializable {
         hash = 37 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return "Machine{" + "id=" + id + ", name=" + name + ", description=" + description + ", labels=" + labels + '}';
+    }
+    
+    
 }
