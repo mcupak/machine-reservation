@@ -99,11 +99,14 @@ public class ReservationsManager {
     }
 
     public List<Reservation> getReservations(Date from, Date to, User user, Machine machine) {
-
-        TypedQuery<Reservation> q = em.createQuery(
-                "SELECT r FROM Reservation r "
-                        + "WHERE (r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)",
-                Reservation.class);
+    	String query = "SELECT r FROM Reservation r "
+                + "INNER JOIN r.machines m WHERE "
+        		+ ((user == null) ? "" : "m = :machine AND ") 
+        		+ ((machine == null) ? "" : "r.user = :user AND ") 
+        		+ "(r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)";
+    	TypedQuery<Reservation> q = em.createQuery(query, Reservation.class);
+        if (machine!=null) q.setParameter("machine", machine);
+        if (user!=null) q.setParameter("user", user);
         q.setParameter("from", from);
         q.setParameter("to", to);
         return q.getResultList();
