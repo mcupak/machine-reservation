@@ -37,18 +37,18 @@
                             </c:if>
                         </rich:columnGroup>
                     </f:facet>
-                    <!--<rich:column>-->
+                    <rich:column>
                         <!--<rich:collapsibleSubTableToggler for="labelSubTable" />-->
-                        <!--<h:link outcome="label.xhtml" value="#{label.name}">-->
-                            <!--<f:param name="id" value="#{label.id}" />-->
-                        <!--</h:link>-->
-                    <!--</rich:column>-->
+                        <h:link outcome="/label.xhtml" value="#{label.name}">
+                            <f:param name="id" value="#{label.id}" />
+                        </h:link>
+                    </rich:column>
                     <rich:column>
                         <h:outputText value="#{label.description}" />
                     </rich:column>
                     <rich:column>
                         <a4j:repeat value="#{label.machines}" var="machine">
-                            <h:link outcome="label.xhtml" value="#{machine.name}" style="margin-right: 10px;" id="machineDescription">
+                            <h:link outcome="/machines.xhtml" value="#{machine.name}" style="margin-right: 10px;" id="machineDescription">
                                 <f:param name="id" value="#{machine.id}" />
                             </h:link>
                             <rich:tooltip id="machineTooltip" layout="block" target="machineDescription">
@@ -62,7 +62,7 @@
                                 <f:param name="id" value="#{label.id}" />
                             </h:link>
                             &nbsp;
-                            <a4j:commandLink value="Delete" render="labelTable" action="#{labelsManager.removeLabel(label.id)}"/>
+                            <a4j:commandLink value="Delete" action="#{labelsManager.removeLabel(label)}" render="@all" immediate="false"/>
                         </rich:column>
                     </c:if>
                 </rich:dataTable>

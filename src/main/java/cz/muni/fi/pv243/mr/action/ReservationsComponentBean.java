@@ -22,8 +22,9 @@ import javax.inject.Named;
 public class ReservationsComponentBean implements Serializable {
 
 	private static final long serialVersionUID = 3481341972471882514L;
-	@Inject
+    @Inject
     private ReservationsManager reservationsManager;
+    public static final long DAY = 1000 * 60 * 60 * 24;
 
     public Map<Date, List<Reservation>> getOrganizedReservations(List<Date> days, List<Reservation> reservations) {
         Map<Date, List<Reservation>> organized = new HashMap<Date, List<Reservation>>();
@@ -46,8 +47,7 @@ public class ReservationsComponentBean implements Serializable {
             throw new IllegalArgumentException("The [from] date has to be before [to] date, but it doesn't ("+from.getTime()+", "+to.getTime()+").");
         }
         List<Date> days = new ArrayList<Date>();
-        final long day = 1000 * 60 * 60 * 24;
-        for (long i=from.getTime(); i<to.getTime(); i+=day) {
+        for (long i=from.getTime(); i<to.getTime(); i+= DAY) {
             days.add(new Date(i));
         }
         if (!isTheSameDay(days.get(days.size() - 1), to)) {
@@ -58,6 +58,14 @@ public class ReservationsComponentBean implements Serializable {
 
     public TimeZone getTimeZone() {
         return reservationsManager.getTimeZone();
+    }
+
+    public Date getToday() {
+        return new Date();
+    }
+
+    public Date getNextWeek() {
+        return new Date(System.currentTimeMillis() + 7*DAY);
     }
 
     private boolean isTheSameDay(Date first, Date second) {

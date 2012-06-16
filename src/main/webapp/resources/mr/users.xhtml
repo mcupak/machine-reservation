@@ -43,7 +43,7 @@
                             <f:param name="id" value="#{user.id}" />
                         </h:link>
                         &nbsp;
-                        <a4j:commandLink value="Delete" render="userTable" action="#{usersManager.deleteUser(user.id)}"/>
+                        <a4j:commandLink value="Delete" action="#{usersManager.deleteUser(user.id)}" render="@all" immediate="false"/>
                     </rich:column>
                 </rich:dataTable>
             </h:form>
