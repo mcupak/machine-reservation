@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.mr.ejb;
 
+import cz.muni.fi.pv243.mr.logging.LabelsLogger;
 import cz.muni.fi.pv243.mr.model.Label;
 import cz.muni.fi.pv243.mr.model.Machine;
 import cz.muni.fi.pv243.mr.model.Reservation;
@@ -16,6 +17,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.jboss.solder.logging.Logger;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -27,12 +29,18 @@ public class LabelsManager {
 
     @Inject
     private EntityManager em;
+    @Inject
+    private Logger log;
+    @Inject 
+    private LabelsLogger labelsLogger;
 
     public Label getLabel(long id) {
+        log.debugf("Retrieving label with id: %s", id);
         return em.find(Label.class, id);
     }
 
     public Label getLabel(String name) {
+        log.debugf("Retrieving label with name %s", name);
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Label> cq = cb.createQuery(Label.class);
         Root<Label> labelRoot = cq.from(Label.class);
@@ -42,6 +50,7 @@ public class LabelsManager {
     }
 
     public List<Label> getLabels(Reservation reservation) {
+        log.debugf("Retrieving intersection of machine labels for reservation: %s", reservation);
         if (reservation == null) {
             return new ArrayList<Label>();
         }
@@ -60,6 +69,7 @@ public class LabelsManager {
     @Produces
     @Model
     public List<Label> getLabels() {
+        log.debug("Retrieving all labels in the system");
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Label.class));
         return em.createQuery(cq).getResultList();
@@ -67,15 +77,22 @@ public class LabelsManager {
 
     public void addLabel(Label label) {
         em.persist(label);
+        log.infof("Added new label: %s", label);
     }
 
     public void editLabel(Label label) {
-        if (getLabel(label.getId()) != null) {
+        Label oldLabel = getLabel(label.getId());
+        if (oldLabel != null) {
             em.merge(label);
+            log.infof("Label update: %s => %s", new Object[]{oldLabel, label});
         }
     }
 
     public void removeLabel(Label label) {
-        em.remove(getLabel(label.getId()));
+        Label labelToRemove = getLabel(label.getId());
+        if (labelToRemove != null) {
+            em.remove(labelToRemove);
+            log.infof("Removed label: %s", label);
+        }
     }
 }
