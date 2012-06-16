@@ -6,7 +6,7 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-      xmlns:rich="http://richfaces.org/rich">
+      xmlns:rich="http://richfaces.org/rich" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:body>
     <composite:interface>
@@ -15,7 +15,7 @@
 
     <composite:implementation>
         <h:form>
-            <a4j:outputPanel id="panel">
+            <a4j:outputPanel id="panel" ajaxRendered="true">
                 <rich:dataTable style="width: 100%" value="#{cc.attrs.value}" var="machine" id="machineTable">
                     <f:facet name="header">
                         <rich:columnGroup>
@@ -40,7 +40,7 @@
                     </f:facet>
                     <rich:column>
                         <!--<rich:collapsibleSubTableToggler for="machineSubTable" />-->
-                        <h:link outcome="machine.xhtml" value="#{machine.name}">
+                        <h:link outcome="/machine.xhtml" value="#{machine.name}">
                             <f:param name="id" value="#{machine.id}" />
                         </h:link>
                     </rich:column>
@@ -49,7 +49,7 @@
                     </rich:column>
                     <rich:column>
                         <a4j:repeat value="#{machine.labels}" var="label">
-                            <h:link outcome="label.xhtml" value="#{label.name}" style="margin-right: 10px;" id="labelDescription">
+                            <h:link outcome="/label.xhtml" value="#{label.name}" style="margin-right: 10px;" id="labelDescription">
                                 <f:param name="id" value="#{label.id}" />
                             </h:link>
                             <rich:tooltip id="labelTooltip" layout="block" target="labelDescription">

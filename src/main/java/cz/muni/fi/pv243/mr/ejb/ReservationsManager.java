@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import org.jboss.seam.transaction.TransactionPropagation;
@@ -20,6 +21,7 @@ import org.jboss.solder.logging.Logger;
  * @author <a href="mailto:rhatlapa@redhat.com">Radim Hatlapatka</a>
  */
 @Stateless
+@Named
 public class ReservationsManager {
 
     @Inject
@@ -93,6 +95,16 @@ public class ReservationsManager {
                 + "AND (r.start >= now() OR r.end >= now())",
                 Reservation.class);
         q.setParameter("user", user);
+        return q.getResultList();
+    }
+
+    public List<Reservation> getReservations(Date from, Date to) {
+        TypedQuery<Reservation> q = em.createQuery(
+                "SELECT r FROM Reservation r "
+                        + "WHERE (r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)",
+                Reservation.class);
+        q.setParameter("from", from);
+        q.setParameter("to", to);
         return q.getResultList();
     }
 

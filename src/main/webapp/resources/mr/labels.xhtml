@@ -8,13 +8,14 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:rich="http://richfaces.org/rich">
 
-    <h:body>
-        <composite:interface>
-            <composite:attribute name="value" type="java.util.Collection" />
-        </composite:interface>
+<h:body>
+    <composite:interface>
+        <composite:attribute name="value" type="java.util.Collection" />
+    </composite:interface>
 
-        <composite:implementation>
-            <h:form>
+    <composite:implementation>
+        <h:form>
+            <a4j:outputPanel id="panel">
                 <rich:dataTable style="width: 100%" value="#{cc.attrs.value}" var="label" id="labelTable">
                     <f:facet name="header">
                         <rich:columnGroup>
@@ -37,18 +38,18 @@
                             </c:if>
                         </rich:columnGroup>
                     </f:facet>
-                    <!--<rich:column>-->
+                    <rich:column>
                         <!--<rich:collapsibleSubTableToggler for="labelSubTable" />-->
-                        <!--<h:link outcome="label.xhtml" value="#{label.name}">-->
-                            <!--<f:param name="id" value="#{label.id}" />-->
-                        <!--</h:link>-->
-                    <!--</rich:column>-->
+                        <h:link outcome="/label.xhtml" value="#{label.name}">
+                            <f:param name="id" value="#{label.id}" />
+                        </h:link>
+                    </rich:column>
                     <rich:column>
                         <h:outputText value="#{label.description}" />
                     </rich:column>
                     <rich:column>
                         <a4j:repeat value="#{label.machines}" var="machine">
-                            <h:link outcome="label.xhtml" value="#{machine.name}" style="margin-right: 10px;" id="machineDescription">
+                            <h:link outcome="/machines.xhtml" value="#{machine.name}" style="margin-right: 10px;" id="machineDescription">
                                 <f:param name="id" value="#{machine.id}" />
                             </h:link>
                             <rich:tooltip id="machineTooltip" layout="block" target="machineDescription">
@@ -62,12 +63,13 @@
                                 <f:param name="id" value="#{label.id}" />
                             </h:link>
                             &nbsp;
-                            <a4j:commandLink value="Delete" render="labelTable" action="#{labelsManager.removeLabel(label.id)}"/>
+                            <a4j:commandLink value="Delete" action="#{labelsManager.removeLabel(label)}" oncomplete="window.location.href=window.location.href" render="panel"/>
                         </rich:column>
                     </c:if>
                 </rich:dataTable>
-            </h:form>
-        </composite:implementation>
-    </h:body>
+            </a4j:outputPanel>
+        </h:form>
+    </composite:implementation>
+</h:body>
 
 </html>
