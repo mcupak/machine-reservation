@@ -25,12 +25,6 @@
         </h:panelGrid>
 
         <rich:panel header="Labels" width="100%">
-            <!--<c:forEach items="${machineBean.labels}" var="label">-->
-                <!--<h:selectBooleanCheckbox value="#{label.value}" />-->
-                <!--<h:link outcome="label.xhtml" value="#{label.key.name}" style="margin-right: 10px;" id="labelDescription">-->
-                    <!--<f:param name="id" value="#{label.key.id}" />-->
-                <!--</h:link>-->
-            <!--</c:forEach>-->
             <h:selectManyListbox id="labels" value="#{machineBean.machine.labels}" converter="labelConverter">
                 <f:selectItems value="#{labels}" var="label" itemLabel="#{label.name}" itemValue="#{label}"/>
             </h:selectManyListbox>

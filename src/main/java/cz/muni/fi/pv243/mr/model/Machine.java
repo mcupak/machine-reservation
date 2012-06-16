@@ -6,6 +6,9 @@ import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -24,7 +27,8 @@ public class Machine implements Serializable {
     private String name;
     @Column
     private String description;
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "machines")//r(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<Label> labels;
 
     public Machine() {
