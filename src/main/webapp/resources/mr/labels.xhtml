@@ -59,7 +59,7 @@
                     </rich:column>
                     <c:if test="${loggedUserActionsBean.isAdmin()}">
                         <rich:column>
-                            <h:link outcome="/admin/label.xhtml" value="Edit">
+                            <h:link outcome="/admin/editLabel.xhtml" value="Edit">
                                 <f:param name="id" value="#{label.id}" />
                             </h:link>
                             &nbsp;

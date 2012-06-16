@@ -40,9 +40,9 @@
                         <h:outputText value="#{user.password}" />
                     </rich:column>
                     <rich:column>
-                        <!--<h:link outcome="/admin/editUser.xhtml" value="Edit">-->
-                            <!--<f:param name="id" value="#{user.id}" />-->
-                        <!--</h:link>-->
+                        <h:link outcome="/admin/editUser.xhtml" value="Edit">
+                            <f:param name="id" value="#{user.id}" />
+                        </h:link>
                         &nbsp;
                         <a4j:commandLink value="Delete" action="#{usersManager.deleteUser(user.id)}" oncomplete="window.location.href=window.location.href" render="panel"/>
                     </rich:column>
