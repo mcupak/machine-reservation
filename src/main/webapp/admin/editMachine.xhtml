@@ -15,7 +15,6 @@
         <f:metadata>
             <f:viewParam name="id" value="#{storedId}" />
             <s:viewAction action="#{machineBean.loadMachine(storedId)}" />
-            <s:viewAction action="#{machineBean.loadReservations(machineBean.machine, machineBean.from, machineBean.to)}" />
         </f:metadata>
     </ui:define>
 
@@ -23,24 +22,7 @@
 
     <ui:define name="body">
         <h:form>
-            <h1><h:outputText value="#{machineBean.machine.name}" /></h1>
-            <h:panelGrid columns="2" width="100%">
-                <rich:panel header="Name" height="100%">
-                    <h:inputText value="#{machineBean.machine.name}" />
-                </rich:panel>
-                <rich:panel header="Description">
-                    <h:inputTextarea value="#{machineBean.machine.description}" />
-                </rich:panel>
-            </h:panelGrid>
-            <rich:panel header="Labels" width="100%">
-                <c:forEach items="${machineBean.labels}" var="label">
-                    <h:selectBooleanCheckbox value="#{label.value}" />
-                    <h:link outcome="label.xhtml" value="#{label.key.name}" style="margin-right: 10px;" id="labelDescription">
-                        <f:param name="id" value="#{label.key.id}" />
-                    </h:link>
-                </c:forEach>
-            </rich:panel>
-
+            <mr:machine/>
 
             <h:commandButton value="Save" action="#{machineBean.saveMachine}"/>
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:rich="http://richfaces.org/rich" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:body>
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+        <h1><h:outputText value="#{machineBean.machine.name}" /></h1>
+        <h:panelGrid columns="2" width="100%">
+            <rich:panel header="Name" height="100%">
+                <h:inputText value="#{machineBean.machine.name}" />
+            </rich:panel>
+            <rich:panel header="Description">
+                <h:inputTextarea value="#{machineBean.machine.description}" />
+            </rich:panel>
+        </h:panelGrid>
+
+        <rich:panel header="Labels" width="100%">
+            <c:forEach items="${machineBean.labels}" var="label">
+                <h:selectBooleanCheckbox value="#{label.value}" />
+                <h:link outcome="label.xhtml" value="#{label.key.name}" style="margin-right: 10px;" id="labelDescription">
+                    <f:param name="id" value="#{label.key.id}" />
+                </h:link>
+            </c:forEach>
+        </rich:panel>
+
+    </composite:implementation>
+</h:body>
+
+</html>

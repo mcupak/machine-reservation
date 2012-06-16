@@ -10,6 +10,7 @@
 <body>
 <ui:composition template="/templates/template.xhtml">
     <ui:define name="body">
+        <h:link outcome="/admin/addUser" value="Create new user"/>
         <br />
         <mr:users value="${users}" />
     </ui:define>

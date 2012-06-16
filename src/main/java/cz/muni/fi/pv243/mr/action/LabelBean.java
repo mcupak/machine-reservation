@@ -27,4 +27,18 @@ public class LabelBean implements Serializable {
         label = labelsManager.getLabel(Long.parseLong(labelId));
     }
 
+    public void newLabel() {
+        label = new Label();
+    }
+
+    public String saveLabel() {
+        labelsManager.editLabel(label);
+        return "/admin/labels.xml?faces-redirect=true";
+    }
+
+    public String createLabel() {
+        labelsManager.addLabel(label);
+        return "/admin/labels.xml?faces-redirect=true";
+    }
+
 }

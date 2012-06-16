@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:body>
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+        <h1><h:outputText value="#{labelBean.label.name}" /></h1>
+        <h:panelGrid columns="1" width="100%">
+            <rich:panel header="Name" height="100%">
+                <h:inputText value="#{labelBean.label.name}" />
+            </rich:panel>
+            <rich:panel header="Description">
+                <h:inputTextarea value="#{labelBean.label.description}" />
+            </rich:panel>
+        </h:panelGrid>
+
+    </composite:implementation>
+</h:body>
+
+</html>
