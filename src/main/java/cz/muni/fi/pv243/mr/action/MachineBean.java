@@ -34,7 +34,7 @@ public class MachineBean implements Serializable {
     @Inject
     LabelsManager labelsManager;
 
-    private Map<Label, Boolean> labels;
+//    private Map<Label, Boolean> labels;
 
     @AssertTrue
     public boolean checkWhetherFromIsBeforeTo() {
@@ -45,9 +45,9 @@ public class MachineBean implements Serializable {
         return machine;
     }
 
-    public Map<Label, Boolean> getLabels() {
-        return labels;
-    }
+//    public Map<Label, Boolean> getLabels() {
+//        return labels;
+//    }
 
     public List<Reservation> getReservations() {
         return reservations;
@@ -77,18 +77,18 @@ public class MachineBean implements Serializable {
 
     public void loadMachine(String machineId) {
         machine = machinesManager.getMachine(Long.parseLong(machineId));
-        labels = new HashMap<Label, Boolean>();
-        for (Label label : labelsManager.getLabels()) {
-            labels.put(label, machine.getLabels().contains(label));
-        }
+//        labels = new HashMap<Label, Boolean>();
+//        for (Label label : labelsManager.getLabels()) {
+//            labels.put(label, machine.getLabels().contains(label));
+//        }
     }
 
     public void newMachine() {
         machine = new Machine();
-        labels = new HashMap<Label, Boolean>();
-        for (Label label : labelsManager.getLabels()) {
-            labels.put(label, false);
-        }
+//        labels = new HashMap<Label, Boolean>();
+//        for (Label label : labelsManager.getLabels()) {
+//            labels.put(label, false);
+//        }
     }
 
     public void loadReservations(Machine machine, Date from, Date to) {
@@ -96,22 +96,23 @@ public class MachineBean implements Serializable {
     }
 
     public String saveMachine() {
-        machine.getLabels().clear();
-        for (Map.Entry<Label, Boolean> entry : labels.entrySet()) {
-            if (entry.getValue()) {
-                machine.getLabels().add(entry.getKey());
-            }
-        }
+//        machine.getLabels().clear();
+//        for (Map.Entry<Label, Boolean> entry : labels.entrySet()) {
+//            System.out.println(entry.getKey().getName() + "" + entry.getValue());
+//            if (entry.getValue()) {
+//                machine.getLabels().add(entry.getKey());
+//            }
+//        }
         machinesManager.editMachine(machine);
         return "/admin/machines.xhtml?faces-redirect=true";
     }
 
     public String createMachine() {
-        for (Map.Entry<Label, Boolean> entry : labels.entrySet()) {
-            if (entry.getValue()) {
-                machine.getLabels().add(entry.getKey());
-            }
-        }
+//        for (Map.Entry<Label, Boolean> entry : labels.entrySet()) {
+//            if (entry.getValue()) {
+//                machine.getLabels().add(entry.getKey());
+//            }
+//        }
         machinesManager.addMachine(machine);
         return "/admin/machines.xhtml?faces-redirect=true";
     }
