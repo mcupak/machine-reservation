@@ -61,7 +61,7 @@ public class UserReservationsBean implements Serializable {
             for (Machine m: reservation.getMachines()) {
                 reservationsLogger.deleted(m.getName(), user.getEmail());
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been deeleted.", "reservation has been deeleted"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been deleted.", "reservation has been deleted"));
             load();
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The reservaton can't be deleted.", "the reservaton can't be deleted"));

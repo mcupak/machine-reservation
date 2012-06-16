@@ -28,8 +28,8 @@ import javax.inject.Named;
 public class ReservationBean implements Serializable {
 
 	private static final long serialVersionUID = -6210138663980366244L;
-	private static final String CURRENT_PAGE = "reservation.xhtml";
-	private static final String NEXT_PAGE = "reservations.xhtml";
+	private static final String CURRENT_PAGE = "reservation.xhtml?faces-redirect=true";
+	private static final String NEXT_PAGE = "reservations.xhtml?faces-redirect=true";
 	@Inject
     @Logged
     private User user;
