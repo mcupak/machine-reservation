@@ -77,7 +77,7 @@ public class LabelsManager {
 
     public void addLabel(Label label) {
         em.persist(label);
-        log.infof("Added new label: %s", label);
+        labelsLogger.created(label.toString());
     }
 
     public void editLabel(Label label) {
@@ -92,7 +92,7 @@ public class LabelsManager {
         Label labelToRemove = getLabel(label.getId());
         if (labelToRemove != null) {
             em.remove(labelToRemove);
-            log.infof("Removed label: %s", label);
+            labelsLogger.deleted(labelToRemove.getName());
         }
     }
 }
