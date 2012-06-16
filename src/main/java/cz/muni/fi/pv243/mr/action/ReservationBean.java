@@ -28,6 +28,8 @@ import javax.inject.Named;
 public class ReservationBean implements Serializable {
 
 	private static final long serialVersionUID = -6210138663980366244L;
+	private static final String CURRENT_PAGE = "reservation.xhtml";
+	private static final String NEXT_PAGE = "reservations.xhtml";
 	@Inject
     @Logged
     private User user;
@@ -78,7 +80,7 @@ public class ReservationBean implements Serializable {
         reservation.getMachines().clear();
     }
 
-    public void persist() {
+    public String persist() {
         boolean success = false;
         if (reservation.getId() == null) {
             success = reservationsManager.addReservation(reservation);
@@ -92,8 +94,10 @@ public class ReservationBean implements Serializable {
         }
         if (success) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been saved.", "reservation has been saved"));
+            return NEXT_PAGE;
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Reservation can't be saved.", "reservation can't be saved"));
+            return CURRENT_PAGE;
         }
     }
 
