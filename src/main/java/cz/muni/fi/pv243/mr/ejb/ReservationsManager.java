@@ -98,7 +98,8 @@ public class ReservationsManager {
         return q.getResultList();
     }
 
-    public List<Reservation> getReservations(Date from, Date to) {
+    public List<Reservation> getReservations(Date from, Date to, User user, Machine machine) {
+
         TypedQuery<Reservation> q = em.createQuery(
                 "SELECT r FROM Reservation r "
                         + "WHERE (r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)",

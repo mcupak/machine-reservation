@@ -10,65 +10,64 @@
 <body>
 <ui:composition template="/templates/template.xhtml">
     <ui:define name="body">
-        <c:set var="start" value="${reservationsComponentBean.today}" />
-        <c:set var="end" value="${reservationsComponentBean.nextWeek}"/>
         <rich:panel header="Filter">
             <h:form>
                 <rich:graphValidator value="#{machineBean}" id="graphValidator">
                     <h:outputLabel for="inputFrom" value ="From:" style="margin-right: 10px;" />
-                    <rich:calendar id="inputFrom" value="#{start}" timeZone="#{reservationsComponentBean.timeZone}">
+                    <rich:calendar id="inputFrom" value="#{reservationsBean.from}" timeZone="#{reservationsComponentBean.timeZone}">
                         <a4j:ajax execute="@form" render="@all" />
                     </rich:calendar>
                     <h:outputLabel for="inputTo" value="To:" style="margin-right: 10px; margin-left: 50px;" />
-                    <rich:calendar id="inputTo" value="#{end}" timeZone="#{reservationsComponentBean.timeZone}">
+                    <rich:calendar id="inputTo" value="#{reservationsBean.to}" timeZone="#{reservationsComponentBean.timeZone}">
                         <a4j:ajax execute="@form" render="@all" />
                     </rich:calendar>
                 </rich:graphValidator>
+                <h:commandLink value="Search" action="#{reservationsBean.loadReservations}"/>
             </h:form>
         </rich:panel>
         <br />
         <h:form id="reservations">
-            <c:set var="days" value="#{reservationsComponentBean.getDays(start, end)}" />
-            <c:set var="organizedReservations" value="#{reservationsComponentBean.getOrganizedReservations(days, cc.attrs.reservations)}" />
-            <a4j:repeat value="#{days}" var="day" style="width:100%">
-                <c:set var="hasReservations" value="#{organizedReservations.containsKey(day)}" />
-                <h:outputText value="#{day}" rendered="#{hasReservations}">
+            <a4j:repeat value="#{reservationsBean.days}" var="day" style="width:100%">
+                <h:outputText value="#{day}" >
                     <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" />
                 </h:outputText>
                 <rich:column>
-                    <rich:dataTable value="#{organizedReservations.get(day)}" var="reservation" style="width: 100%" rendered="#{hasReservations}">
+                    <rich:dataTable value="#{reservationsBean.organizedReservations.get(day)}" var="reservation" style="width: 100%">
                         <f:facet name="header">
                             <rich:columnGroup>
-                                <rich:column style="width: 25%">
+                                <rich:column style="width: 10%">
                                     <h:outputText value="From" />
                                 </rich:column>
-                                <rich:column style="width: 25%">
+                                <rich:column style="width: 10%">
                                     <h:outputText value="To" />
                                 </rich:column>
-                                <rich:column style="width: 25%">
+                                <rich:column style="width: 15%">
                                     <h:outputText value="User" />
                                 </rich:column>
-                                <rich:column style="width: 25%">
+                                <rich:column style="width: 45%">
                                     <h:outputText value="Machines" />
+                                </rich:column>
+                                <rich:column style="width: 20%" colspan="2">
+                                    <h:outputText value="Actions" />
                                 </rich:column>
                             </rich:columnGroup>
                         </f:facet>
-                        <rich:column style="width: 25%">
+                        <rich:column style="width: 10%">
                             <h:outputText value="#{reservation.start}">
-                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
+                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
                             </h:outputText>
                         </rich:column>
-                        <rich:column style="width: 25%">
+                        <rich:column style="width: 10%">
                             <h:outputText value="#{reservation.end}">
-                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
+                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
                             </h:outputText>
                         </rich:column>
-                        <rich:column style="width: 25%">
+                        <rich:column style="width: 15%">
                             <a href="mailto:#{reservation.user.email}">
                                 <h:outputText value="#{reservation.user.email}" />
                             </a>
                         </rich:column>
-                        <rich:column>
+                        <rich:column style="width: 45%">
                             <a4j:repeat value="#{reservation.machines}" var="machine">
                                 <h:link value="#{machine.name}" outcome="/machine" style="margin-right: 10px;">
                                     <f:param name="id" value="#{machine.id}" />
