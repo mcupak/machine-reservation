@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.mr.ejb;
 
+import cz.muni.fi.pv243.mr.logging.UsersLogger;
 import cz.muni.fi.pv243.mr.model.User;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -12,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.jboss.solder.logging.Logger;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -23,6 +25,10 @@ public class UsersManager {
 
     @Inject
     private EntityManager em;
+    @Inject
+    private Logger log;
+    @Inject
+    private UsersLogger usersLogger;
 
     public User getUser(Long id) {
         return em.find(User.class, id);
@@ -31,12 +37,14 @@ public class UsersManager {
     @Produces
     @Model
     public List<User> getUsers() {
+        log.debug("Retrieving all users in the system");
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(User.class));
         return em.createQuery(cq).getResultList();
     }
 
     public User getUser(String email, String password) {
+        log.debug("Retrieving user based on username and password");
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(User.class);
         Root<User> userRoot = cq.from(User.class);
@@ -51,7 +59,10 @@ public class UsersManager {
     }
 
     public void addUser(User user) {
-        em.persist(user);
+        if (user != null) {
+            em.persist(user);
+            usersLogger.created(user.getEmail(), user.getUserRole().toString());
+        }
     }
 
     public boolean deleteUser(Long id) {
@@ -60,6 +71,7 @@ public class UsersManager {
             return false;
         } else {
             em.remove(user);
+            usersLogger.deleted(user.getEmail());
             return true;
         }
     }
@@ -67,6 +79,7 @@ public class UsersManager {
     public void editUser(User user) {
         if (getUser(user.getId()) != null) {
             em.merge(user);
+            usersLogger.updated(user.getId());
         }
     }
 }

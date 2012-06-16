@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.mr.ejb;
 
+import cz.muni.fi.pv243.mr.logging.MachinesLogger;
 import cz.muni.fi.pv243.mr.model.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import org.jboss.solder.logging.Logger;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -24,8 +26,15 @@ public class MachinesManager {
 
     @Inject
     private EntityManager em;
+    
+    @Inject
+    private Logger log;
+    
+    @Inject
+    private MachinesLogger machinesLogger;
 
     public Machine getMachine(long id) {
+        log.debugf("Retrieving machine with id %s", id);
         return em.find(Machine.class, id);
     }
 
@@ -35,6 +44,7 @@ public class MachinesManager {
     @Produces
     @Model
     public List<Machine> getMachines() {
+        log.debug("Retrieving all machines in the system");
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Machine.class));
         return em.createQuery(cq).getResultList();
@@ -44,6 +54,7 @@ public class MachinesManager {
         if (from == null || to == null || from.after(to)) {
             return new ArrayList<Machine>();
         }
+        log.debugf("Retrieving available machines for timeframe: %s - %s", from, to);
         TypedQuery<Machine> query = em.createQuery("SELECT DISTINCT ma FROM Machine ma "
                 + "WHERE ma.id NOT IN "
                 + "(SELECT m.id FROM Reservation r "
@@ -62,6 +73,8 @@ public class MachinesManager {
         if (reservation == null || reservation.getId() == null) {
             return getAvailableMachines(from, to);
         }
+        log.debugf("Retrieving available machines for timeframe %s - %s considering machines "
+                + "in reservation %s as free", from, to, reservation.getId());
         TypedQuery<Machine> query = em.createQuery("SELECT DISTINCT ma FROM Machine ma "
                 + "WHERE ma.id NOT IN "
                 + "(SELECT m.id FROM Reservation r "
@@ -78,6 +91,7 @@ public class MachinesManager {
         if (labels == null || labels.isEmpty()) {
             return getMachines();
         }
+        log.debug("Retrieving machines with specified labels");
         TypedQuery<Machine> query = em.createQuery("SELECT DISTINCT m FROM Machine m INNER JOIN Machine.labels l "
                 + "WHERE l IN :labels",
                 Machine.class);
@@ -100,6 +114,8 @@ public class MachinesManager {
         
         // FIXME: it should be done in a query
         List<Machine> machines = getAvailableMachines(from, to, reservationWithMachinesIncludedToSearchingForFreeMachines);
+        
+        log.debug("Filtering machines based on their labels");
         List<Machine> result = new ArrayList<Machine>();
         for (Machine machine: machines) {
             if (machine.getLabels().containsAll(labels)) {
@@ -114,14 +130,17 @@ public class MachinesManager {
             throw new IllegalArgumentException("No machine given for adding");
         }
         em.persist(machine);
+        machinesLogger.created(machine.toString());
     }
 
     public void editMachine(Machine machine) {
         if (machine == null) {
             throw new IllegalArgumentException("No machine given for editing");
         }
-        if (em.find(Machine.class, machine.getId()) != null) {
-            em.merge(machine);
+        Machine original = getMachine(machine.getId());
+        if (original != null) {
+            em.merge(machine); 
+            log.infof("Machine updated: %s => %s", original, machine);
         }
     }
 
@@ -144,5 +163,6 @@ public class MachinesManager {
             em.remove(reservation);
         }
         em.remove(machineToRemove);
+        machinesLogger.deleted(machineToRemove.getName());
     }
 }

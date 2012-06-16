@@ -13,7 +13,10 @@ public interface UsersLogger {
     @Log @Message("User '%s' with '%s' role created.")
     void created(String email, String role);
 
-    @Log @Message("User '%s' with '%s' role deleted.")
-    void deleted(String email, String role);
+    @Log @Message("User '%s' deleted.")
+    void deleted(String email);
+    
+    @Log @Message("User '%s' information updated.")
+    void updated(Long id);
     
 }
