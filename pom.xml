@@ -115,9 +115,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-            <groupId>com.ocpsoft</groupId>
-            <artifactId>prettyfaces-jsf2</artifactId>
-        </dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -185,15 +185,22 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-core</artifactId>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <type>jar</type>
-        </dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<type>jar</type>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.resteasy</groupId> -->
+<!-- 			<artifactId>resteasy-bom</artifactId> -->
+<!-- 			<version>2.3.4.Final</version> -->
+<!-- 			<type>pom</type> -->
+<!-- 			<scope>import</scope> -->
+<!-- 		</dependency> -->
 	</dependencies>
 
 
@@ -232,7 +239,7 @@
 		<profile>
 			<id>openshift</id>
 			<build>
-				<finalName>jbosslab</finalName>
+				<finalName>machine-reservation</finalName>
 				<plugins>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
