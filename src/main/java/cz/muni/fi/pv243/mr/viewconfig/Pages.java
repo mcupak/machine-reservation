@@ -18,7 +18,7 @@ public interface Pages {
         @ViewPattern("/index.xhtml")
         WELCOME,
 
-        @ViewPattern("/label.xhtml")
+        @ViewPattern("/editLabel.xhtml")
         @UrlMapping(pattern="/label/#{id}/")
         LABEL,
 
@@ -34,7 +34,7 @@ public interface Pages {
         @AccessDeniedView("/denied.xhtml")
         USER_ACTIONS,
 
-        @ViewPattern("/machine.xhtml")
+        @ViewPattern("/editMachine.xhtml")
         @UrlMapping(pattern="/machine/#{id}/")
         MACHINE,
 

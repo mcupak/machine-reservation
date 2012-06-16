@@ -10,6 +10,7 @@
 <body>
 <ui:composition template="/templates/template.xhtml">
     <ui:define name="body">
+        <h:link outcome="/admin/addMachine" value="Create new machine"/>
         <br />
         <mr:machines value="${machines}" />
     </ui:define>

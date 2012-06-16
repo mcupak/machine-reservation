@@ -83,6 +83,14 @@ public class MachineBean implements Serializable {
         }
     }
 
+    public void newMachine() {
+        machine = new Machine();
+        labels = new HashMap<Label, Boolean>();
+        for (Label label : labelsManager.getLabels()) {
+            labels.put(label, false);
+        }
+    }
+
     public void loadReservations(Machine machine, Date from, Date to) {
         reservations = reservationsManager.getReservations(machine, from, to);
     }
@@ -95,6 +103,16 @@ public class MachineBean implements Serializable {
             }
         }
         machinesManager.editMachine(machine);
+        return "/admin/machines.xhtml?faces-redirect=true";
+    }
+
+    public String createMachine() {
+        for (Map.Entry<Label, Boolean> entry : labels.entrySet()) {
+            if (entry.getValue()) {
+                machine.getLabels().add(entry.getKey());
+            }
+        }
+        machinesManager.addMachine(machine);
         return "/admin/machines.xhtml?faces-redirect=true";
     }
 }
