@@ -54,6 +54,25 @@ public class MachinesManager {
         query.setParameter("to", to);
         return query.getResultList();
     }
+    
+     public List<Machine> getAvailableMachinesIgnoringSpecifiedReservation(Reservation reservation, Date from, Date to) {
+        if (from == null || to == null || from.after(to)) {
+            return new ArrayList<Machine>();
+        }
+        if (reservation == null || reservation.getId() == null) {
+            return getAvailableMachines(from, to);
+        }
+        TypedQuery<Machine> query = em.createQuery("SELECT ma FROM Machine ma "
+                + "WHERE ma.id NOT IN "
+                + "(SELECT m.id FROM Reservation r "
+                + "INNER JOIN r.machines m "
+                + "WHERE r.id != :reservationId AND (r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to))",
+                Machine.class);
+        query.setParameter("reservationId", reservation.getId());
+        query.setParameter("from", from);
+        query.setParameter("to", to);
+        return query.getResultList();
+    }
 
     public List<Machine> getMachines(Collection<Label> labels) {
         if (labels == null || labels.isEmpty()) {

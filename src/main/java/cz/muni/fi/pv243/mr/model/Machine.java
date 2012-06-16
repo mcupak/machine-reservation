@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -22,7 +23,7 @@ public class Machine implements Serializable {
     @GeneratedValue
     private Long id;
     @Column(unique = true)
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 50)
     private String name;
     @Column
