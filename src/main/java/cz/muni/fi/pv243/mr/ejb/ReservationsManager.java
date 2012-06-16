@@ -101,8 +101,8 @@ public class ReservationsManager {
     public List<Reservation> getReservations(Date from, Date to, User user, Machine machine) {
     	String query = "SELECT r FROM Reservation r "
                 + "INNER JOIN r.machines m WHERE "
-        		+ ((user == null) ? "" : "m = :machine AND ") 
-        		+ ((machine == null) ? "" : "r.user = :user AND ") 
+        		+ ((machine == null) ? "" : "m = :machine AND ") 
+        		+ ((user == null) ? "" : "r.user = :user AND ") 
         		+ "(r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)";
     	TypedQuery<Reservation> q = em.createQuery(query, Reservation.class);
         if (machine!=null) q.setParameter("machine", machine);
