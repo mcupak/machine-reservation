@@ -72,6 +72,7 @@ public class ReservationBean implements Serializable {
         reservation = r;
         title = "Edit Reservation";
         selectedLabels = labelsManager.getLabels(reservation);
+        machines.clear();
         machines.addAll(reservation.getMachines());
     }
 
