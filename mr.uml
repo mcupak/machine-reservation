@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>cz.muni.fi.pv243.mr</OriginalElement>
+  <nodes>
+    <node x="1307.9335937499998" y="537.0">cz.muni.fi.pv243.mr.action.UserReservationsBean</node>
+    <node x="25.5" y="611.0">cz.muni.fi.pv243.mr.security.UserAuthorizator</node>
+    <node x="454.35312499999986" y="537.0">cz.muni.fi.pv243.mr.action.MachineBean</node>
+    <node x="500.0" y="611.0">cz.muni.fi.pv243.mr.ReservationsBean</node>
+    <node x="1330.7281249999999" y="0.0">cz.muni.fi.pv243.mr.model.UserRole</node>
+    <node x="1523.9335937499998" y="537.0">cz.muni.fi.pv243.mr.action.LoggedUserProducer</node>
+    <node x="2095.93359375" y="537.0">cz.muni.fi.pv243.mr.action.UserBean</node>
+    <node x="1346.2281249999999" y="79.0">cz.muni.fi.pv243.mr.model.User</node>
+    <node x="734.5183593749998" y="248.0">cz.muni.fi.pv243.mr.ejb.ReservationsManager</node>
+    <node x="285.25" y="248.0">cz.muni.fi.pv243.mr.ejb.LabelsManager</node>
+    <node x="0.0" y="537.0">cz.muni.fi.pv243.mr.action.converter</node>
+    <node x="1637.6429687500001" y="248.0">cz.muni.fi.pv243.mr.ejb.UsersManager</node>
+    <node x="1727.9335937499998" y="537.0">cz.muni.fi.pv243.mr.security.UserAuthenticator</node>
+    <node x="0.0" y="690.0">cz.muni.fi.pv243.mr.action.LoggedUserActionsBean</node>
+    <node x="1079.2460937499998" y="537.0">cz.muni.fi.pv243.mr.ejb.DataInitializer</node>
+    <node x="708.0" y="611.0">cz.muni.fi.pv243.mr.logging.MachinesLogger</node>
+    <node x="232.72773437499995" y="79.0">cz.muni.fi.pv243.mr.logging.LabelsLogger</node>
+    <node x="418.0" y="764.0">cz.muni.fi.pv243.mr.security.Admin</node>
+    <node x="904.0" y="611.0">cz.muni.fi.pv243.mr.logging.UsersLogger</node>
+    <node x="312.0" y="537.0">cz.muni.fi.pv243.mr.action.LabelBean</node>
+    <node x="253.0" y="611.0">cz.muni.fi.pv243.mr.ejb.EntityManagerProducer</node>
+    <node x="163.0" y="764.0">cz.muni.fi.pv243.mr.action.Logged</node>
+    <node x="295.0" y="764.0">cz.muni.fi.pv243.mr.viewconfig.Pages</node>
+    <node x="0.0" y="764.0">cz.muni.fi.pv243.mr.security.CanReserve</node>
+    <node x="1179.415234375" y="248.0">cz.muni.fi.pv243.mr.logging.ReservationsLogger</node>
+    <node x="904.2460937499998" y="537.0">cz.muni.fi.pv243.mr.action.ReservationBean</node>
+    <node x="535.8531249999999" y="79.0">cz.muni.fi.pv243.mr.ejb.MachinesManager</node>
+    <node x="1912.9335937499998" y="537.0">cz.muni.fi.pv243.mr.logging.ApplicationLogger</node>
+    <node x="603.3531249999999" y="537.0">cz.muni.fi.pv243.mr.action.ReservationsComponentBean</node>
+    <node x="590.8308593749998" y="248.0">cz.muni.fi.pv243.mr.model.Label</node>
+    <node x="845.7906249999999" y="79.0">cz.muni.fi.pv243.mr.model.Machine</node>
+    <node x="1038.430859375" y="248.0">cz.muni.fi.pv243.mr.model.Reservation</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="cz.muni.fi.pv243.mr.model.Label" target="cz.muni.fi.pv243.mr.model.Machine">
+      <point x="-18.25" y="-14.5" />
+      <point x="609.0808593749998" y="218.0" />
+      <point x="869.0406249999999" y="218.0" />
+      <point x="-23.25" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.logging.ReservationsLogger">
+      <point x="54.25" y="-14.5" />
+      <point x="1035.9960937499998" y="457.0" />
+      <point x="1223.665234375" y="457.0" />
+      <point x="-44.25" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.model.Reservation" target="cz.muni.fi.pv243.mr.model.User">
+      <point x="29.75" y="-14.5" />
+      <point x="1127.680859375" y="228.0" />
+      <point x="1366.328125" y="228.0" />
+      <point x="-13.399999999999977" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.security.UserAuthenticator" target="cz.muni.fi.pv243.mr.ejb.UsersManager">
+      <point x="0.0" y="-14.5" />
+      <point x="1810.4335937499998" y="517.0" />
+      <point x="1718.1429687500001" y="517.0" />
+      <point x="11.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.MachineBean" target="cz.muni.fi.pv243.mr.ejb.LabelsManager">
+      <point x="-53.75" y="-14.5" />
+      <point x="465.10312499999986" y="377.0" />
+      <point x="375.25" y="377.0" />
+      <point x="18.0" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.ejb.LabelsManager" target="cz.muni.fi.pv243.mr.logging.LabelsLogger">
+      <point x="0.0" y="-14.5" />
+      <point x="357.25" y="178.0" />
+      <point x="298.22773437499995" y="178.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationsComponentBean" target="cz.muni.fi.pv243.mr.ejb.ReservationsManager">
+      <point x="0.0" y="-14.5" />
+      <point x="725.3531249999999" y="417.0" />
+      <point x="805.7683593749998" y="417.0" />
+      <point x="-23.75" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.UserReservationsBean" target="cz.muni.fi.pv243.mr.logging.ReservationsLogger">
+      <point x="0.0" y="-14.5" />
+      <point x="1405.9335937499998" y="297.0" />
+      <point x="1312.165234375" y="297.0" />
+      <point x="44.25" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.MachineBean" target="cz.muni.fi.pv243.mr.model.Reservation">
+      <point x="53.75" y="-14.5" />
+      <point x="572.6031249999999" y="427.0" />
+      <point x="1050.3308593749998" y="427.0" />
+      <point x="-47.60000000000002" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.model.Reservation" target="cz.muni.fi.pv243.mr.model.Machine">
+      <point x="-29.75" y="-14.5" />
+      <point x="1068.180859375" y="168.0" />
+      <point x="915.5406249999999" y="168.0" />
+      <point x="23.25" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.model.Label">
+      <point x="-54.25" y="-14.5" />
+      <point x="927.4960937499998" y="357.0" />
+      <point x="636.4558593749998" y="357.0" />
+      <point x="9.125" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.ejb.MachinesManager">
+      <point x="-23.25" y="-14.5" />
+      <point x="958.4960937499998" y="337.0" />
+      <point x="944.6433593749998" y="337.0" />
+      <point x="944.6433593749998" y="188.0" />
+      <point x="679.3531249999999" y="188.0" />
+      <point x="61.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.UserReservationsBean" target="cz.muni.fi.pv243.mr.ejb.ReservationsManager">
+      <point x="-78.39999999999998" y="-14.5" />
+      <point x="1327.53359375" y="317.0" />
+      <point x="900.7683593749998" y="317.0" />
+      <point x="71.25" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.UserBean" target="cz.muni.fi.pv243.mr.ejb.UsersManager">
+      <point x="-25.75" y="-14.5" />
+      <point x="2121.68359375" y="497.0" />
+      <point x="1764.1429687500001" y="497.0" />
+      <point x="57.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.converter" target="cz.muni.fi.pv243.mr.ejb.MachinesManager">
+      <point x="-73.0" y="-14.5" />
+      <point x="73.0" y="188.0" />
+      <point x="556.3531249999999" y="188.0" />
+      <point x="-61.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.UserReservationsBean" target="cz.muni.fi.pv243.mr.ejb.UsersManager">
+      <point x="78.39999999999998" y="-14.5" />
+      <point x="1484.3335937499999" y="507.0" />
+      <point x="1672.1429687500001" y="507.0" />
+      <point x="-34.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.model.Machine">
+      <point x="-7.75" y="-14.5" />
+      <point x="973.9960937499998" y="407.0" />
+      <point x="991.3933593749998" y="407.0" />
+      <point x="991.3933593749998" y="178.0" />
+      <point x="900.0406249999999" y="178.0" />
+      <point x="7.75" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.ejb.ReservationsManager" target="cz.muni.fi.pv243.mr.ejb.MachinesManager">
+      <point x="0.0" y="-14.5" />
+      <point x="829.5183593749998" y="198.0" />
+      <point x="638.3531249999999" y="198.0" />
+      <point x="20.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.model.User">
+      <point x="7.75" y="-14.5" />
+      <point x="989.4960937499998" y="417.0" />
+      <point x="1002.3933593749998" y="417.0" />
+      <point x="1002.3933593749998" y="218.0" />
+      <point x="1352.928125" y="218.0" />
+      <point x="-26.80000000000001" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.LoggedUserProducer" target="cz.muni.fi.pv243.mr.ejb.UsersManager">
+      <point x="0.0" y="-14.5" />
+      <point x="1615.9335937499998" y="517.0" />
+      <point x="1695.1429687500001" y="517.0" />
+      <point x="-11.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.model.User" target="cz.muni.fi.pv243.mr.model.UserRole">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.ejb.DataInitializer" target="cz.muni.fi.pv243.mr.model.Machine">
+      <point x="16.875" y="-14.5" />
+      <point x="1163.6210937499998" y="467.0" />
+      <point x="1460.6835937499998" y="467.0" />
+      <point x="1460.6835937499998" y="158.0" />
+      <point x="931.0406249999999" y="158.0" />
+      <point x="38.75" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.UserReservationsBean" target="cz.muni.fi.pv243.mr.model.Reservation">
+      <point x="-39.200000000000045" y="-14.5" />
+      <point x="1366.7335937499997" y="307.0" />
+      <point x="1145.5308593749999" y="307.0" />
+      <point x="47.599999999999966" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.ejb.DataInitializer" target="cz.muni.fi.pv243.mr.model.Reservation">
+      <point x="-16.875" y="-14.5" />
+      <point x="1129.8710937499998" y="447.0" />
+      <point x="1121.730859375" y="447.0" />
+      <point x="23.799999999999955" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.model.Reservation">
+      <point x="23.25" y="-14.5" />
+      <point x="1004.9960937499998" y="437.0" />
+      <point x="1074.130859375" y="437.0" />
+      <point x="-23.80000000000001" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.ejb.DataInitializer" target="cz.muni.fi.pv243.mr.model.User">
+      <point x="50.625" y="-14.5" />
+      <point x="1197.3710937499998" y="477.0" />
+      <point x="1471.6835937499998" y="477.0" />
+      <point x="1471.6835937499998" y="148.0" />
+      <point x="1379.7281249999999" y="148.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.UserReservationsBean" target="cz.muni.fi.pv243.mr.model.User">
+      <point x="39.200000000000045" y="-14.5" />
+      <point x="1445.1335937499998" y="487.0" />
+      <point x="1482.6835937499998" y="487.0" />
+      <point x="1482.6835937499998" y="138.0" />
+      <point x="1393.1281249999997" y="138.0" />
+      <point x="13.399999999999977" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.ejb.ReservationsManager">
+      <point x="-38.75" y="-14.5" />
+      <point x="942.9960937499998" y="347.0" />
+      <point x="853.2683593749998" y="347.0" />
+      <point x="23.75" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.MachineBean" target="cz.muni.fi.pv243.mr.ejb.ReservationsManager">
+      <point x="32.25" y="-14.5" />
+      <point x="551.1031249999999" y="407.0" />
+      <point x="758.2683593749998" y="407.0" />
+      <point x="-71.25" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.LoggedUserActionsBean" target="cz.muni.fi.pv243.mr.security.UserAuthorizator">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.ejb.UsersManager">
+      <point x="69.75" y="-14.5" />
+      <point x="1051.4960937499998" y="497.0" />
+      <point x="1649.1429687500001" y="497.0" />
+      <point x="-57.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.ejb.DataInitializer" target="cz.muni.fi.pv243.mr.model.Label">
+      <point x="-50.625" y="-14.5" />
+      <point x="1096.1210937499998" y="327.0" />
+      <point x="654.7058593749998" y="327.0" />
+      <point x="27.375" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.logging.ApplicationLogger" target="cz.muni.fi.pv243.mr.ejb.UsersManager">
+      <point x="0.0" y="-14.5" />
+      <point x="1994.4335937499998" y="507.0" />
+      <point x="1741.1429687500001" y="507.0" />
+      <point x="34.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.MachineBean" target="cz.muni.fi.pv243.mr.model.Label">
+      <point x="10.75" y="-14.5" />
+      <point x="529.6031249999999" y="397.0" />
+      <point x="618.2058593749998" y="397.0" />
+      <point x="-9.125" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.LabelBean" target="cz.muni.fi.pv243.mr.model.Label">
+      <point x="27.25" y="-14.5" />
+      <point x="393.75" y="387.0" />
+      <point x="599.9558593749998" y="387.0" />
+      <point x="-27.375" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.LabelBean" target="cz.muni.fi.pv243.mr.ejb.LabelsManager">
+      <point x="-27.25" y="-14.5" />
+      <point x="-18.0" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.MachineBean" target="cz.muni.fi.pv243.mr.model.Machine">
+      <point x="-10.75" y="-14.5" />
+      <point x="508.10312499999986" y="377.0" />
+      <point x="494.66562499999986" y="377.0" />
+      <point x="494.66562499999986" y="208.0" />
+      <point x="853.5406249999999" y="208.0" />
+      <point x="-38.75" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.model.Machine" target="cz.muni.fi.pv243.mr.model.Label">
+      <point x="-7.75" y="14.5" />
+      <point x="884.5406249999999" y="228.0" />
+      <point x="645.5808593749998" y="228.0" />
+      <point x="18.25" y="-14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.MachineBean" target="cz.muni.fi.pv243.mr.ejb.MachinesManager">
+      <point x="-32.25" y="-14.5" />
+      <point x="486.60312499999986" y="377.0" />
+      <point x="483.66562499999986" y="377.0" />
+      <point x="483.66562499999986" y="198.0" />
+      <point x="597.3531249999999" y="198.0" />
+      <point x="-20.5" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.UserBean" target="cz.muni.fi.pv243.mr.model.User">
+      <point x="25.75" y="-14.5" />
+      <point x="2173.18359375" y="128.0" />
+      <point x="1406.5281249999998" y="128.0" />
+      <point x="26.80000000000001" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.ReservationBean" target="cz.muni.fi.pv243.mr.ejb.LabelsManager">
+      <point x="-69.75" y="-14.5" />
+      <point x="911.9960937499998" y="367.0" />
+      <point x="411.25" y="367.0" />
+      <point x="54.0" y="14.5" />
+    </edge>
+    <edge source="cz.muni.fi.pv243.mr.action.converter" target="cz.muni.fi.pv243.mr.ejb.LabelsManager">
+      <point x="73.0" y="-14.5" />
+      <point x="219.0" y="517.0" />
+      <point x="303.25" y="517.0" />
+      <point x="-54.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6890491212257773" x="1099.5" y="396.5" />
+  <SelectedNodes>
+    <node>cz.muni.fi.pv243.mr.ReservationsBean</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
