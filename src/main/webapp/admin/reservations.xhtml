@@ -22,73 +22,79 @@
                         <a4j:ajax execute="@form" render="@all" />
                     </rich:calendar>
                 </rich:graphValidator>
+                <br/>
+                <rich:select value="#{reservationsBean.machine}" converter="machineConverter" enableManualInput="true" defaultLabel="select machine">
+                    <f:selectItems value="#{machines}" var="machine" itemLabel="#{machine.name}"/>
+                </rich:select>
+                <rich:select value="#{reservationsBean.user}" converter="userConverter" enableManualInput="true" defaultLabel="select user">
+                    <f:selectItems value="#{users}" var="user" itemLabel="#{user.email}"/>
+                </rich:select>
+                <br/>
                 <h:commandLink value="Search" action="#{reservationsBean.loadReservations}"/>
             </h:form>
         </rich:panel>
         <br />
         <h:form id="reservations">
             <a4j:repeat value="#{reservationsBean.days}" var="day" style="width:100%">
-                <h:outputText value="#{day}" >
+                <h:outputText value="#{day}" rendered="#{!empty reservationsBean.organizedReservations.get(day)}" >
                     <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" />
                 </h:outputText>
-                <rich:column>
-                    <rich:dataTable value="#{reservationsBean.organizedReservations.get(day)}" var="reservation" style="width: 100%">
-                        <f:facet name="header">
-                            <rich:columnGroup>
-                                <rich:column style="width: 10%">
-                                    <h:outputText value="From" />
-                                </rich:column>
-                                <rich:column style="width: 10%">
-                                    <h:outputText value="To" />
-                                </rich:column>
-                                <rich:column style="width: 15%">
-                                    <h:outputText value="User" />
-                                </rich:column>
-                                <rich:column style="width: 45%">
-                                    <h:outputText value="Machines" />
-                                </rich:column>
-                                <rich:column style="width: 20%" colspan="2">
-                                    <h:outputText value="Actions" />
-                                </rich:column>
-                            </rich:columnGroup>
-                        </f:facet>
-                        <rich:column style="width: 10%">
-                            <h:outputText value="#{reservation.start}">
-                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
-                            </h:outputText>
-                        </rich:column>
-                        <rich:column style="width: 10%">
-                            <h:outputText value="#{reservation.end}">
-                                <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
-                            </h:outputText>
-                        </rich:column>
-                        <rich:column style="width: 15%">
-                            <a href="mailto:#{reservation.user.email}">
-                                <h:outputText value="#{reservation.user.email}" />
-                            </a>
-                        </rich:column>
-                        <rich:column style="width: 45%">
-                            <a4j:repeat value="#{reservation.machines}" var="machine">
-                                <h:link value="#{machine.name}" outcome="/machine" style="margin-right: 10px;">
-                                    <f:param name="id" value="#{machine.id}" />
-                                </h:link>
-                            </a4j:repeat>
-                        </rich:column>
-                        <rich:column style="text-align: center">
-                            <h:form>
-                                <h:commandButton action="#{userReservationsBean.delete(reservation.id)}" value="Cancel"/>
-                            </h:form>
-                        </rich:column>
-                        <rich:column style="text-align: center">
-                            <h:form>
-                                <h:link outcome="/user/reservation">
-                                    <h:outputText value="Edit" />
-                                    <f:param name="id" value="#{reservation.id}" />
-                                </h:link>
-                            </h:form>
-                        </rich:column>
-                    </rich:dataTable>
-                </rich:column>
+                <rich:dataTable value="#{reservationsBean.organizedReservations.get(day)}" var="reservation" style="width: 100%" rendered="#{!empty reservationsBean.organizedReservations.get(day)}">
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column style="width: 10%">
+                                <h:outputText value="From" />
+                            </rich:column>
+                            <rich:column style="width: 10%">
+                                <h:outputText value="To" />
+                            </rich:column>
+                            <rich:column style="width: 15%">
+                                <h:outputText value="User" />
+                            </rich:column>
+                            <rich:column style="width: 45%">
+                                <h:outputText value="Machines" />
+                            </rich:column>
+                            <rich:column style="width: 20%" colspan="2">
+                                <h:outputText value="Actions" />
+                            </rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column style="width: 10%">
+                        <h:outputText value="#{reservation.start}">
+                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
+                        </h:outputText>
+                    </rich:column>
+                    <rich:column style="width: 10%">
+                        <h:outputText value="#{reservation.end}">
+                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
+                        </h:outputText>
+                    </rich:column>
+                    <rich:column style="width: 15%">
+                        <a href="mailto:#{reservation.user.email}">
+                            <h:outputText value="#{reservation.user.email}" />
+                        </a>
+                    </rich:column>
+                    <rich:column style="width: 45%">
+                        <a4j:repeat value="#{reservation.machines}" var="machine">
+                            <h:link value="#{machine.name}" outcome="/machine" style="margin-right: 10px;">
+                                <f:param name="id" value="#{machine.id}" />
+                            </h:link>
+                        </a4j:repeat>
+                    </rich:column>
+                    <rich:column style="text-align: center">
+                        <h:form>
+                            <h:commandButton action="#{userReservationsBean.delete(reservation.id)}" value="Cancel"/>
+                        </h:form>
+                    </rich:column>
+                    <rich:column style="text-align: center">
+                        <h:form>
+                            <h:link outcome="/user/reservation">
+                                <h:outputText value="Edit" />
+                                <f:param name="id" value="#{reservation.id}" />
+                            </h:link>
+                        </h:form>
+                    </rich:column>
+                </rich:dataTable>
             </a4j:repeat>
         </h:form>
     </ui:define>

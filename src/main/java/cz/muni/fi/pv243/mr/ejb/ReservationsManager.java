@@ -103,7 +103,7 @@ public class ReservationsManager {
                 + "INNER JOIN r.machines m WHERE "
         		+ ((machine == null) ? "" : "m = :machine AND ") 
         		+ ((user == null) ? "" : "r.user = :user AND ") 
-        		+ "(r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)";
+        		+ "((r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to))";
     	TypedQuery<Reservation> q = em.createQuery(query, Reservation.class);
         if (machine!=null) q.setParameter("machine", machine);
         if (user!=null) q.setParameter("user", user);
