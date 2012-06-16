@@ -63,7 +63,7 @@
                                 <f:param name="id" value="#{machine.id}" />
                             </h:link>
                             &nbsp;
-                            <a4j:commandLink value="Delete" action="#{machinesManager.removeMachine(machine)}" render="panel"/>
+                            <a4j:commandLink value="Delete" action="#{machinesManager.removeMachine(machine)}" oncomplete="window.location.href=window.location.href" render="panel"/>
                         </rich:column>
                     </c:if>
                 </rich:dataTable>
