@@ -3,10 +3,15 @@ package cz.muni.fi.pv243.mr.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,7 +23,8 @@ import org.hibernate.validator.constraints.NotBlank;
 //@Table(name="machines")
 public class Machine implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue
     private Long id;
     @Column(unique = true)
@@ -27,15 +33,15 @@ public class Machine implements Serializable {
     private String name;
     @Column
     private String description;
-    @ManyToMany(mappedBy = "machines")//r(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Label> labels;
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(mappedBy = "machines", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private List<Label> labels;
 
     public Machine() {
     }
 
     // FIXME: remove
-    public Machine(String description, Long id, Collection<Label> labels, String name) {
+    public Machine(String description, Long id, List<Label> labels, String name) {
         this.description = description;
         this.id = id;
         this.labels = labels;
@@ -54,14 +60,18 @@ public class Machine implements Serializable {
         return name;
     }
 
-    public Collection<Label> getLabels() {
+    public List<Label> getLabels() {
         if (labels == null) {
             labels = new ArrayList<Label>();
         }
         return labels;
     }
 
-    public void setDescription(String description) {
+    public void setLabels(List<Label> labels) {
+		this.labels = labels;
+	}
+
+	public void setDescription(String description) {
         this.description = description;
     }
 

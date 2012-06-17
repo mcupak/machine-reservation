@@ -26,6 +26,7 @@
 
         <rich:panel header="Labels" width="100%">
             <h:selectManyListbox id="labels" value="#{machineBean.machine.labels}" converter="labelConverter">
+            	<f:attribute name="collectionType" value="java.util.ArrayList" />
                 <f:selectItems value="#{labels}" var="label" itemLabel="#{label.name}" itemValue="#{label}"/>
             </h:selectManyListbox>
         </rich:panel>

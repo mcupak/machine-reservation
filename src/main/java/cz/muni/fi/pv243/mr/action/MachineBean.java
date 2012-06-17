@@ -1,13 +1,12 @@
 package cz.muni.fi.pv243.mr.action;
 
-import cz.muni.fi.pv243.mr.ejb.LabelsManager;
 import cz.muni.fi.pv243.mr.ejb.MachinesManager;
 import cz.muni.fi.pv243.mr.ejb.ReservationsManager;
-import cz.muni.fi.pv243.mr.model.Label;
 import cz.muni.fi.pv243.mr.model.Machine;
 import cz.muni.fi.pv243.mr.model.Reservation;
 import java.io.Serializable;
 import java.util.*;
+
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,8 +29,12 @@ public class MachineBean implements Serializable {
     @Inject
     private ReservationsManager reservationsManager;
     private List<Reservation> reservations;
+    
+    public void setMachine(Machine machine) {
+		this.machine = machine;
+	}
 
-    @AssertTrue
+	@AssertTrue
     public boolean checkWhetherFromIsBeforeTo() {
         return from.before(to);
     }
@@ -79,8 +82,9 @@ public class MachineBean implements Serializable {
     }
 
     public String saveMachine() {
-        machinesManager.editMachine(machine);
-        return "/admin/machines.xhtml?faces-redirect=true";
+    	System.out.println(machine.getLabels());
+    	machinesManager.editMachine(machine);
+    	return "/admin/machines.xhtml?faces-redirect=true";
     }
 
     public String createMachine() {
