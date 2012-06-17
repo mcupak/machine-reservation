@@ -46,14 +46,6 @@ public class DataInitializer {
             em.persist(m);
         }
 
-        // reinitialize labels
-        labels.get(0).setMachines(Arrays.asList(machines.get(0)));
-        labels.get(1).setMachines(Arrays.asList(machines.get(1)));
-        labels.get(2).setMachines(Arrays.asList(machines.get(0), machines.get(1)));
-        for (Label l : labels) {
-            em.persist(l);
-        }
-
         // initializing users
         List<User> users = Arrays.asList(
                 new User("admin@admin.cz", null, UserRole.ADMIN, "admin"),

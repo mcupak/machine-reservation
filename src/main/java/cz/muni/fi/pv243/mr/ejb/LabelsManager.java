@@ -13,6 +13,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.PreRemove;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -33,6 +34,9 @@ public class LabelsManager {
     private Logger log;
     @Inject 
     private LabelsLogger labelsLogger;
+
+    @Inject
+    private MachinesManager machinesManager;
 
     public Label getLabel(long id) {
         log.debugf("Retrieving label with id: %s", id);
@@ -91,6 +95,10 @@ public class LabelsManager {
     public void removeLabel(Label label) {
         Label labelToRemove = getLabel(label.getId());
         if (labelToRemove != null) {
+            for (Machine m : machinesManager.getMachinesByLabel(label)) {
+                m.getLabels().remove(label);
+                machinesManager.editMachine(m);
+            }
             em.remove(labelToRemove);
             labelsLogger.deleted(labelToRemove.getName());
         }

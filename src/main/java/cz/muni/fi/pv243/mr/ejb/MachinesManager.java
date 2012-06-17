@@ -96,18 +96,22 @@ public class MachinesManager {
 		return query.getResultList();
 	}
 
-	public List<Machine> getMachines(Collection<Label> labels) {
-		if (labels == null || labels.isEmpty()) {
-			return getMachines();
-		}
-		log.debug("Retrieving machines with specified labels");
-		TypedQuery<Machine> query = em.createQuery(
-				"SELECT DISTINCT m FROM Machine m INNER JOIN Machine.labels l "
-						+ "WHERE l IN :labels", Machine.class);
-		query.setParameter("labels", labels);
+    public List<Machine> getMachinesByLabel(Label label) {
+        List<Machine> ret = new ArrayList<Machine>();
+        if (label == null) {
+            return getMachines();
+        }
+        log.debug("Retrieving machines with specified labels");
+        TypedQuery<Machine> query = em.createQuery(
+                "SELECT m FROM Machine m ", Machine.class);
+        for (Machine m : query.getResultList()) {
+            if (m.getLabels().contains(label)) {
+                ret.add(m);
+            }
+        }
 
-		return query.getResultList();
-	}
+        return ret;
+    }
 
 	public List<Machine> getMachines(
 			Collection<Label> labels,
@@ -165,12 +169,6 @@ public class MachinesManager {
 			throw new IllegalArgumentException("No machine given for removing");
 		}
 		Machine machineToRemove = em.find(Machine.class, machine.getId());
-		for (Label label : machineToRemove.getLabels()) {
-			label.getMachines().remove(machine);
-			if (label.getId() != null) {
-				em.merge(label);
-			}
-		}
 		TypedQuery<Reservation> q = em
 				.createQuery(
 						"SELECT r FROM Reservation r INNER JOIN r.machines m WHERE m = :machine",

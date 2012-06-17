@@ -48,7 +48,7 @@
                         <h:outputText value="#{label.description}" />
                     </rich:column>
                     <rich:column>
-                        <a4j:repeat value="#{label.machines}" var="machine">
+                        <a4j:repeat value="#{machinesManager.getMachinesByLabel(label)}" var="machine">
                             <h:link outcome="/machines.xhtml" value="#{machine.name}" style="margin-right: 10px;" id="machineDescription">
                                 <f:param name="id" value="#{machine.id}" />
                             </h:link>

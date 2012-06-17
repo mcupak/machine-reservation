@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.mr.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -25,8 +26,6 @@ public class Label implements Serializable {
     private String name;
     @Column
     private String description;
-    @ManyToMany
-    private Collection<Machine> machines;
 
     public Label() {
     }
@@ -40,13 +39,6 @@ public class Label implements Serializable {
 
     public String getDescription() {
         return description;
-    }
-
-    public Collection<Machine> getMachines() {
-        if (machines == null) {
-            machines = new ArrayList<Machine>();
-        }
-        return machines;
     }
 
     public Long getId() {
@@ -63,10 +55,6 @@ public class Label implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setMachines(Collection<Machine> machines) {
-        this.machines = machines;
     }
 
     public void setName(String name) {

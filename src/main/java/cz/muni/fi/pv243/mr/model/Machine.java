@@ -33,8 +33,7 @@ public class Machine implements Serializable {
     private String name;
     @Column
     private String description;
-    //@LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(mappedBy = "machines", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany
     private List<Label> labels;
 
     public Machine() {
