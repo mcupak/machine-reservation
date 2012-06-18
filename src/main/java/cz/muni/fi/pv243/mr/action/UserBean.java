@@ -4,7 +4,9 @@ import cz.muni.fi.pv243.mr.ejb.UsersManager;
 import cz.muni.fi.pv243.mr.model.User;
 import cz.muni.fi.pv243.mr.model.UserRole;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,6 +23,10 @@ public class UserBean implements Serializable {
 
     @Inject
     private UsersManager usersManager;
+    
+    @Inject
+    @Logged
+    private User adminUser; 
 
     public User getUser() {
         return user;
@@ -53,4 +59,14 @@ public class UserBean implements Serializable {
         }
         return items;
     }
+    
+    public void deleteUser(Long id){
+    	if (adminUser.getId().equals(id)) {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "You cannot delete yourself.","You cannot delete yourself."));
+    	} else {
+    		usersManager.deleteUser(id);
+    	}
+    }
 }
+
+

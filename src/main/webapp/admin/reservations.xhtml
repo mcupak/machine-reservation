@@ -61,12 +61,12 @@
                     </f:facet>
                     <rich:column style="width: 10%">
                         <h:outputText value="#{reservation.start}">
-                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
+                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
                         </h:outputText>
                     </rich:column>
                     <rich:column style="width: 10%">
                         <h:outputText value="#{reservation.end}">
-                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" pattern="HH:mm" type="both" />
+                            <f:convertDateTime timeZone="#{reservationsComponentBean.timeZone}" type="both" />
                         </h:outputText>
                     </rich:column>
                     <rich:column style="width: 15%">
@@ -82,17 +82,14 @@
                         </a4j:repeat>
                     </rich:column>
                     <rich:column style="text-align: center">
-                        <h:form>
-                            <h:commandButton action="#{userReservationsBean.delete(reservation.id)}" value="Cancel"/>
-                        </h:form>
+                            <h:commandButton action="#{reservationsBean.delete(reservation.id)}" value="Cancel"/>
                     </rich:column>
                     <rich:column style="text-align: center">
-                        <h:form>
                             <h:link outcome="/user/reservation">
                                 <h:outputText value="Edit" />
                                 <f:param name="id" value="#{reservation.id}" />
+                                <f:param name="fromAdmin" value="#{true}" />
                             </h:link>
-                        </h:form>
                     </rich:column>
                 </rich:dataTable>
             </a4j:repeat>

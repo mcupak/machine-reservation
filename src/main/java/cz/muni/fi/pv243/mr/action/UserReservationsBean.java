@@ -55,7 +55,7 @@ public class UserReservationsBean implements Serializable {
 
     public void delete(long reservationId) {
         // FIXME: workaround
-        Reservation reservation = reservationsManager.getReservation(reservationId);
+    	Reservation reservation = reservationsManager.getReservation(reservationId);
         boolean success = reservationsManager.cancelReservation(usersManager.getUser(user.getId()), reservation);
         if (success) {
             for (Machine m: reservation.getMachines()) {

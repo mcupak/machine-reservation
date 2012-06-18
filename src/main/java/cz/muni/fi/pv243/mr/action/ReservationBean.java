@@ -30,130 +30,152 @@ public class ReservationBean implements Serializable {
 	private static final long serialVersionUID = -6210138663980366244L;
 	private static final String CURRENT_PAGE = "reservation.xhtml?faces-redirect=true";
 	private static final String NEXT_PAGE = "reservations.xhtml?faces-redirect=true";
+	private static final String ADMIN_PAGE = "../admin/reservations.xhtml?faces-redirect=true";
 	@Inject
-    @Logged
-    private User user;
-    @Inject
-    private LabelsManager labelsManager;
-    @Inject
-    private MachinesManager machinesManager;
-    @Inject
-    private ReservationsManager reservationsManager;
-    @Inject
-    private UsersManager usersManager;
-    @Inject
-    private ReservationsLogger reservationsLogger;
-    private Reservation reservation;
-    private List<Label> selectedLabels;
-    private List<Machine> machines;
-    private List<Label> labels;
-    private String title = "New Reservation";
-    private Date from;
-    private Date to;
+	@Logged
+	private User user;
+	@Inject
+	private LabelsManager labelsManager;
+	@Inject
+	private MachinesManager machinesManager;
+	@Inject
+	private ReservationsManager reservationsManager;
+	@Inject
+	private UsersManager usersManager;
+	@Inject
+	private ReservationsLogger reservationsLogger;
+	private Reservation reservation;
+	private List<Label> selectedLabels;
+	private List<Machine> machines;
+	private List<Label> labels;
+	private String title = "New Reservation";
+	private Date from;
+	private Date to;
+	private Boolean fromAdmin = false;
 
-    @PostConstruct
-    public void load() {
-        reservation = new Reservation();
-        reservation.setUser(usersManager.getUser(user.getId()));
-        from = new Date();
-        to = new Date(from.getTime() + 1000l * 60l * 60l * 24l);
-        filter();
-        labels = labelsManager.getLabels();
-    }
+	public Boolean getFromAdmin() {
+		return fromAdmin;
+	}
 
-    public void loadReservation(String id) {
-        if (id == null || id.isEmpty()) {
-            return;
-        }
-        Reservation r = reservationsManager.getReservation(Long.parseLong(id));
-        if (r == null) {
-            return;
-        }
-        reservation = r;
-        title = "Edit Reservation";
-        selectedLabels = labelsManager.getLabels(reservation);
-        machines.clear();
-        machines.addAll(reservation.getMachines());
-    }
+	public void setFromAdmin(String fromAdmin) {
+		if (fromAdmin!=null && !fromAdmin.isEmpty()) {
+			this.fromAdmin=Boolean.parseBoolean(fromAdmin);
+		}
+	}
 
-    public void filter() {
-        machines = machinesManager.getMachines(selectedLabels, from, to, reservation);
-        reservation.getMachines().clear();
-    }
+	@PostConstruct
+	public void load() {
+		reservation = new Reservation();
+		reservation.setUser(usersManager.getUser(user.getId()));
+		from = new Date();
+		to = new Date(from.getTime() + 1000l * 60l * 60l * 24l);
+		filter();
+		labels = labelsManager.getLabels();
+	}
 
-    public String persist() {
-        boolean success = false;
-        if (reservation.getId() == null) {
-            success = reservationsManager.addReservation(reservation);
-            if (success) {
-                for (Machine m: reservation.getMachines()) {
-                    reservationsLogger.created(m.getName(), reservation.getUser().getEmail());
-                }
-            }
-        } else {
-            success = reservationsManager.editReservation(reservation);
-        }
-        if (success) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reservation has been saved.", "reservation has been saved"));
-            return NEXT_PAGE;
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Reservation can't be saved.", "reservation can't be saved"));
-            return CURRENT_PAGE;
-        }
-    }
+	public void loadReservation(String id) {
+		if (id == null || id.isEmpty()) {
+			return;
+		}
+		Reservation r = reservationsManager.getReservation(Long.parseLong(id));
+		if (r == null) {
+			return;
+		}
+		reservation = r;
+		title = "Edit Reservation";
+		selectedLabels = labelsManager.getLabels(reservation);
+		machines.clear();
+		machines.addAll(reservation.getMachines());
+	}
 
-    public Date getFrom() {
-        return from;
-    }
+	public void filter() {
+		machines = machinesManager.getMachines(selectedLabels, from, to,
+				reservation);
+		reservation.getMachines().clear();
+	}
 
-    public List<Label> getLabels() {
-        return labels;
-    }
+	public String persist() {
+		boolean success = false;
+		if (reservation.getId() == null) {
+			success = reservationsManager.addReservation(reservation);
+			if (success) {
+				for (Machine m : reservation.getMachines()) {
+					reservationsLogger.created(m.getName(), reservation
+							.getUser().getEmail());
+				}
+			}
+		} else {
+			success = reservationsManager.editReservation(reservation);
+		}
+		if (success) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Reservation has been saved.",
+							"reservation has been saved"));
+			return (fromAdmin) ? ADMIN_PAGE : NEXT_PAGE;
+		} else {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Reservation can't be saved.",
+							"reservation can't be saved"));
+			return CURRENT_PAGE;
+		}
+	}
 
-    public List<Machine> getMachines() {
-        return machines;
-    }
+	public Date getFrom() {
+		return from;
+	}
 
-    public Reservation getReservation() {
-        return reservation;
-    }
+	public List<Label> getLabels() {
+		return labels;
+	}
 
-    public List<Label> getSelectedLabels() {
-        return selectedLabels;
-    }
+	public List<Machine> getMachines() {
+		return machines;
+	}
 
-    public TimeZone getTimeZone() {
-        return reservationsManager.getTimeZone();
-    }
+	public Reservation getReservation() {
+		return reservation;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public List<Label> getSelectedLabels() {
+		return selectedLabels;
+	}
 
-    public Date getTo() {
-        return to;
-    }
+	public TimeZone getTimeZone() {
+		return reservationsManager.getTimeZone();
+	}
 
-    public void setFrom(Date from) {
-        this.reservation.setStart(from);
-        this.from = from;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setMachines(List<Machine> machines) {
-        this.machines = machines;
-    }
+	public Date getTo() {
+		return to;
+	}
 
-    public void setSelectedLabels(List<Label> selectedLabels) {
-        this.selectedLabels = selectedLabels;
-    }
+	public void setFrom(Date from) {
+		this.reservation.setStart(from);
+		this.from = from;
+	}
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
+	public void setMachines(List<Machine> machines) {
+		this.machines = machines;
+	}
 
-    public void setTo(Date to) {
-        this.to = to;
-        this.reservation.setEnd(to);
-    }
+	public void setSelectedLabels(List<Label> selectedLabels) {
+		this.selectedLabels = selectedLabels;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+
+	public void setTo(Date to) {
+		this.to = to;
+		this.reservation.setEnd(to);
+	}
 
 }

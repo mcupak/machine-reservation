@@ -68,7 +68,7 @@ public class ReservationsManager {
 
     public boolean cancelReservation(User user, Reservation reservation) {
         Reservation resToRemove = getReservation(reservation.getId());
-        if (resToRemove != null && resToRemove.getUser().equals(user)) {
+        if (resToRemove != null && (resToRemove.getUser().equals(user) || user.getUserRole().equals(UserRole.ADMIN))) {
             em.remove(resToRemove);
             reservationsLogger.canceled(resToRemove.getMachines().toString(), resToRemove.getUser().getEmail());
             return true;
@@ -114,9 +114,9 @@ public class ReservationsManager {
         log.debugf("Retrieving reservations of machine: %s of user %s for timeframe %s - %s", machine, user, from, to);
         String query = "SELECT r FROM Reservation r "
                 + "INNER JOIN r.machines m WHERE "
-                + ((user == null) ? "" : "m = :machine AND ")
-                + ((machine == null) ? "" : "r.user = :user AND ")
-                + "(r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to)";
+                + ((machine == null) ? "" : "m = :machine AND ")
+                + ((user == null) ? "" : "r.user = :user AND ")
+                + "((r.start >= :from AND r.start <= :to) OR (r.end >= :from AND r.end <= :to))";
         TypedQuery<Reservation> q = em.createQuery(query, Reservation.class);
         if (machine != null) {
             q.setParameter("machine", machine);

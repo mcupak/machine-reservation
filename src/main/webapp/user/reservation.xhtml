@@ -16,6 +16,8 @@
                 <f:metadata>
                     <f:viewParam name="id" value="#{storedId}" />
                     <s:viewAction action="#{reservationBean.loadReservation(storedId)}" />
+                    <f:viewParam name="fromAdmin" value="#{storedFromAdmin}" />
+                    <s:viewAction action="#{reservationBean.setFromAdmin(storedFromAdmin)}" />
                 </f:metadata>
             </ui:define>
 

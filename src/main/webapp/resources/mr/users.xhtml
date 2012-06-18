@@ -44,7 +44,7 @@
                             <f:param name="id" value="#{user.id}" />
                         </h:link>
                         &nbsp;
-                        <a4j:commandLink value="Delete" action="#{usersManager.deleteUser(user.id)}" oncomplete="window.location.href=window.location.href" render="panel"/>
+                        <a4j:commandLink value="Delete" action="#{userBean.deleteUser(user.id)}" oncomplete="window.location.href=window.location.href" render="panel"/>
                     </rich:column>
                 </rich:dataTable>
             </a4j:outputPanel>
